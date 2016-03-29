@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0032)http://www.webkaka.com/webspeed/ -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+<title>网站速度测试(本地)_网页打开速度测试_卡卡网_www.webkaka.com</title>
+<link href="./css/dedecms3.css" rel="stylesheet" type="text/css">
+<script language="javascript">
+if (self!=top) window.top.location.replace(self.location);
+</script>
+<script type="text/javascript">
+<!--
+    function product_bg(ob){
+	 	ob.className="onowiterm";
+	}
+	
+	function product_bg_out(ob){
+			ob.className="";
+	} 
+	//输入框状态
+	function inputAutoClear(ipt)
+	{
+	 	ipt.onfocus=function()
+	 	{if(this.value==this.defaultValue){this.value='';}};
+	 	ipt.onblur=function()
+	 	{if(this.value==''){this.value=this.defaultValue;}};
+	 	ipt.onfocus();
+	} 
+//-->
+</script>
+<style type="text/css">
+.l_right2{
+  width: auto;
+}
+
+.btn{
+BORDER-RIGHT: #7b9ebd 1px solid; PADDING-RIGHT: 2px; BORDER-TOP: #7b9ebd 1px solid; PADDING-LEFT: 2px; FONT-SIZE: 12px; FILTER: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr=#ffffff, EndColorStr=#cecfde); BORDER-LEFT: #7b9ebd 1px solid; CURSOR: pointer; COLOR: #666666; PADDING-TOP: 2px; PADDING-BOTTOM: 3px; BORDER-BOTTOM: #7b9ebd 1px solid;
+}
+#siteFrame {
+  width: 98%;
+  height: 950px;
+  border: 1px solid black;
+  overflow: hidden;
+}
+</style>
+
+<script src="./js/jquery-1.4.2.min.js" type="text/javascript"></script>
+<script src="./js/jquery.cookie.js" type="text/javascript"></script>
+<script src="./js/history.js" type="text/javascript"></script>
+<style type="text/css">
+.divWebList1 {position:absolute;margin-top:0px !important;margin-top:26px;margin-left:41px !important;margin-left:-298px;width:287px !important;width:287px;height:auto;background-color:#FFFF99;border:1px solid #FFAC53;font-size:12px;line-height:25px;}
+.divWebList {position:absolute;margin-top:0px;#margin-top:26px;_margin-top:26px;margin-left:41px;#margin-left:-298px;_margin-left:-298px;width:287px !important;width:287px;height:auto;background-color:#FFFF99;border:1px solid #FFAC53;font-size:12px;line-height:25px;}
+.divWebList .divUrlList input{float:right;margin-right:5px;margin-top:2px;padding-left:2px;padding-right:2px;cursor:pointer; color:#FF6600; border-right:1px solid #ccc;border-bottom:1px solid #ccc; border-left:0px solid #ccc;border-top:0px solid #ccc;height:22px; background:#fff}
+.divWebList li {list-style-type:none;padding-left:15px !important;padding-left:5px;color:#666;}
+.divWebList .divUrlList a {text-decoration:none;height:30px;padding-top:4px;text-align:left}
+.divWebList .divUrlList a:hover {color: #016493;}
+.divWebList .divUrlList a:active {color: #016493;}
+</style>
+
+<script src="./js/logger.js"></script><link href="./bdsstyle.css" rel="stylesheet" type="text/css"></head>
+<body>
+<div class="wrapper">
+  <div class="l_right2">
+    <div class="utitle">
+      <div class="utitlei">
+        <div class="title"><span class="title_t fLeft"><span class="title_t_i fLeft">
+          <h2>网页打开速度测试</h2>
+          </span></span>
+          
+        </div>
+      </div>
+    </div>
+    
+    <div class="ucontent_webcheck_v2">
+        <div class="list-iterm clear" style="padding-top:0px">
+<table border="0" bgcolor="#FFFFFF" cellpadding="1" cellspacing="1" style="table-layout:fixed;">
+				   <tbody><tr height="30" bgcolor="#FFFFFF" bordercolor="#FFFFFF"><td align="right">
+				   
+	     <div style="margin-top:0px !important;margin-top:10px;padding-top:10px !important;padding-top:0px;padding-right:5px;padding-left:40px;width:100%;height:30px;">
+          <span style="float :left ;padding-left:15px !important;padding-left:10px;font-size:14px;">网 址: <input type="text" autocomplete="off" onclick="DisplayAllSitesBox();" maxlength="80" id="url" name="url" class="s_input" value="http://www.apple.com/" style="width: 255px;">
+            <div id="allSiteDiv" class="divWebList" style="display:none"><li class="divUrlList" onmouseover="JavaScript:{if(this.style.backgroundColor!=&#39;#ff0000&#39;)this.style.backgroundColor=&#39;#eeeeee&#39;}" onmouseout="JavaScript:{if(this.style.backgroundColor!=&#39;#ff0000&#39;)this.style.backgroundColor=&#39;#FFFF99&#39;}">没有记录</li></div>
+	      <script type="text/javascript">FillAllSites();</script>
+          </span>
+          <span style="float :right ;padding-right:40px;padding-top:0px;#padding-top:1px;_padding-top:1px;"><button name="start" id="start" style="height:25px;border:0px;width:67px;font-size:medium;background:url(&#39;http://www.webkaka.com/img/check_btn.gif&#39;)"></button></span>
+         </div>
+          
+          <div style="margin-top:0px !important;margin-top:10px;padding-top:10px !important;padding-top:0px;padding-right:130px;padding-left:40px;width:100%;height:30px;">
+           测试次数（0=无限次）：<input type="text" id="runs" name="runs" style="width :15px;text-align:center" maxlength="2" value="10">
+           &nbsp;&nbsp;间隔时间（秒）：<input type="text" id="delay" name="delay" style="width :15px;text-align:center" maxlength="2" value="3">		   
+	  </div>
+		   </td></tr> 
+				   
+</tbody></table>
+
+<table border="0" bgcolor="#FFFFFF" cellpadding="1" cellspacing="1" style="margin-bottom:5px;align:center;table-layout:fixed;">
+<tbody><tr><td>
+<div style="width:100%;margin-left:5px;border:1px solid #CCCCCC;padding:15px 10px 30px 10px;">
+①、测速网页不能禁止框架调用，测速原理是通过框架加载网页，获得网页完全打开时间；<br>
+②、网页打开时间为真实本地浏览器打开时间（即你自己的电脑打开网页的时间），由于缓存的原因，第二次之后的打开时间往往比第一次打开的时间短一些； <br>
+</div>
+
+<script type="text/javascript">
+	document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + new Date().getHours();
+</script>
+<!-- Baidu Button END -->
+</td></tr> 			   
+</tbody>
+</table>                                                  
+<table width="100%" border="0" bgcolor="#FFFFFF" cellpadding="1" cellspacing="1" style="margin-top:0px !important;margin-top:10px;table-layout:fixed;">
+				   <tbody><tr><td align="center">
+	<div id="site" >
+		<iframe name="siteFrame" id="siteFrame" src="./saved_resource.html"></iframe>
+	<div id="cover" style="display: block;">&nbsp;</div>
+    <div id="loadingPopup" style="display: none;">
+      <div id="loadingUrlCopy"> www.baidu.com/</div>
+      <div id="loadingProgress"></div>
+      <div id="loadingMessage">网页加载中!</div>
+    </div>
+    <div id="callPopup" style="display: block;">
+      <div id="popupUrlCopy">www.baidu.com/</div>
+      <div id="lastDuration"><span id="lastDurationValue">0.33</span><span id="secsUnit">s</span></div>
+      <div id="countdown" style="display: none;">下一次加载 <span id="countdownValue">0</span>&nbsp;秒</div>
+      <div id="finished" style="">网页加载完毕！</div>
+    </div>
+    </div> 
+				   </td></tr> 
+				    
+				</tbody></table>
+				
+				
+				
+	       <textarea id="statsStore" class="htmlStore" style="display:none">                   &lt;div id="statsELEMENT_ID" class="stats latent" trialID="ELEMENT_ID"&gt;
+                   &lt;/div&gt;
+               </textarea>
+				
+		</div>
+		
+		
+		
+		<div id="analysis" style="display:none">
+
+    
+  
+    <div id="tableView" class="analysisView">
+
+        <table id="statsTable" style="width: 110px;">
+          
+        </table>
+      </div>
+
+    <textarea id="rawView" class="analysisView">    </textarea>
+
+    <div id="graphView" class="analysisView">
+      <div id="graphContainer"></div>
+      <div id="reloadGraph" class="pseudolink">reload</div>
+    </div>
+
+  </div>
+    </div> 
+  </div>
+</div>
+
+     
+
+
+
+
+
+
+  <script src="./js/jquery.min.js"></script>
+  <script src="./js/jquery.iframe.js" type="text/javascript"></script>
+  <script src="./js/underscore-min.js" type="text/javascript"></script>
+  <script src="./js/application.js" type="text/javascript"></script>
+  <script src="./js/queue.js" type="text/javascript"></script>
+  <script src="./js/jquery.dataTables.min.js" type="text/javascript"></script>
+  <script src="./js/jquery.json-2.2.min.js" type="text/javascript"></script>
+  <script src="./js/jquery.easing.1.3.js" type="text/javascript"></script>
+  <script src="./js/jquery.modal.js" type="text/javascript"></script>
+  <script src="./js/BrowserDetect.js" type="text/javascript"></script>
+  <link href="./css/dataTables.css" media="screen" rel="Stylesheet" type="text/css"> 
+
+
+</body></html>

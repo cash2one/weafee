@@ -1,0 +1,8 @@
+#!/bin/sh
+
+/usr/sbin/addsudo /usr/sbin/export-network-map app-network-map-core
+
+if [ ! -e /var/clearos/network_map/state ]; then 
+    logger -p local6.notice -t installer "app-network-map-core - initializing state file"
+    echo "install" > /var/clearos/network_map/state
+fi

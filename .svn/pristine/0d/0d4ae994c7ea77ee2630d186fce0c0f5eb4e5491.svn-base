@@ -1,0 +1,13 @@
+rsync=rsync -avz --no-o --no-g --delete
+dir=`basename $${PWD}`
+all:
+	for f in `find * -maxdepth 0 -type d`; do (cd $$f && make timestamp -f ../Makefile);done
+timestamp:data/data_version
+	${rsync} ./ r400@tunnel.withfi.com:/home/r400/release/routers/${dir}/
+	#${rsync} data_version r400@tunnel.withfi.com:/home/r400/release/routers/${dir}/data_version
+	@echo `cat $<`:`date` >> $@ 
+clean:
+	rm -rf */timestamp
+
+#crontab -e
+#*/5 * * * * cd /data/withfi && make &> make.log

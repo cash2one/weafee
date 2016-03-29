@@ -1,0 +1,32 @@
+# .bashrc
+
+# User specific aliases and functions
+
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+
+alias withfi='cd /var/spool/withfi/'
+#alias nohj="sed -i 's/^/#/' /etc/clearos/firewall.d/local && touch /etc/clearos/firewall.d/local"
+#alias hj="sed -i 's/^#\+//' /etc/clearos/firewall.d/local && touch /etc/clearos/firewall.d/local"
+alias nohj="echo '' > /etc/clearos/firewall.d/local"
+alias hj="cat /var/spool/withfi/firmware/clearos/firewall/local > /etc/clearos/firewall.d/local"
+
+alias nohj2="iptables -F -t nat"
+alias hj2="/bin/sh /var/spool/withfi/firmware/clearos/firewall/local"
+
+alias hjon="cat /var/spool/withfi/firmware/clearos/firewall/local > /etc/clearos/firewall.d/local"
+alias hjoff="echo '' > /etc/clearos/firewall.d/local"
+hjstatus()
+{
+  if [ `iptables -L -t nat -vn | grep -c 'tcp dpt:80 redir ports'` -eq '0' ]; then
+    echo Disabled
+  else
+    echo Enabled
+  fi
+}

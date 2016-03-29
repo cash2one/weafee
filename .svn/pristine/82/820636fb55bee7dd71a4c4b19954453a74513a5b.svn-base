@@ -1,0 +1,228 @@
+#!/usr/bin/env python
+from pymongo import MongoClient, DESCENDING
+from bson.json_util import dumps
+from bson.code import Code
+import threading
+import json
+import re
+import logging
+from datetime import timedelta
+from datetime import datetime
+#from django.utils import timezone
+
+
+def get_collection_dao(server, database_name, collection_name):
+    conn = MongoClient(server, 27017)
+    db = conn[database_name]
+    collection = db[collection_name]
+    return conn, collection
+
+
+def get_database_dao(server, database_name):
+    conn = MongoClient(server, 27017)
+    db = conn[database_name]
+    return conn, db
+
+
+def gen_collection_names(time_to, days, collection_name_prefix = 'access'):
+    the_time = time_to
+    time_range = []
+    day = 0
+    while day < days:
+        time1 = the_time.strftime('%Y%m%d')
+        the_time = the_time - timedelta(days = 1)
+        day += 1
+        time_range.append(time1)
+    names = map(lambda x: '_'.join((collection_name_prefix, x)), time_range)
+    return names[::-1]
+
+
+def main():
+    conn, collection = get_collection_dao(server='127.0.0.1', database_name = 'probe', collection_name = 'access')
+    query_spec = {}
+    results = []
+    records = collection.find(query_spec).limit(20)
+    for r in records:
+        results.append(r)
+    conn.close()
+    print dumps(results, indent = 2)
+
+
+def get_traffic_summary(device_ids = None, days = 7):
+    conn, db = get_database_dao(server='127.0.0.1', database_name = 'probe')
+    all_collection_names = db.collection_names()
+    my_collection_names = gen_collection_names(datetime.now(), days)
+    pipeline = []
+    condition = {}
+    if device_ids is not None:
+        condition = {'device_id': {'$in': device_ids}}
+        pipeline.append({'$match': condition})
+    pipeline += [ 
+        {'$group': {'_id': "$id"}},
+        {'$group': {'_id': 1, 'count': {'$sum': 1}}}
+    ];
+
+    dates = []
+    UV = []
+    PV = []
+    for collection_name in my_collection_names:
+        if collection_name not in all_collection_names:
+            continue
+        dates.append(collection_name.split('_')[1][4:])
+        collection = db[collection_name]
+        PV.append(collection.count(condition))
+        ret = collection.aggregate(pipeline)
+        count = 0
+        for r in ret:
+            count  = r['count']
+        UV.append(count)
+        #PV.append(collection.aggregate(pipeline)['result'][0]['count'])
+    conn.close()
+    obj = {'category': dates, 'UV': UV, 'PV': PV}
+    return obj
+
+
+def get_traffic_summary_daily(device_ids = None, the_date = None):
+    conn, db = get_database_dao(server='127.0.0.1', database_name = 'probe')
+    all_collection_names = db.collection_names()
+    _date = datetime.now()
+    try:
+        _date = datetime.strptime(the_date, '%Y-%m-%d') #FIXME dirty mod
+    except:
+        pass #keep default value (today)
+
+    my_collection_names = gen_collection_names(_date, 1)
+    pipeline = []
+    condition = {}
+    if device_ids is not None:
+        condition = {'device_id': {'$in': device_ids}}
+        pipeline.append({'$match': condition})
+    pv_expr=[
+        {'$group': {'_id': {'hour': {'$hour': '$rec_time'}}, 'count': {'$sum': 1 }}},
+        {'$sort':{'_id': 1}}
+    ]
+    uv_expr =  [
+        {'$group': { '_id': {'user_id':'$id','hour': {'$hour': '$rec_time'}}, 'device_count' : {'$sum': 1} } },
+        {'$group': { '_id': '$_id.hour', 'count': {'$sum': 1} } },
+        {'$sort':{'_id': 1}}
+    ]
+    dates = []
+    UV = []
+    PV = []
+    for collection_name in my_collection_names:
+        if collection_name not in all_collection_names:
+            continue
+        dates.append(collection_name.split('_')[1][4:])
+        collection = db[collection_name]
+        ret = collection.aggregate(pipeline + uv_expr)
+        UV = 24 * [0]
+        PV = 24 * [0]
+        #count = 0
+        to_local_hour = lambda h: (h + 8) % 24
+        #to_utc_hour = lambda h : (h -8) % 24
+        to_utc_hour = lambda h : h
+        for r in ret:
+            UV[to_local_hour(r['_id'])] = r['count']
+        ret = collection.aggregate(pipeline + pv_expr)
+        for r in ret:
+            PV[to_local_hour(r['_id']['hour'])] = r['count']
+        #PV = ret
+    conn.close()
+    obj = {'UV': UV, 'PV': PV}
+    return obj
+
+
+
+def get_client_os_summary(device_ids=None):
+    conn, db = get_database_dao(server='127.0.0.1', database_name = 'probe')
+    all_collection_names = db.collection_names()
+    #FIXME should change days = 1
+    #my_collection_names = gen_collection_names(datetime.now() - timedelta(days = 1), 1)
+    my_collection_names = gen_collection_names(datetime.now(), 1)
+    dates = []
+    ret = {'pc': 0, 'others': 0}
+    condition = {}
+    if device_ids is not None:
+        condition = {'device_id': {'$in': device_ids}}
+    for collection_name in my_collection_names:
+        if collection_name not in all_collection_names:
+            continue
+        dates.append(collection_name.split('_')[1][4:])
+        collection = db[collection_name]
+        reducer = Code('function(doc, prev){ \
+                            prev.count = prev.count + 1; \
+                        }')
+        result = collection.group(key = {'os': 1}, condition = condition, initial = {"count": 0}, reduce = reducer)
+        for r in result:
+            if r['os'] in ['ipad', 'iphone', 'android']:
+                ret[r['os']] = int(r['count'])
+            elif r['os'] in ['windows', 'linux']:
+                ret['pc'] += int(r['count'])
+            else:
+                ret['others'] += int(r['count'])
+    conn.close()
+    for k, v in ret.items():
+       ret[k] = [v] 
+    ret['category'] = dates
+    return ret
+
+
+def get_router_hardware_summary(device_ids=None):
+    conn, db = get_database_dao(server='127.0.0.1', database_name = 'probe')
+    all_collection_names = db.collection_names()
+    #FIXME should change days = 1
+    #my_collection_names = gen_collection_names(datetime.now() - timedelta(days = 1), 1)
+    my_collection_names = gen_collection_names(datetime.now(), 1)
+    dates = []
+    condition = {}
+    if device_ids is not None:
+        condition = {'device_id': {'$in': device_ids}}
+    ret = {'Others': 0}
+    for collection_name in my_collection_names:
+        if collection_name not in all_collection_names:
+            continue
+        dates.append(collection_name.split('_')[1][4:])
+        collection = db[collection_name]
+        reducer = Code('function(doc, prev){ \
+                            prev.count = prev.count + 1; \
+                        }')
+        result = collection.group(key = {'hardware': 1}, condition=condition, initial = {"count": 0}, reduce = reducer)
+        for r in result:
+            if r['hardware'] in [ 'R200', 'R400', 'R600', 'G200', 'G400', 'G600', 'B400']:
+                ret[r['hardware']] = int(r['count'])
+            else:
+                ret['Others'] += int(r['count'])
+    conn.close()
+    for k, v in ret.items():
+       ret[k] = [v] 
+    ret['category'] = dates
+    return ret
+def get_source_summary(device_ids=None):
+    conn, db = get_database_dao(server='127.0.0.1', database_name = 'probe')
+    all_collection_names = db.collection_names()
+    #FIXME should change days = 1
+    #my_collection_names = gen_collection_names(datetime.now() - timedelta(days = 1), 1)
+    my_collection_names = gen_collection_names(datetime.now(), 1)
+    dates = []
+    ret = []
+    condition = {}
+    if device_ids is not None:
+        condition = {'device_id': {'$in': device_ids}}
+    for collection_name in my_collection_names:
+        if collection_name not in all_collection_names:
+            continue
+        dates.append(collection_name.split('_')[1][4:])
+        collection = db[collection_name]
+        reducer = Code('function(doc, prev){ \
+                            prev.count = prev.count + 1; \
+                        }')
+        result = collection.group(key = {'proj': 1}, condition = condition, initial = {"count": 0}, reduce = reducer)
+        for r in result:
+            if r['proj'] in ['AppPushToolbar', 'iframe', '404', 'banner', 'popup']:
+                ret.append((r['proj'], int(r['count'])))
+    conn.close()
+    return {'data': ret}
+    
+if __name__ == "__main__":
+    obj = get_source_summary()
+    print dumps(obj, indent = 2)

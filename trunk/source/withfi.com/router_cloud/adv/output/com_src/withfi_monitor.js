@@ -1,0 +1,705 @@
+(function () {
+                //濡傛灉window涓嬪凡缁忔湁MIWIFI_MONITOR锛屼笉鍋氫换浣曚簨鎯�
+                if (typeof window.MIWIFI_MONITOR !== 'undefined') {
+                    return;
+                }
+
+                var version = 'v1.3.2 (2014.11.21)',
+                        guidCookieDomains = [];
+
+                var MIWIFI_MONITOR = (function (window, undefined) {
+                    var isLocal;
+                    //鏈夋椂鍊檓onitor.js浼氬湪file://鎴栬€卹es://鍗忚涓嬩娇鐢紝鍒ゆ柇涓�
+                    (function () {
+                        isLocal = true;
+                        try {
+                            var protocol = location.protocol.toLowerCase();
+                            if (protocol == 'http:' || protocol == 'https:') {
+                                isLocal = false;
+                            }
+                        } catch (e) {
+                        }
+                    })();
+
+                    var doc = document,
+                            nav = navigator,
+                            screen = window.screen,
+                            domain = isLocal ? '' : document.domain.toLowerCase(),
+                            ua = nav.userAgent.toLowerCase();
+
+                    var StringH = {
+                        trim: function (s) {
+                            return s.replace(/^[\s\xa0\u3000]+|[\u3000\xa0\s]+$/g, "");
+                        }
+                    };
+                    /**
+                     * Element鐩稿叧鏂规硶
+                     * @type {Object}
+                     */
+                    var NodeH = {
+                        on: function (el, type, fn) {
+                            if (el.addEventListener) {
+                                el && el.addEventListener(type, fn, false);
+                            } else {
+                                el && el.attachEvent('on' + type, fn);
+                            }
+                        },
+                        parentNode: function (el, tagName, deep) {
+                            deep = deep || 5;
+                            tagName = tagName.toUpperCase();
+                            while (el && deep-- > 0) {
+                                if (el.tagName === tagName) {
+                                    return el;
+                                }
+                                el = el.parentNode;
+                            }
+                            return null;
+                        }
+                    };
+
+                    /**
+                     * Event鐩稿叧鏂规硶
+                     * @type {Object}
+                     */
+                    var EventH = {
+                        fix: function (e) {
+                            if (!('target' in e)) {
+                                var node = e.srcElement || e.target;
+                                if (node && node.nodeType == 3) {
+                                    node = node.parentNode;
+                                }
+                                e.target = node;
+                            }
+                            return e;
+                        }
+                    };
+
+                    /**
+                     * Object鐩稿叧鏂规硶
+                     * @type {Object}
+                     */
+                    var ObjectH = (function () {
+                        function getConstructorName(o) {
+                            //鍔爋.constructor鏄洜涓篒E涓嬬殑window鍜宒ocument
+                            if (o != null && o.constructor != null) {
+                                return Object.prototype.toString.call(o).slice(8, -1);
+                            } else {
+                                return '';
+                            }
+                        }
+
+                        return {
+                            /**
+                             * 鍒ゆ柇涓€涓彉閲忔槸鍚rray瀵硅薄
+                             * @param  {Object}  obj 鐩爣鍙橀噺
+                             * @return {Boolean}
+                             */
+                            isArray: function (obj) {
+                                return getConstructorName(obj) == 'Array';
+                            },
+                            /**
+                             * 鍒ゆ柇涓€涓彉閲忔槸鍚ypeof object
+                             * @param  {Object}  obj 鐩爣鍙橀噺
+                             * @return {Boolean}
+                             */
+                            isObject: function (obj) {
+                                return obj !== null && typeof obj == 'object';
+                            },
+                            /**
+                             * 灏嗘簮瀵硅薄鐨勫睘鎬у苟鍏ュ埌鐩爣瀵硅薄
+                             * @param  {Object} des      鐩爣瀵硅薄
+                             * @param  {Object} src      婧愬璞★紝濡傛灉鏄暟缁勶紝鍒欎緷娆″苟鍏�
+                             * @param  {Boolean} override 鏄惁瑕嗙洊宸叉湁灞炴€�
+                             * @return {Object}          des
+                             */
+                            mix: function (des, src, override) {
+                                for (var i in src) {
+                                    //杩欓噷瑕佸姞涓€涓猟es[i]锛屾槸鍥犱负瑕佺収椤句竴浜涗笉鍙灇涓剧殑灞炴€�
+                                    if (override || !(des[i] || (i in des))) {
+                                        des[i] = src[i];
+                                    }
+                                }
+                                return des;
+                            },
+                            /**
+                             * 灏哋bject搴忓垪鍖栦负key=val閿€煎瀛楃涓诧紝涓嶅鐞唙al涓烘暟缁勭殑鎯呭喌]
+                             * @param  {Object} json 闇€瑕佸簭鍒楀寲鐨勫璞�
+                             * @return {String}      搴忓垪鍖栧悗鐨勫瓧绗︿覆
+                             */
+                            encodeURIJson: function (obj) {
+                                var result = [];
+                                for (var p in obj) {
+                                    if (obj[p] == null)
+                                        continue;
+                                    result.push(encodeURIComponent(p) + '=' + encodeURIComponent(obj[p]));
+                                }
+                                return result.join('&');
+                            }
+                        };
+                    })();
+
+                    /**
+                     * Cookie璇诲啓鎿嶄綔鐨勫皝瑁�
+                     * @type {Object}
+                     */
+                    var Cookie = {
+                        get: function (key) {
+                            try {
+                                var a, reg = new RegExp("(^| )" + key + "=([^;]*)(;|$)");
+                                if (a = doc.cookie.match(reg)) {
+                                    return unescape(a[2]);
+                                } else {
+                                    return "";
+                                }
+                            } catch (e) {
+                                return "";
+                            }
+                        },
+                        set: function (key, val, options) {
+                            options = options || {};
+                            var expires = options.expires;
+
+                            if (typeof (expires) === "number") {
+                                expires = new Date();
+                                expires.setTime(expires.getTime() + options.expires);
+                            }
+
+                            try {
+                                doc.cookie =
+                                        key + "=" + escape(val)
+                                        + (expires ? ";expires=" + expires.toGMTString() : "")
+                                        + (options.path ? ";path=" + options.path : "")
+                                        + (options.domain ? "; domain=" + options.domain : "");
+                            } catch (e) {
+                            }
+                        }
+                    };
+
+                    /**
+                     * 宸ュ叿闆嗭紝鐢ㄦ潵鑾峰彇鍏蜂綋椤圭洰鐨勫€�
+                     * 鍙€氳繃MIWIFI_MONITOR.util.[鏂规硶鍚峕鏉ヨ闂�
+                     * 澧炲姞鎴栬鐩栬繖閲岀殑鏂规硶锛屽彲浠ュ疄鐜版洿澶氬姛鑳�
+                     * @type {Object}
+                     */
+                    var util = {
+                        getProject: function () {
+                            return '';
+                        },
+                        getReferrer: function () {
+                            var ref = doc.referrer || '';
+                            if (ref.indexOf('pass') > -1 || ref.indexOf('pwd') > -1) {
+                                return '403';
+                            }
+                            return ref;
+                        },
+                        getUseragent:function(){
+                            var ua = nav.userAgent.toLowerCase();   
+                            return ua;                   
+                        },
+                        getResolution: function () {
+                            var width = screen.availWidth; 
+                            var heigh = screen.availHeight;
+                            var resolution = '[' + width + ',' + heigh + ']';
+                            return resolution;
+                        },
+                        getBrowser: function () {
+                            var browsers = {
+                                '360se-ua': '360se',
+                                'TT': 'tencenttraveler',
+                                'Maxthon': 'maxthon',
+                                'GreenBrowser': 'greenbrowser',
+                                'Sogou': 'se 1.x / se 2.x',
+                                'TheWorld': 'theworld'
+                            };
+
+                            for (var i in browsers) {
+                                if (ua.indexOf(browsers[i]) > -1) {
+                                    return i;
+                                }
+                            }
+
+
+                            var result = ua.match(/(msie|chrome|safari|firefox|opera|trident)/);
+                            result = result ? result[0] : '';
+
+                            if (result == 'msie') {
+                                result = ua.match(/msie[^;]+/) + '';
+                            } else if (result == 'trident') {
+                                ua.replace(/trident\/[0-9].*rv[ :]([0-9.]+)/ig, function (a, c) {
+                                    result = 'msie ' + c;
+                                });
+                            }
+
+                            return result;
+                        },
+                        getLocation: function () {
+                            var url = '';
+
+                            //閬垮厤IE涓嬭缃甦omain鍚庯紝璇诲彇location.href灞炴€ф姤鏉冮檺閿欒
+                            try {
+                                url = location.href;
+                            } catch (e) {
+                                url = doc.createElement('a');
+                                url.href = '';
+                                url = url.href;
+                            }
+
+                            //鍘绘帀queryString鍜孒ash
+                            url = url.replace(/[?#].*$/, '');
+
+                            //濡傛灉涓嶆槸.html .htm .shtml .php缁撳熬鐨剈rl锛岃ˉ涓�/
+                            url = /\.(s?htm|php)/.test(url) ? url : (url.replace(/\/$/, '') + '/');
+
+                            return url;
+                        },
+                        getGuid: (function () {
+                            function hash(s) {
+                                var h = 0,
+                                        g = 0,
+                                        i = s.length - 1;
+                                for (i; i >= 0; i--) {
+                                    var code = parseInt(s.charCodeAt(i), 10);
+                                    h = ((h << 6) & 0xfffffff) + code + (code << 14);
+                                    if ((g = h & 0xfe00000) != 0) {
+                                        h = (h ^ (g >> 21));
+                                    }
+                                }
+                                return h;
+                            }
+
+                            function guid() {
+                                var s = [nav.appName, nav.version, nav.language || nav.browserLanguage, nav.platform, nav.userAgent, screen.width, 'x', screen.height, screen.colorDepth, doc.referrer].join(""),
+                                        sLen = s.length,
+                                        hLen = window.history.length;
+
+                                while (hLen) {
+                                    s += (hLen--) ^ (sLen++);
+                                }
+
+                                return (Math.round(Math.random() * 2147483647) ^ hash(s)) * 2147483647;
+                            }
+
+                            var guidKey = '__guid',
+                                    id = Cookie.get(guidKey);
+
+                            if (!id) {
+                                id = [hash(isLocal ? '' : doc.domain), guid(), +new Date + Math.random() + Math.random()].join('.');
+
+                                var config = {
+                                    expires: 24 * 3600 * 1000 * 300,
+                                    path: '/'
+                                };
+
+                                //濡傛灉鏄缃簡guidCookieDomains锛宊_guid鏀惧湪guidCookieDomain鍩熶笅
+                                if (guidCookieDomains.length) {
+                                    for (var i = 0; i < guidCookieDomains.length; i++) {
+                                        var guidCookieDomain = guidCookieDomains[i],
+                                                gDomain = '.' + guidCookieDomain;
+
+                                        if ((domain.indexOf(gDomain) > 0 && domain.lastIndexOf(gDomain) == domain.length - gDomain.length) || domain == guidCookieDomain) {
+                                            config.domain = gDomain;
+                                            break;
+                                        }
+                                    }
+                                }
+
+                                Cookie.set(guidKey, id, config);
+                            }
+
+                            return function () {
+                                return id;
+                            };
+                        })(),
+                        getCount: (function () {
+                            var countKey = 'monitor_count',
+                                    count = Cookie.get(countKey);
+
+                            count = (parseInt(count) || 0) + 1;
+
+                            Cookie.set(countKey, count, {expires: 24 * 3600 * 1000, path: '/'});
+
+                            return function () {
+                                return count;
+                            };
+                        })(),
+                        getFlashVer: function () {
+                            var ver = -1;
+                            if (nav.plugins && nav.mimeTypes.length) {
+                                var plugin = nav.plugins["Shockwave Flash"];
+                                if (plugin && plugin.description) {
+                                    ver = plugin.description
+                                            .replace(/([a-zA-Z]|\s)+/, "")
+                                            .replace(/(\s)+r/, ".") + ".0";
+                                }
+                            } else if (window.ActiveXObject && !window.opera) {
+                                try {
+                                    var c = new ActiveXObject('ShockwaveFlash.ShockwaveFlash');
+                                    if (c) {
+                                        var version = c.GetVariable("$version");
+                                        ver = version.replace(/WIN/g, '').replace(/,/g, '.');
+                                    }
+                                } catch (e) {
+                                }
+                            }
+
+                            ver = parseInt(ver, 10);
+                            return ver;
+                        },
+                        getContainerId: function (el) {
+                            var areaStr,
+                                    name,
+                                    maxLength = 100;
+
+                            if (config.areaIds) {
+                                areaStr = new RegExp('^(' + config.areaIds.join('|') + ')$', 'ig');
+                            }
+
+                            while (el) {
+                                //bk妯″紡
+                                if (el.attributes && ('bk' in el.attributes || 'data-bk' in el.attributes)) {
+                                    name = el.getAttribute('bk') || el.getAttribute('data-bk');
+
+                                    if (name) {
+                                        name = 'bk:' + name;
+                                        return name.substr(0, maxLength);
+                                    }
+
+                                    if (el.id) {
+                                        name = el.getAttribute('data-desc') || el.id;
+                                        return name.substr(0, maxLength);
+                                    }
+                                } else if (areaStr) { //setId妯″紡
+                                    if (el.id && areaStr.test(el.id)) {
+                                        name = el.getAttribute('data-desc') || el.id;
+                                        return name.substr(0, maxLength);
+                                    }
+                                }
+
+                                el = el.parentNode;
+                            }
+
+                            return '';
+                        },
+                        getText: function (el) {
+                            var str = "";
+
+                            if (el.tagName.toLowerCase() == 'input') {
+                                str = el.getAttribute('text') || el.getAttribute('data-text') || el.value || el.title || '';
+                            } else {
+                                str = el.getAttribute('text') || el.getAttribute('data-text') || el.innerText || el.textContent || el.title || '';
+                            }
+
+                            return StringH.trim(str).substr(0, 100);
+                        },
+                        getHref: function (el) {
+                            try {
+                                return el.getAttribute('data-href') || el.href || '';
+                            } catch (e) {
+                                return '';
+                            }
+                        },
+                        getDeviceId: function () {
+                            return 'deviceId';
+                        },
+                        getAppVersion: function () {
+                            return 'appVersion';
+                        },
+                        getRomVersion: function () {
+                            return 'romVersion';
+                        },
+                        getHardwareVersion: function () {
+                            return 'hardwareVersion';
+                        }
+                    };
+
+                    /**
+                     * 鑾峰彇鏁版嵁闆嗗悎鐨勬柟娉�
+                     * 鍙€氳繃MIWIFI_MONITOR.data.[鏂规硶鍚峕鏉ヨ闂�
+                     * 澧炲姞鎴栬鐩栬繖閲岀殑鏂规硶锛屽彲浠ュ疄鐜版洿澶氬姛鑳�
+                     * @type {Object}
+                     */
+                    var data = {
+                        getBase: function () {
+                            return {
+                                proj: util.getProject(),
+                                resolution: util.getResolution(),
+                                url: util.getLocation(),
+                                id: util.getGuid(),
+                                guid: util.getGuid(),
+                                //deviceId: util.getDeviceId(),
+                                //appVersion: util.getAppVersion(),
+                                //romVersion: util.getRomVersion(),
+                                //hardwareVersion: util.getHardwareVersion()
+                            };
+                        },
+                        getTrack: function () {
+                            return {
+                                //browser: util.getBrowser(),
+                                count: util.getCount(),
+                                //r: util.getReferrer(),
+                                //ua:util.getUseragent(),
+                                flash: util.getFlashVer()
+                            };
+                        },
+                        getClick: function (e) {
+                            e = EventH.fix(e || event);
+                            var target = e.target/*,
+                             tagName = target.tagName,
+                             containerId = util.getContainerId(target)*/;
+
+                            if (target.attributes && ('data-log-element' in target.attributes)) {
+                                return {
+                                    element: target.attributes['data-log-element']
+                                }
+                            }
+
+                            return false;
+
+                            /*if (target.type && (target.type == 'submit' || target.type == 'button')) {
+                             var form = NodeH.parentNode(target, 'FORM'),
+                             result = {};
+                             if (form) {
+                             var formId = form.id || '',
+                             tId = target.id;
+                             
+                             result = {
+                             f: form.action,
+                             c: 'form:' + (form.name || formId),
+                             cId: containerId
+                             };
+                             
+                             if ((formId == 'search-form' || formId == 'searchForm') && (tId == 'searchBtn' || tId == 'search-btn')) {
+                             var keywordEl = $('kw') || $('search-kw') || $('kw1');
+                             result.w = keywordEl ? keywordEl.value : '';
+                             }
+                             } else {
+                             result = {
+                             f: util.getHref(target),
+                             c: util.getText(target),
+                             cId: containerId
+                             }
+                             }
+                             
+                             return result;
+                             } else if (tagName == 'AREA') {
+                             return {
+                             f: util.getHref(target),
+                             c: 'area:' + target.parentNode.name,
+                             cId: containerId
+                             };
+                             } else {
+                             var img, text;
+                             if (tagName == 'IMG') {
+                             img = target;
+                             }
+                             
+                             target = NodeH.parentNode(target, 'A');
+                             if (!target) return false;
+                             
+                             text = util.getText(target);
+                             
+                             return {
+                             f: util.getHref(target),
+                             c: text ? text : (img ? img.src.match(/[^\/]+$/) : ''),
+                             cId: containerId
+                             };
+                             }
+                             
+                             return false;*/
+                        },
+                        getKeydown: function (e) {
+                            e = EventH.fix(e || event);
+                            if (e.keyCode != 13)
+                                return false;
+
+                            var target = e.target,
+                                    tagName = target.tagName,
+                                    containerId = util.getContainerId(target);
+
+                            if (tagName == 'INPUT') {
+                                var form = NodeH.parentNode(target, 'FORM');
+                                if (form) {
+                                    var formId = form.id || '',
+                                            tId = target.id,
+                                            result = {
+                                                f: form.action,
+                                                c: 'form:' + (form.name || formId),
+                                                cId: containerId
+                                            };
+
+                                    if (tId == 'kw' || tId == 'search-kw' || tId == 'kw1') {
+                                        result.w = target.value;
+                                    }
+
+                                    return result;
+                                }
+                            }
+                            return false;
+                        }
+                    };
+
+                    /**
+                     * 閰嶇疆椤�
+                     * @type {Object}
+                     */
+                    var config = {
+                        'trackUrl': null,
+                        'clickUrl': null,
+                        'areaIds': null
+                    };
+
+                    var $ = function (str) {
+                        return document.getElementById(str);
+                    };
+
+                    return {
+                        version: version,
+                        util: util,
+                        data: data,
+                        config: config,
+                        sendLog: (function () {
+                            window.__miwifi_monitor_imgs = {};
+
+                            return function (url) {
+                                var id = 'log_' + (+new Date),
+                                        img = window['__miwifi_monitor_imgs'][id] = new Image();
+
+                                img.onload = img.onerror = function () {
+                                    if (window.__miwifi_monitor_imgs && window['__miwifi_monitor_imgs'][id]) {
+                                        window['__miwifi_monitor_imgs'][id] = null;
+                                        delete window["__miwifi_monitor_imgs"][id];
+                                    }
+                                };
+                                img.src = url;
+                            };
+                        })(),
+                        buildLog: (function () {
+                            var lastLogParams = '';
+
+                            return function (params, url) {
+                                if (params === false)
+                                    return;
+
+                                params = params || {};
+
+                                var baseParams = data.getBase();
+                                params = ObjectH.mix(baseParams, params, true);
+
+
+                                var logParams = url + ObjectH.encodeURIJson(params);
+                                if (logParams == lastLogParams) {
+                                    return;
+                                }
+
+                                lastLogParams = logParams;
+                                setTimeout(function () { //100ms鍚庡厑璁稿彂鐩稿悓鏁版嵁
+                                    lastLogParams = '';
+                                }, 100);
+
+                                var sendParams = ObjectH.encodeURIJson(params);
+                                sendParams += '&t=' + (+new Date); //鍔犱笂鏃堕棿鎴筹紝闃叉缂撳瓨
+
+                                url = url.indexOf('?') > -1 ?
+                                        url + '&' + sendParams :
+                                        url + '?' + sendParams;
+
+                                this.sendLog(url);
+                            };
+                        })(),
+                        /**
+                         * 鎵撶偣鍑芥暟
+                         * @param {Object} params
+                         * @param {string} params.element 鐐瑰嚮鍏冪礌锛屼互CSS閫夋嫨绗︽柟寮忓懡鍚�
+                         * @param {String} type
+                         */
+                        log: function (params, type) {
+                            type = type || 'click';
+
+                            var url = config[type + 'Url'];
+                            if (!url) {
+                                alert('Error : the ' + type + 'url does not exist!');
+                            }
+
+                            this.buildLog(params, url);
+                        },
+                        setConf: function (key, val) {
+                            var newConfig = {};
+                            if (!ObjectH.isObject(key)) {
+                                newConfig[key] = val;
+                            } else {
+                                newConfig = key;
+                            }
+
+                            this.config = ObjectH.mix(this.config, newConfig, true);
+                            return this;
+                        },
+                        setUrl: function (url) {
+                            if (url) {
+                                this.util.getLocation = function () {
+                                    return url;
+                                };
+                            }
+                            return this;
+                        },
+                        setProject: function (prj) {
+                            if (prj) {
+                                this.util.getProject = function () {
+                                    return prj;
+                                };
+                            }
+                            return this;
+                        },
+                        setId: function () {
+                            var areaIds = [], i = 0, argument;
+
+                            while (argument = arguments[i++]) {
+                                if (!ObjectH.isArray(argument)) {
+                                    areaIds.push(argument);
+                                } else {
+                                    areaIds = areaIds.concat(argument);
+                                }
+                            }
+
+                            this.setConf('areaIds', areaIds);
+                            return this;
+                        },
+                        getTrack: function () {
+                            var params = this.data.getTrack();
+
+                            this.log(params, 'track');
+                            return this;
+                        },
+                        getClickAndKeydown: function () {
+                            var that = this;
+                            NodeH.on(doc, 'mousedown', function (e) {
+                                var params = that.data.getClick(e);
+                                that.log(params, 'click');
+                            });
+
+                            /*NodeH.on(doc, 'keydown', function (e) {
+                             var params = that.data.getKeydown(e);
+                             that.log(params, 'click');
+                             });*/
+
+                            MIWIFI_MONITOR.getClickAndKeydown = function () {
+                                return that;
+                            };
+
+                            return this;
+                        }
+                    };
+                })(window);
+
+                //榛樿URL閰嶇疆锛屽苟鍚敤榧犳爣鐐瑰嚮鍜屾寜閿粺璁�
+                MIWIFI_MONITOR.setConf({
+                    trackUrl: 'http://admin.withfi.com/track/track.php',
+                    clickUrl: 'http://admin.withfi.com/track/click.php',
+                    wpoUrl: ''
+                });
+
+                window.MIWIFI_MONITOR = MIWIFI_MONITOR;
+
+                if (typeof window.monitor === 'undefined') {
+                    window.monitor = MIWIFI_MONITOR;
+                }
+            })();

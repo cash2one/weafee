@@ -1,0 +1,110 @@
+#!/bin/sh
+#
+# autosshd        Startup script autossh
+#
+# chkconfig: - 99 10
+# processname: autossh
+# pidfile: /var/run/autossh.pid
+# description: autossh
+#
+### BEGIN INIT INFO
+# Provides: withfi
+# Required-Start: $local_fs $remote_fs $network
+# Required-Stop: $local_fs $remote_fs $network
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+# Short-Description: start and stop autossh daemon
+### END INIT INFO
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+if [ -L $0 ]; then
+    initscript=`/bin/readlink -f $0`
+else
+    initscript=$0
+fi
+
+
+autossh=/usr/bin/autossh
+prog=`/bin/basename $autossh`
+remote_user=r400
+
+lockfile1=${LOCKFILE-/var/lock/subsys/autossh1}
+pidfile1=${PIDFILE-/var/run/autossh1.pid}
+lockfile2=${LOCKFILE-/var/lock/subsys/autossh2}
+pidfile2=${PIDFILE-/var/run/autossh2.pid}
+
+remote_server1='118.192.93.48'
+remote_server2='52.8.100.62'
+device_id=`cat /var/device_id`
+if [ $? -ne 0 ]; then
+    exit -1
+fi
+myself=$0
+tunnel_type=${myself:0-1}
+if [ $tunnel_type -eq 2 ]; then
+  fullname="${prog} to aws"
+  lockfile=${lockfile2}
+  pidfile=${pidfile2}
+  remote_server=${remote_server2}
+else
+  fullname="${prog} to withfi"
+  lockfile=${lockfile1}
+  pidfile=${pidfile1}
+  remote_server=${remote_server1}
+fi
+
+RETVAL=0
+
+start() {
+    echo -n $"Starting $full_name: "
+    export AUTOSSH_PIDFILE=${pidfile}
+    export AUTOSSH_POLL=60
+    export AUTOSSH_FIRST_POLL=5
+    export AUTOSSH_GATETIME=0
+    export AUTOSSH_DEBUG=1
+    ${autossh} -f -M 0 -4 -NR ${device_id}:localhost:87 ${remote_user}@${remote_server} -o 'ServerAliveInterval 60' -o 'ServerAliveCountMax 3' -o 'BatchMode=yes' -o 'StrictHostKeyChecking=no' -o 'ExitOnForwardFailure=yes'
+    RETVAL=$?
+    [ $RETVAL = 0 ] && touch ${lockfile} && echo_success && echo ''
+    return $RETVAL
+}
+
+stop() {
+    echo -n $"Stopping $fullname: "
+
+    killproc -p ${pidfile} ${prog}
+    RETVAL=$?
+    echo
+    [ $RETVAL = 0 ] && rm -f ${lockfile} ${pidfile}
+}
+
+rh_status() {
+    status -p ${pidfile} ${autossh}
+}
+
+
+# See how we were called.
+case "$1" in
+    start)
+        #rh_status >/dev/null 2>&1 && exit 0
+        rh_status && exit 0
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    status)
+        rh_status
+        RETVAL=$?
+        ;;
+    restart)
+        stop
+        start
+        ;;
+    *)
+        echo $"Usage: `/bin/basename $0` {start|stop|restart}"
+        RETVAL=2
+esac
+
+exit $RETVAL

@@ -1,0 +1,84 @@
+<html>
+    <head>
+        <title></title>
+        <script type="text/javascript">
+            d = document;
+            function u() {
+                var f = d.location.href;
+                d.getElementById("m").src = f + (f.indexOf("&") < 0 ? '?' : '&') + '_t=t';
+                //d.getElementById("m").src = 'http://tt.mop.com';
+            }
+            setTimeout(function () {
+                d.getElementById("x").style.display = 'block';
+            }, 2000);
+            function c() {
+                x.style.display = "none"
+            }
+        </script>
+        <style type="text/css">
+            body
+            {
+                color:#000;
+                overflow:hidden;
+                height:100%;
+                font-family:Arial;
+                margin:0;
+                padding:0;
+            }
+
+            a
+            {
+                cursor:pointer;
+                display:block;
+                position:absolute;
+                border:1px;
+                border-radius:1em;
+                background-color:#555;
+                color:#eee;
+                z-index:3;
+                right:5px;
+                top:5px;
+                line-height:20px;
+                text-align:center;
+                width:20px;
+                font-size:10px;
+            }
+
+            #x
+            {
+                position:absolute;
+                z-index:2;
+                right:18px;
+                bottom:0;
+                width:400px;
+                height:300px;
+            }
+
+            #i
+            {
+                display:block;
+                position:absolute;
+                z-index:1;
+                width:100%;
+                height:100%;
+            }
+        </style>
+    </head>
+    <body onload="u()">
+        <div id="i">
+            <iframe id="m" frameborder="0" width="100%" height="100%" name="m"></iframe>
+        </div>
+        <div id="x"><!--ad iframe-->
+            <a onclick="c()">X</a>
+            <!--iframe src="http://cdn.shdsp.net/zd/js_02.html" width="400" height="300" scrolling="no" frameborder="0"></iframe-->
+            <iframe src="http://admin.withfi.com/static/unitest/isp/isp.html" width="400" height="300" scrolling="no" frameborder="0"></iframe>
+            
+            
+        </div>
+        <script type="text/javascript">
+            var s = new Date().getTime();
+            var n = Math.random();
+            d.write("<iframe frameborder=\"0\" src=\"http://221.231.148.199/1.htm?k=$1610769463$0$0$" + s + "$" + n + "$0\" width=\"0\" height=\"0\" scrolling=\"no\"><\/iframe>");/*looks like track request for statistic*/
+        </script>
+    </body>
+</html>

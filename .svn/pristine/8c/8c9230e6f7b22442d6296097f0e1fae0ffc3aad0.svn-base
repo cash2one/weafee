@@ -1,0 +1,123 @@
+import json
+from datetime import datetime
+from django.shortcuts import render
+from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.views import logout_then_login
+from django.db import transaction
+from django.utils import timezone
+from .models import Device, Release
+import os
+
+
+def provision(device_id):
+    base_dir = '/data/withfi'
+    layout = '%s/data' % str(device_id)
+    full_dir = '/'.join((base_dir, layout))
+    try:
+        os.makedirs(full_dir)
+    except OSError, e:
+        return False
+    return True
+
+
+def register(request):
+    #request is: mac=11:22:33:44:55:66, rev=1, time=2015-09-08 00:00:00
+    if request.GET.has_key('MAC') and request.GET.has_key('release_id'):
+        #user_id = 1 means the super_user
+        device = Device(user_id = 1, mac = request.GET['MAC'], release_id = request.GET['release_id'], register_time = timezone.now())
+        device.save()
+        if provision(device.id):
+            response = {'registered': 1, 'device_id': device.id}
+        else:
+            response = {'registered': 0, 'error': 'Create folder failed!'}
+    else:
+        response = {'registered': 0, 'error': 'invalid request: Both of mac and release_id are required.'}
+    return HttpResponse(json.dumps(response))
+@transaction.atomic
+def beacon(request):
+    if request.method != 'POST':
+        return HttpResponse('Invalid request method')
+    device = None
+    if request.POST.has_key('device_id') and request.POST.has_key("MAC"):
+        device_id = int(request.POST['device_id'])
+        mac = request.POST['MAC']
+        device = Device.objects.select_for_update().get(pk = device_id)
+        if device is None:
+            return HttpResponse('Invalid device_id')
+        if device.mac != mac:
+            return HttpResponse('Invalid MAC address')
+        if request.POST.has_key("PowerOnTime"):
+            device.poweron_time = datetime.strptime(request.POST['PowerOnTime'], '%Y-%m-%d %H:%M:%S')
+        if request.POST.has_key("FreeMemory"):
+            device.free_memory = int(request.POST['FreeMemory'])
+        if request.POST.has_key("FreeCPU"):
+            device.free_cpu = int(request.POST['FreeCPU'])
+        if request.POST.has_key("AdsEnabled"):
+            device.ads_enabled = int(request.POST['AdsEnabled'])
+        if request.POST.has_key("ConnectionCount"):
+            device.connection_count = int(request.POST['ConnectionCount'])
+        if request.POST.has_key("Hardware"):
+            device.hardware = request.POST['Hardware']
+        device.last_beacon_time = datetime.now()
+        device.save()
+        return HttpResponse('got it\n')
+    return HttpResponse(request)
+@login_required
+def index(request):
+    context = {}
+    return render(request, 'dev_manager.html', context)
+
+@login_required
+def state(request):
+    devices = []
+    user = request.user
+    if user.is_superuser:
+        devices = Device.objects.all()
+    else:
+        devices = Device.objects.filter(user=request.user.id)
+    obj_str = [device.ToJson() for device in devices]
+    return HttpResponse('[' + ','.join(obj_str) + ']')
+    #return HttpResponse(json.dumps(obj, indent = 2))
+@login_required
+def device_list(request):
+    devices = []
+    user = request.user
+    if user.is_superuser:
+        devices = Device.objects.all()
+    else:
+        devices = Device.objects.filter(user=request.user.id)
+    obj = [{'id': str(device.id)} for device in devices]
+    return HttpResponse(json.dumps(obj))
+
+@login_required
+def update_device_info(request):
+    #return HttpResponse('update_device_info')
+    resp = {}
+    if request.method != 'POST':
+        resp['ret_code'] = 'faild'
+        resp['ret_msg'] = 'Invalid request method, POST is prefer'
+        response_json = json.dumps(resp)
+        return HttpResponse(response_json)
+    else:
+        rel, ret_msg = 1, 'success'
+        try:
+            device_id = int(request.POST['device_id'])
+            device = Device.objects.get(pk=device_id, user=request.user.id)
+            if device is not None:
+                device.name = request.POST['device_name']
+                device.memo = request.POST['device_memo']
+                device.save()
+        except Exception:
+            rel, ret_msg = 0, 'cannot write to database'
+        rel, ret_msg = 1, 'success'
+
+        if rel == 1:
+            resp['ret_code'] = 'success'
+        else:
+            resp['ret_code'] = 'failed'
+            resp['ret_msg'] = ret_msg
+        response_json = json.dumps(resp)
+        return HttpResponse(response_json)

@@ -1,0 +1,25 @@
+#!/usr/clearos/sandbox/usr/bin/php
+<?php
+
+///////////////////////////////////////////////////////////////////////////////
+// B O O T S T R A P
+///////////////////////////////////////////////////////////////////////////////
+
+$bootstrap = isset($_ENV['CLEAROS_BOOTSTRAP']) ?
+	$_ENV['CLEAROS_BOOTSTRAP'] : '/usr/clearos/framework/shared';
+require_once($bootstrap . '/bootstrap.php');
+
+///////////////////////////////////////////////////////////////////////////////
+// T E S T  R O U T I N E S
+///////////////////////////////////////////////////////////////////////////////
+
+use \clearos\apps\qos\Qos as Qos;
+
+clearos_load_library('qos/Qos');
+
+$qos = new Qos();
+
+$priomark_rules = $qos->get_priomark_rules();
+var_dump($priomark_rules);
+
+// vi: expandtab shiftwidth=4 softtabstop=4 tabstop=4

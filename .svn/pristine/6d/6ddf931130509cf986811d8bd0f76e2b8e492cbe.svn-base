@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html class=" js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients no-cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths" style=""><head>
+        <title>南京皮孚网络科技有限公司，智能网关广告专家</title>
+        <meta name="description" content="广告网关,认证网关,portal,软路由,广告路由器,营销系统,江苏南京">
+
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta http-equiv="content-language" content="en">
+
+        <link rel="canonical" href="http://www.withfi.com">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <link rel="stylesheet" href="template/bootstrap/3.3.5/css/bootstrap.min.css" media="all" type="text/css">  
+
+        <!--
+        <link rel="icon" type="image/png" sizes="32x32" href="http://7xidx4.com1.z0.glb.clouddn.com//assets_cdn_10/images/favicon.png" /> -->
+
+        <link rel="shortcut icon" href="logo-zh-small-2.png" type="image/x-icon">
+        <link rel="icon" href="logo-zh-small-2.png" type="image/x-icon">
+
+        <script type="application/javascript" src="template/js/jquery-2.js"></script>
+        <script type="application/javascript" src="template/js/jquery_003.js"></script>
+        <script type="application/javascript" src="template/js/jquery_002.js"></script>
+
+        <script type="application/javascript" src="template/js/index.js"></script>
+        <script type="application/javascript" src="template/js/transition.js"></script>
+
+        <link rel="stylesheet" href="template/css/home.css" media="all" type="text/css">
+        <!--<link rel="stylesheet" href="http://7xidx4.com1.z0.glb.clouddn.com//assets_cdn_10/css/jobs.css" media="all" type="text/css"> -->
+
+        <link rel="stylesheet" href="template/css/nivo-lightbox.css" type="text/css">
+        <link rel="stylesheet" href="template/css/default.css" type="text/css">
+
+        <!--
+                <script type="application/javascript" src="template/js/jquery.js"></script>
+        -->
+        <script src="template/js/jquery.js" type="text/javascript" charset="utf-8"></script>
+        <script src="template/js/nivo-lightbox.js"></script>
+        <script src="template/js/scroll.js"></script>
+        <script type="application/javascript" src="template/js/modernizr.js"></script>
+        <script type="application/javascript" src="template/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+        <style>
+            .label-primary {
+                background-color: #428bca;
+            }
+            .label-success {
+                background-color: #5cb85c;
+            }
+            .label-info {
+                background-color: #5bc0de;
+            }
+            .label-warning {
+                background-color: #f0ad4e;
+            }
+            .label-success {
+                background-color: #5cb85c;
+            }
+            .label {
+                border-radius: 0.25em;
+                color: #fff;
+                display: inline;
+                font-size: 75%;
+                font-weight: bold;
+                line-height: 1;
+                padding: 0.2em 0.6em 0.3em;
+                text-align: center;
+                vertical-align: baseline;
+                white-space: nowrap;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="body">
+            <div id="full-width-container">
+                <div style="height: 741px;" id="header">
+                    <nav>
+                        <div style="background-color: rgba(255, 255, 255, 0.624);" id="desktop" class="topMenu">
+                            <ul id="menu-items" class="left">
+                                <li>
+                                    <a href="http://www.withfi.com">
+                                        <div class="table-cell imgholder item">
+                                            <img class="inversion" src="template/index/Shape_15.png" style="position: absolute; opacity: 0.377868;" alt="">
+                                            <img src="template/index/HeaderShape15.png" alt="">
+                                        </div>
+                                    </a> 
+                                </li>
+                                <li style="color: rgb(96, 191, 223);" class="button animateBtn">
+                                    <a href="#intro" title="">简介</a>
+                                </li>
+                                <li style="color: rgb(96, 191, 223);" class="button animateBtn">
+                                    <a href="#team">我们的团队</a>
+                                </li>
+                                <li style="color: rgb(96, 191, 223);" class="button animateBtn">
+                                    <a href="#tech">技术优势</a>
+                                </li>
+                                <li style="color: rgb(96, 191, 223);" class="button animateBtn">
+                                    <a href="#security">安全防护</a>
+                                </li>
+                                <li style="color: rgb(96, 191, 223);" class="button animateBtn">
+                                    <a href="#contact_us">联系我们</a>
+                                </li>
+                                
+                                
+                                
+                            </ul>
+                            <div class="right">                
+                                <div class="button animateBtn item">
+                                    <a href="http://www.withfi.com">
+                                        <div id="signup" class="transition-button">
+                                            返回首页
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="mobile" class="topMenu">
+                            <ul id="menu-items">
+                                <li><a href="http://www.withfi.com"><div>主页</div></a></li>
+                                <li><a href="#intro" onclick="$('.topMenu').toggleClass('open')">简介</a></li>
+                                <li><a href="#team" onclick="$('.topMenu').toggleClass('open')">我们的团队</a></li>
+                                <li><a href="#tech" onclick="$('.topMenu').toggleClass('open')">技术优势</a></li>
+                                <li><a href="#security" onclick="$('.topMenu').toggleClass('open')">安全防护</a></li>
+                                <li><a href="#contact_us" onclick="$('.topMenu').toggleClass('open')">联系我们</a></li>
+                            </ul>
+                            <div id="menu-head">
+                                <span><img id="logo" src="template/addemo/HeaderShape15.png"><span>withfi.com</span></span>
+                                <span id="toggle" onclick="$('.topMenu').toggleClass('open')"></span>
+                            </div>
+                        </div>
+                    </nav>
+                    <!--
+                    <script>
+                        $(function () {                        });
+                    </script>
+                    -->
+                    <div id="homer-gallery">
+                        <div class="slide" id="first">
+                            <!--
+                            <video preload="auto" loop autobuffer poster="">
+                                <source src="http://static.thinkyeah.com/newsite/videos/bike_drive-mpeg4.mp4" type="video/mp4">
+                                <source src="http://static.thinkyeah.com/newsite/videos/bike_drive-ogg.ogv" type="video/ogg">
+                            </video> -->
+                            <img style="width: 1460px; height: 778.667px;" src="template/index/smartlock_slide_bg.jpg" alt="">
+
+                            <div style="margin-bottom: 520.5px;" class="cover-text">
+                                <div class="cover-title font-ultra-light"><span>唯飞，您的路由广告专家</span></div>
+                                <div class="cover-desc font-bold">专业，因为我们基因生来如此</div>
+                            </div>
+                            <div class="cover-image"></div>
+                        </div>                        
+                    </div>  
+                </div>
+
+                <div class="section3 home-blocks-2" id="intro">
+                    <div class="inner-container">
+                        <div class="image-part">
+                            <img class="image" src="template/contact_us/fatsuperman.png" alt="">
+                            <div class="gradient"></div>
+                        </div>
+                        <div class="text-part">
+                            <h2 class="title">唯飞简介</h2>
+                            <div class="text">
+                                <ul style="list-style: circle">
+                                    <li>南京皮孚网络科技有限公司</li>
+                                    <li>成立于2012年，是国内领先智能商用路由技术提供商</li>
+                                    <li>持有注册商标唯飞Withfi</li>
+                                    <li>主营智能广告网关路由器、云服务器，研发、生产、定制、运营</li>
+                                    <li>核心产品唯飞品牌智能广告路由系统，是国内领先智能路由产品</li>
+                                    <li>同时，我们还运营着庞大的路由广告推送网络</li>                                    
+                                </ul>                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section3 home-blocks-3" id="team">
+                    <div class="inner-container reverse-content-flow">
+                        <div class="image-part">
+                            <img src="template/contact_us/team1.png" alt="">
+                            <div class="gradient"></div>
+                        </div>
+                        <div class="text-part">
+                            <h2 class="title">我们的团队</h2>
+                            <div class="text">
+                                <ul style="list-style: circle">
+                                    <li>核心团队来自百度、中兴通讯、华为、趋势科技、中国移动等一流企业</li>
+                                    <li>我们拥有中兴通讯、华为 出色的网络研发、工程组网设计能力</li>
+                                    <li>百度、中国移动 超强的产品运营能力</li>
+                                    <li>趋势科技 完美的网络安全研发实力</li>
+                                    <li>专业，因为我们基因生来如此</li>
+                                </ul>  
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="section3 home-blocks-4" id="tech">
+                    <div class="inner-container">
+                        <div class="image-part">
+                            <img src="template/contact_us/feature.png" alt="">
+                            <div class="gradient"></div>
+                        </div>
+                        <div class="text-part">
+                            <h2 class="title">技术优势</h2>
+                            <div class="text">
+                                <ul style="list-style: circle">
+                                    <li>完善的路由器产品线</li>
+                                    <li>唯飞R系列智能三层网关路由设备</li>
+                                    <li>满足从100 - 1万人 同时上网的，大、中、小型场所路由设备需求</li>
+                                    <li>全系列设备型号价格从800 - 5万元 不等，满足各类客户需求</li>
+                                </ul>  
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="section3 home-blocks-5">
+                    <div class="inner-container reverse-content-flow">
+                        <div class="image-part">
+                            <img src="template/contact_us/waiter.png" alt="">
+                            <div class="gradient"></div>
+                        </div>
+                        <div class="text-part">
+                            <h2 class="title">持续产品演进</h2>
+                            <div class="text">
+                               <ul style="list-style: circle">
+                                    <li>唯飞专业团队 7x24小时 技术支撑</li>
+                                    <li>持续的故障维护，让广告运营无忧</li>
+                                    <li>路由器功能演进，每周免费自动升级</li>
+                                    <li>让您无需动身，即可享用未来唯飞发布的所有新鲜功能</li>
+                                    <li>出色的路由管理云平台 提供丰富功能供您使用</li>
+                                    <li>您只需登陆 admin.withfi.com/report 随时、随地查看您的 WiFi 网络状态</li>
+                                </ul>  
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="section3 home-blocks-6" id="security">
+                    <div class="inner-container">
+                        <div class="image-part">
+                            <img src="template/contact_us/360.png" alt="">
+                            <div class="gradient"></div>
+                        </div>
+                        <div class="text-part">
+                            <h2 class="title">企业级路由安全防护</h2>
+                            <div class="text">
+                                <ul style="list-style: circle">
+                                    <li>唯飞网络携手 360安全卫士 联合打造六重安全防护体系</li>
+                                    <li>唯飞安全研发团队，源自老牌网络杀毒公司 趋势科技</li>
+                                    <li>专业态度，出色研发能力</li>
+                                    <li>满足企业级客户，苛刻的网络安全需求</li>
+                                    <li>让您在 竞标中脱颖而出</li>
+                                </ul> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                <div class="section3 home-blocks-6" id="contact_us">
+                    <div class="inner-container reverse-content-flow">
+                        <div class="image-part">
+                            <img src="template/index/2.png" alt="">
+                            <div class="gradient"></div>
+                        </div>
+                        <div class="text-part">
+                            <h2 class="title disable-word-wrapping">联系我们</h2>
+                            <div class="text">
+                                <ul style="list-style: circle">
+                                    <li>QQ:    1068659321 孟经理</li>
+                                    <li>Email: hey@withfi.com</li>
+                                    <li>Addr:  江苏 南京 软件大道 花神科技园</li>
+                                </ul>   
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <div id="section7" class="home-blocks-7">
+                    <div class="inner-container">
+                        <div class="content">
+                            <h2 class="title font-ultra-light"> 关于我们</h2>
+                            <div class="text font-bold"> 
+                                南京皮孚网络科技有限公司，是国内领先的 智能智能路由技术提供商<br>
+                                主营智能广告路由器、云服务器，研发、生产、定制、广告运营,
+                                核心产品 唯飞系列智能智能路由广告系统，是国内领先智能智能路由产品,
+                                我们为电信、移动运营商，及全国各大广告公司、微信公众号运营公司
+                                销售、定制、运维智能路由广告系统
+                            </div>
+                            <!--<div class="white-text">+ LEARN MORE ABOUT THINKYEAH</div> -->
+                            <div class="bottom-bar table">
+
+                                <div class="text-button font-bold">
+                                    <a href="contact_us.html">+ 了解更多</a>
+                                </div>
+
+                                <!--
+                                <div class="holder font-bold">
+                                    <div class="text-button">
+                                        <a href="https://www.youtube.com/watch?v=uIgW719D4AQ" rel="prettyPhoto" title="">
+                                            <img src="http://7xidx4.com1.z0.glb.clouddn.com//assets_cdn_10/images/home/playvid_white_small.png" alt=""/>WATCH THE VIDEO</a>
+                                    </div>
+                                </div> -->
+                            </div>
+                        </div>
+
+                        <!--
+                        <div class="content image-part"></div> -->
+
+                    </div>
+                </div>
+
+                <!--
+                <div id="section8" class="home-blocks-8">
+                    <div class="inner-container">
+                        <div class="content">
+                            <div class="title font-ultra-light">From the press...</div>
+                            <div>
+                                <img class="image" src="http://7xidx4.com1.z0.glb.clouddn.com//assets_cdn_10/images/thinkyeah/homepage_logos.png" alt=""/>
+                            </div>
+                        </div>
+                
+                    </div>
+                </div> -->
+
+
+                <footer>
+                    <div class="inner-container font-light">
+                        <div class="column mobile-hide">
+                            <div class="content">
+                                <!--
+                                <div class="logo">
+                                    <img src="http://7xidx4.com1.z0.glb.clouddn.com//assets_cdn_10/images/thinkyeah/HeaderShape15.png">
+                                </div> -->
+                                <div class="text-styling text font-bold logo">
+                                    © www.withfi.com &nbsp; <a href="http://www.miitbeian.gov.cn/">苏ICP备12065708号</a>                </div>
+									<img src="/template/img/knet.png" style="width:47px;height:13px">
+                            </div>
+                        </div>
+                        <div class="column-wrapper">
+                            <div class="column title " style="font-size:19px">
+                                <select name="languages" id="language-selector">
+
+                                    <option value="en">  English</option>
+                                    <option value="zh_cn" selected="selected"> 简体中文</option>
+                                </select>
+                            </div>
+                            <div class="column title mobile-show">
+                                <span>公司</span>
+                                <div class="ul show-on-mobile">
+                                    <div class="mobile-view">
+                                        <!--
+                                        <div class="li">
+                                            <a href="about/vision">Our Vision</a>
+                                        </div> -->
+                                        <div class="li">                                            关于                        </div>
+                                        <div class="li">                                            招聘                        </div>
+                                    </div>
+                                    <div class="mobile-view">
+                                        <div class="li">                                            常见问题                        </div>
+                                        <!--
+                                        <div class="li">
+                                            <a href="legal/privacy-policy">Privacy Policy</a>
+                                        </div>
+                                        <div class="li">
+                                            <a href="legal/app-license-agreement">Terms of Service</a>
+                                        </div>
+                                        -->
+
+                                        <div class="desktop-hide li">
+                                            <img src="template/addemo/HeaderShape15.png">
+                                            © www.withfi.com &nbsp; <a href="http://www.miitbeian.gov.cn/">苏ICP备13031700号-3</a>                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="column title mobile-hide">
+                                更多介绍
+                                <div class="ul">
+                                    <div class="li">
+                                        <a href=""></a>
+                                    </div>
+                                    <div class="li">
+                                        <a href=""></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column title mobile-hide">
+                                关注我们
+                                <div class="ul">
+                                    <div class="li">
+                                        <a href="mailto:hey@withfi.com">电子邮箱（hey@withfi.com）</a>
+                                    </div>
+                                    <div class="li">
+                                        <a href="#">微博</a>
+                                    </div>
+                                    <div class="li">
+                                        <a href="#">微信公众号</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+                <script>
+                    $('#language-selector').on('change', function () {
+                        var localeLang, val = $(this).val();
+
+                        if (val === 'zh_cn') {
+                            localeLang = 'zh_cn';
+                        } else {
+                            localeLang = 'en';
+                        }
+
+                        var currentHref = window.location.href;
+
+                        $.cookie("locale_lang", localeLang);
+
+                        window.location.href = currentHref;
+                    })
+                </script>
+
+            </div>
+        </div>
+
+    </body></html>

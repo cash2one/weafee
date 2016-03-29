@@ -1,0 +1,9 @@
+{
+	"sync_remote_files": false,
+	"rawlog_dir": "rawlogs",
+	"output_dir": "db",
+	"sqlite_db_per_day": true,
+	"index_spec": [
+		"CREATE INDEX `idx1` on tb_access (http_host ASC);"
+	]
+}

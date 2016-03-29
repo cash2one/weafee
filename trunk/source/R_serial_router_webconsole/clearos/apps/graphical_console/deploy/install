@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# Sudoers
+#--------
+
+/usr/sbin/addsudo /usr/bin/killall app-graphical-console

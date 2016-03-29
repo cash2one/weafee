@@ -1,0 +1,34 @@
+[
+    {
+        "index": 1,
+        "name": "WAN1",
+        "status": "enabled",
+        "phy_interface": "eth0",
+        "logic_interface": "ppp0",
+        "wan_type": "pppoe",
+        "mtu": 1492,
+        "username": "test",
+        "password": "password"
+    },
+    {
+        "index": 2,
+        "name": "WAN2",
+        "status": "disabled",
+        "phy_interface": "eth1",
+        "logic_interface": "eth1",
+        "wan_type": "static",
+        "mtu": 1500,
+        "static_ip": "1.1.1.1",
+        "static_netmask": "255.255.255.0",
+        "static_gateway": "1.1.1.0"
+    },
+    {
+        "index": 3,
+        "name": "WAN3",
+        "status": "disabled",
+        "phy_interface": "eth2",
+        "logic_interface": "eth2",
+        "wan_type": "dhcp",
+        "mtu": 1500
+    }
+]

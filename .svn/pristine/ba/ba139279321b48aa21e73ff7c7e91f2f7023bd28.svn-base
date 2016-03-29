@@ -1,0 +1,19 @@
+# autossh startup Script
+
+description "autossh daemon startup"
+
+#start on net-device-up IFACE=eth0
+start on runlevel [2345]
+stop on runlevel [01S6]
+
+respawn
+respawn limit 5 60 # respawn max 5 times in 60 seconds
+
+script
+export AUTOSSH_PIDFILE=/var/run/autossh.pid
+export AUTOSSH_POLL=60
+export AUTOSSH_FIRST_POLL=30
+export AUTOSSH_GATETIME=0
+export AUTOSSH_DEBUG=1
+autossh -M 3003 -4 -NR 2203:localhost:87 r400@52.74.39.126 -o "ServerAliveInterval 60" -o "ServerAliveCountMax 3" -o BatchMode=yes -o StrictHostKeyChecking=no 
+end script

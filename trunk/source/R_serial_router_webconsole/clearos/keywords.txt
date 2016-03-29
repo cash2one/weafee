@@ -1,0 +1,29 @@
+<div class="ui-corner-all theme-dialogbox-info ui-state-highlight">
+               
+        <h3>IP Settings</h3>
+        <table width="100%" id="sidebar_summary_table">
+            <tbody><tr>
+                <td width="55%"><b>Vendor</b></td>
+                <td width="45%">ClearFoundation</td>
+            </tr>
+            <tr>
+                <td><b>Version</b></td>
+                <td>1.6.12-1</td>
+            </tr>
+            <tr id="sidebar_additional_info_row" class="theme-hidden">
+                <td valign="top"><b>Additional Info</b></td>
+                <td id="sidebar_additional_info"><div class="theme-loading-small"></div>
+</td>
+            </tr><tr><td><b>Support Policy</b></td><td><div id="theme-support-policy-trigger"><div class="theme-support theme-support-1"></div><div class="theme-support theme-support-0"></div><div class="theme-support theme-support-0"></div><div class="theme-support theme-support-8"></div><div class="theme-support theme-support-16"></div></div><div class="theme-rhs-tooltip"><p class="theme-support-legend-title">Support Policy Legend</p><div class="theme-support theme-support-1" style="margin-right: 5px;"></div><div class="theme-support-type">Public Forum Supported - Casual</div>Developer or organization may occassionally browse the ClearFoundation community forum or other designated public forum to provide assistance for an app.  There is no committment or obligation to provide free time/resources for support in this manner.  Forum response times to posts will vary.<p></p><p></p><div class="theme-support theme-support-2" style="margin-right: 5px;"></div><div class="theme-support-type">ClearFoundation Forum Supported - Dedicated</div>Developer or organization will make best-effort to assist users via the ClearFoundation Community forum in a section dedicated for this app.  Forum response times to posts will vary.<p></p><p></p><div class="theme-support theme-support-4" style="margin-right: 5px;"></div><div class="theme-support-type">Developer/ISV Supported</div>Developer or organization provides a service to submit and track support tickets through a web service or email.  For specific details on the scope of support, conditions, hours of operation, response times etc., please view the app details section in the Marketplace.<p></p><p></p><div class="theme-support theme-support-8" style="margin-right: 5px;"></div><div class="theme-support-type">ClearCenter Professionally Supported</div>ClearCenter will provide professional support under the conditions appropriate for the paid support subscription this system is subscribed to.  All new support incidents must be initiated via the <a href="http://www.clearcenter.com/clearcare/incident" target="_blank">ClearCARE support incident report</a>.<p></p><p></p><div class="theme-support theme-support-16" style="margin-right: 5px;"></div><div class="theme-support-type">ClearCenter Consulting Services</div>ClearCenter engineering may provide technical support for this app on a consulting basis.  Please contact our <a href="mailto: sales@clearcenter.com">sales team</a> with your support scope/request.<p></p><div class="theme-support-learn-more"><a href="http://www.clearcenter.com/clearcare/landing" target="_blank">Learn More...</a></div></div></td></tr>
+        </tbody></table>
+        
+        
+            <div class="marketplace-linkback"><a href="/app/marketplace/view/network" class="theme-anchor theme-anchor-custom theme-anchor-important ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false"><span class="ui-button-text">App Details</span></a>
+            </div>
+            <div id="sidebar-recommended-apps"><h3>Recommended Apps</h3><div>Administrators who have installed the <b>IP Settings</b> app have also installed and/or purchased the following:</div><table border="0" width="100%"><tbody><tr><td width="5" valign="top">?</td><td width="60%"><a href="/app/marketplace/view/multiwan">Multi-WAN</a></td><td width="35%" valign="top">
+<div class="star_on"></div><div class="star_on"></div><div class="star_on"></div><div class="star_on"></div><div class="star_on"></div></td></tr><tr><td width="5" valign="top">?</td><td width="60%"><a href="/app/marketplace/view/dynamic_dns">Dynamic DNS</a></td><td width="35%" valign="top">
+<div class="star_on"></div><div class="star_on"></div><div class="star_on"></div><div class="star_on"></div><div class="star_on"></div></td></tr><tr><td width="5" valign="top">?</td><td width="60%"><a href="/app/marketplace/view/incoming_firewall">Firewall</a></td><td width="35%" valign="top">
+<div class="star_off"></div><div class="star_off"></div><div class="star_off"></div><div class="star_on"></div><div class="star_on"></div></td></tr></tbody></table></div>
+        
+    
+            </div>

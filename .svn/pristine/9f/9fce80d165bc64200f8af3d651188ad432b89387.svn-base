@@ -1,0 +1,21 @@
+
+对于使用ifream的网站不能简单替换 否则会出现嵌入的情况
+另外，腾讯视频中会出现广告，可以考虑植入到流媒体中
+
+sslstrip怎么实现？
+TOPN站点
+http://www.alibaba.com/
+http://www.aliexpress.com/  网站会变形
+http://www.khmerload.com/
+http://freegameszonetab.com/
+http://www.khmer24.com/
+Onclickads.net
+http://howtotipz.com/
+http://www.doublepimp.com/
+
+
+新闻类网站
+除了以下三个，其他的都OK
+https://www.cambodiadaily.com/ 会https
+http://cn.thekhmerdaily.com/ 显示有问题
+http://www.jpzhs.com/portal.php 显示不出来

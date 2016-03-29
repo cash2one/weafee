@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+    <head>
+        <meta charset="UTF-8" />
+        <title>A date range picker for Bootstrap</title>
+        <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" media="all" href="daterangepicker.css" />
+        <script type="text/javascript" src="jquery.min.js"></script>
+        <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="moment.js"></script>
+        <script type="text/javascript" src="daterangepicker.js"></script>
+    </head>
+
+
+
+    <body>
+        <script>
+            function tt() {
+                var tmp = $('#reservationtime').val();
+                alert(tmp);
+            }
+            
+            function save_single_time(){
+                var tmp = $('#single_time').val();
+                alert(tmp);
+                
+            }
+
+
+        </script>
+
+        <div class="container">
+            <div class="span12">
+
+
+                <div class="well">
+
+
+                    <input type="text" style="width: 400px" id="reservationtime" />
+                    <button id="buttonUpload" class="btn btn-primary btn-sm" onclick="tt()">save</button>
+                    <script type="text/javascript">
+                        $('#reservationtime').daterangepicker({
+                            "timePicker": true,
+                            "timePicker24Hour": true,
+                            "linkedCalendars": false
+                        }, function (start, end, label) {
+                            console.log("New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')");
+                        });
+                    </script>
+                </div>	
+
+                <div class="well">
+                    <input type="text" style="width: 400px" id="single_time" />
+                    <button id="submit" class="btn btn-primary btn-sm" onclick="save_single_time()">save</button>
+                    <script type="text/javascript">
+                        $('#single_time').daterangepicker({
+                            "singleDatePicker": true,
+                            "timePicker24Hour": true
+                        }, function (start, end, label) {
+                            console.log("New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')");
+                        });
+                    </script>
+                </div>
+
+
+
+            </div>
+        </div>
+    </body>
+</html>

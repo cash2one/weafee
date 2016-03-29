@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Smart Router | Dashboard</title>
+        <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+        <!-- bootstrap 3.0.2 -->
+        <link href="/static/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <!-- font Awesome -->
+        <link href="/static/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+        <!-- Ionicons -->
+        <link href="/static/css/ionicons.min.css" rel="stylesheet" type="text/css" />
+        <!-- Theme style -->
+        <link href="/static/css/AdminLTE.css" rel="stylesheet" type="text/css" />
+
+    </head>
+    <body class="skin-blue" onload="load_network_page_data();">
+
+        <script language=javascript>
+
+
+            (function () {
+                $('#enable_dhcp_ser').on('ifClicked', function (event) { //ifCreated 事件应该在插件初始化之前绑定 
+
+                    alert("enable_dhcp_ser");
+
+                    if ($("#enable_dhcp_ser").is(':checked') == true) {
+                        $("#dhcp_ser_ip_start").show();
+                        $("#dhcp_ser_ip_end").show();
+                        $("#leasetime").show();
+                        $("#dhcp_ser_gateway").show();
+                        $("#dhcp_ser_dns").show();
+                        $("#dhcp_ser_alternatedn").show();
+
+                    } else {
+                        $("#dhcp_ser_ip_start").hide();
+                        $("#dhcp_ser_ip_end").hide();
+                        $("#leasetime").hide();
+                        $("#dhcp_ser_gateway").hide();
+                        $("#dhcp_ser_dns").hide();
+                        $("#dhcp_ser_alternatedn").hide();
+
+                    }
+
+
+                });
+            });
+			
+			function gen_ip_bind_table(obj_arr_in){
+			
+				var obj_arr = [
+					{
+                        "id": 0,
+                        "name": "ceo",
+                        "mac": "11:11:10:10:10",
+						"ip": "1.1.1.1"
+                    },
+					{
+                        "id": 1,
+                        "name": "market",
+                        "mac": "11:11:11:11:11",
+						"ip": "1.1.1.111"
+                    },
+					{
+                        "id": 2,
+                        "name": "finance",
+                        "mac": "1:12:22:12:12",
+						"ip": "1.1.1.222"
+                    }
+				];
+			
+			
+			
+				var table_length = obj_arr.length;
+				
+				if(table_length <=0){
+					return;
+				}
+				
+				var table_obj = "";
+				var table_content = '<tr><th>Name</th><th>MAC</th><th>IP</th><th>Action</th></tr>';
+				
+				var i = 0
+				for(i;i<table_length;i++){
+					
+					table_content = table_content + '<tr><td>' + obj_arr[i]['name'] + '</td><td>' + obj_arr[i]['mac'] + '</td><td>' + obj_arr[i]['ip'] + '</td><td><input type="button" value="Delete" class="btn btn-danger btn-sm" onclick="add_static_bind_ip(' + i + ')"></td></tr>';
+					//alert(table_content);
+				}
+				
+				
+				$("#static_ip_bind_table").append(table_content);
+				
+				
+				
+			}
+
+
+
+
+
+            function load_network_page_data() {
+                return;
+                //$("overlay").hide();
+                //$("loading-img").hide();
+
+                var data = {
+                    "action": "load_network_setting"
+                };
+                //var url_dest = 'http://withfi.com:8000/router/jsonHandler';
+                var url_dest = 'router/jsonHandler';
+                $.ajax({
+                    type: "POST",
+                    url: url_dest,
+                    data: data,
+                    dataType: "json",
+                    success: load_network_page_data_callback
+                });
+            }
+
+
+            function load_network_page_data_callback(resp) {
+
+                //alert("load_network_page_data_callback");
+
+                wan_type_check(resp.wan_type);
+                /************* 
+                 * ppoe == 1
+                 * dhcp == 2
+                 * static==3
+                 **************/
+
+                $("#wan_type").val(resp.wan_type);
+                // wan setting data                
+                $("#wanusername").val(resp.wanusername);
+                $("#wanpassword").val(resp.wanpassword);
+                $("#staticipaddr").val(resp.staticipaddr);
+                $("#staticsubnet").val(resp.staticsubnet);
+                $("#staticgateway").val(resp.staticgateway);
+                $("#staticdns").val(resp.staticdns);
+                $("#staticalternatedns").val(resp.staticalternatedns);
+
+                //lan setting data
+                $("#lan_ip").val(resp.lan_ip);
+                $("#lan_subnet").val(resp.lan_subnet);
+
+                //load DHCP setting   
+                if (resp.enable_dhcp_ser == true) {
+                    $('#enable_dhcp_ser').iCheck('check');
+                } else {
+                    $('#enable_dhcp_ser').iCheck('uncheck');
+                }
+                $("#dhcp_ser_ip_start").val(resp.dhcp_ser_ip_start);
+                $("#dhcp_ser_ip_end").val(resp.dhcp_ser_ip_end);
+                $("#leasetime").val(resp.leasetime);
+                $("#dhcp_ser_gateway").val(resp.dhcp_ser_gateway);
+                $("#dhcp_ser_dns").val(resp.dhcp_ser_dns);
+                $("#dhcp_ser_alternatedn").val(dhcp_ser_alternatedn.dhcp_ser_dns);
+            }
+
+
+
+            function wan_type_check(v) {
+
+                if (v == 1) {
+                    /* pppoe*/
+                    $("#form_user_name").show();
+                    $("#form_password").show();
+                    $("#form_pppoemtu").show();
+                    $("#form_pppoe_dns").show();
+                    $("#form_pppoe_alternate_dns").show();
+                    /*dhcp*/
+                    $("#form_dhcpmtu").hide();
+                    $("#form_dhcp_dns").hide();
+                    $("#form_dhcp_alternate_dns").hide();
+                    /*static*/
+                    $("#form_ip").hide();
+                    $("#form_staticsubnet").hide();
+                    $("#form_staticgateway").hide();
+                    $("#form_staticmtu").hide();
+                    $("#form_staticdns").hide();
+                    $("#form_staticalternatedns").hide();
+                } else if (v == 2) {
+                    /* pppoe*/
+                    $("#form_user_name").hide();
+                    $("#form_password").hide();
+                    $("#form_pppoemtu").hide();
+                    $("#form_pppoe_dns").hide();
+                    $("#form_pppoe_alternate_dns").hide();
+                    /*dhcp*/
+                    $("#form_dhcpmtu").show();
+                    $("#form_dhcp_dns").show();
+                    $("#form_dhcp_alternate_dns").show();
+                    /*static*/
+                    $("#form_ip").hide();
+                    $("#form_staticsubnet").hide();
+                    $("#form_staticgateway").hide();
+                    $("#form_staticmtu").hide();
+                    $("#form_staticdns").hide();
+                    $("#form_staticalternatedns").hide();
+                } else if (v == 3) {
+                    /* pppoe*/
+                    $("#form_user_name").hide();
+                    $("#form_password").hide();
+                    $("#form_pppoemtu").hide();
+                    $("#form_pppoe_dns").hide();
+                    $("#form_pppoe_alternate_dns").hide();
+                    /*dhcp*/
+                    $("#form_dhcpmtu").hide();
+                    $("#form_dhcp_dns").hide();
+                    $("#form_dhcp_alternate_dns").hide();
+                    /*static*/
+                    $("#form_ip").show();
+                    $("#form_staticsubnet").show();
+                    $("#form_staticgateway").show();
+                    $("#form_staticmtu").show();
+                    $("#form_staticdns").show();
+                    $("#form_staticalternatedns").show();
+                } else {
+                    alert("Undefined wan type");
+                }
+            }
+
+
+            //click wan submit button
+            function submit_wan_setting() {
+
+                var data = "";
+                if ($("#wan_type").val() == 1) {
+                    var pppoemtu = 1492;
+                    //check input
+                    if ($("#wanusername").val() == "" || $("#wanusername").val() == null) {
+                        alert("Please input user name");
+                        return;
+                    }
+                    if ($("#wanpassword").val() == "" || $("#wanpassword").val() == null) {
+                        alert("Please input password");
+                        return;
+                    }
+                    if ($("#pppoemtu").val() > 1500) {
+                        alert('PPPoE MTU must not larger than 1500, default value is 1492');
+                        return;
+                    }
+                    if ($("#pppoemtu").val() == "" || $("#pppoemtu").val() == null) {
+                        pppoemtu = 1492;
+                    }else{
+						pppoemtu = $('pppoemtu').val();
+						
+					}
+
+                    var value_json = {
+                        "index": 1,
+                        "name": "wan1",
+                        "status": "enabled",
+                        "phy_interface": "eth0",
+                        "logic_interface": "ppp0",
+                        "wan_type": "pppoe",
+                        "mtu": pppoemtu,
+                        "dns1": $("#pppoe_dns").val(),
+                        "dns2": $("#pppoe_alternate_dns").val(),
+                        "username": $("#wanusername").val(),
+                        "password": $("#wanpassword").val()
+                    };
+                    var value_str = JSON.stringify(value_json);
+                    data = {
+                        "action": "submit_wan",
+                        "wan_type": "pppoe",
+                        "value_str": value_str
+                    };
+                } else if ($("#wan_type").val() == 2) {
+
+                    var dhcpmtu = 1500;
+                    if ($("#dhcpmtu").val() > 1500) {
+                        alert('DHCP MTU must not larger than 1500, default value is 1500');
+                        return;
+                    }
+                    if ($("#dhcpmtu").val() == "" || $("#dhcpmtu").val() == null) {
+                        dhcpmtu = 1500;
+                    }else{
+						dhcpmtu = $("#dhcpmtu").val();
+					
+					}
+
+                    var value_json = {
+                        "index": 1,
+                        "name": "wan1",
+                        "status": "enabled",
+                        "phy_interface": "eth0",
+                        "logic_interface": "eth0",
+                        "wan_type": "dhcp",
+                        "mtu": dhcpmtu,
+                        "dns1": $("#dhcp_dns").val(),
+                        "dns2": $("#dhcp_alternate_dns").val()
+                    };
+					
+                    var value_str = JSON.stringify(value_json);
+                    data = {
+                        "action": "submit_wan",
+                        "wan_type": "dhcp",
+                        "value_str": value_str
+                    };
+					
+                } else if ($("#wan_type").val() == 3) {
+
+                    var staticmtu = 1500;
+                    if ($("#staticmtu").val() > 1500) {
+                        alert('DHCP MTU must not larger than 1500, default value is 1500');
+                        return;
+                    }
+                    if ($("#staticmtu").val() == "" || $("#dhcpmtu").val() == null) {
+                        staticmtu = 1500;
+                    }else{
+						staticmtu = $("#staticmtu").val();
+					}
+
+                    if ($("#staticipaddr").val() == "" || $("#staticipaddr").val() == null) {
+                        alert("Please input IP");
+                        return;
+                    }
+
+                    if ($("#staticsubnet").val() == "" || $("#staticsubnet").val() == null) {
+                        alert("Please input Subnet mask");
+                        return;
+                    }
+
+                    if ($("#staticgateway").val() == "" || $("#staticgateway").val() == null) {
+                        alert("Please input static gateway");
+                        return;
+                    }
+
+                    if ($("#staticdns").val() == "" || $("#staticdns").val() == null) {
+                        alert("Please input static DNS");
+                        return;
+                    }
+
+                    var value_json = {
+                        "index": 1,
+                        "name": "wan1",
+                        "status": "enabled",
+                        "phy_interface": "eth0",
+                        "logic_interface": "eth0",
+                        "wan_type": "static",
+                        "mtu": staticmtu,
+                        "static_ip": $("#staticipaddr").val(),
+                        "static_netmask": $("#staticsubnet").val(),
+                        "static_gateway": $("#staticgateway").val(),
+                        "dns1": $("#staticdns").val(),
+                        "dns2": $("#staticalternatedns").val()
+                    };
+                    var value_str = JSON.stringify(value_json);
+                    data = {
+                        "action": "submit_wan",
+                        "wan_type": "static",
+                        "value_str": value_str
+                    };
+                } else {
+                    alert("Unknown wan type value -->" + $("#wan_type").val());
+                }
+
+                //$("#wan_setting_load").show();
+                //$("#wan_setting_load_img").show();
+
+                var url_dest = '/router/jsonHandler';
+                $.ajax({
+                    type: "POST",
+                    url: url_dest,
+                    data: data,
+                    dataType: "json",
+                    //success: load_network_page_data
+                    success: submit_wan_setting_callback
+                });
+            }
+
+            function submit_wan_setting_callback(resp) {
+                alert(resp.err_msg);
+            }
+
+            function enable_dhcp_server() {
+                alert("enable_dhcp_server");
+                return;
+            }
+
+
+
+            function submit_lan_setting() {
+
+                //check input
+                if ($("#lan_ip").val() == "" || $("#lan_ip").val() == null) {
+                    alert("Please input LAN IP");
+                    return;
+                }
+                if ($("#lan_subnet").val() == "" || $("#lan_subnet").val() == null) {
+                    alert("Please input LAN net mask");
+                    return;
+                }
+
+                if ($("#enable_dhcp_ser").is(':checked') == true) {
+                    if ($("#dhcp_ser_ip_start").val() == "" || $("#dhcp_ser_ip_start").val() == null) {
+                        alert("Please input dhcp server start ip");
+                        return;
+                    }
+                    if ($("#dhcp_ser_ip_end").val() == "" || $("#dhcp_ser_ip_end").val() == null) {
+                        alert("Please input dhcp server end ip");
+                        return;
+                    }
+                    if ($("#leasetime").val() > 172800) {
+                        alert("Lease time should not lager than 172800, default value is 86400");
+                        return;
+                    }
+                    if ($("#leasetime").val() == "" || $("#leasetime").val() == null) {
+                        dhcpmtu = 86400;
+                    }
+                }
+
+                var value_json = {
+                    "index": 1,
+                    "name": "LAN",
+                    "status": "enabled",
+                    "phy_interface": ["eth1", "eth2", "eth3", "eth4", "eth5"],
+                    "logic_interface": "br0",
+                    "ipaddr": $('#lan_ip').val(),
+                    "natmask": $('#lan_subnet').val(),
+                    "leasetime": $('#leasetime').val(),
+                    "lan_dhcp_ena": $("#enable_dhcp_ser").is(':checked'),
+                    "lan_ipstart": $('#dhcp_ser_ip_start').val(),
+                    "lan_ipend": $('#dhcp_ser_ip_end').val(),
+                    "lan_gw_addr": $('#dhcp_ser_gateway').val(),
+                    "lan_dns1": $('#dhcp_ser_dns').val(),
+                    "lan_dns2": $('#dhcp_ser_alternatedn').val()
+                }
+
+                var value_str = JSON.stringify(value_json);
+
+                var data = {
+                    "action": "submit_lan",
+                    "enable_dhcp_ser": $("#enable_dhcp_ser").is(':checked'),
+                    "value_str": value_str
+                };
+                // $("#lan_setting_load").show();
+                // $("#lan_setting_load_img").show();
+
+
+                alert(JSON.stringify(data));
+                return;
+
+
+
+                var url_dest = 'http://withfi.com:8000/router/jsonHandler';
+                //$("#request-process-patent").html("正在提交数据，请勿关闭当前窗口...");
+                $.ajax({
+                    type: "POST",
+                    url: url_dest,
+                    data: data,
+                    dataType: "json",
+                    success: load_network_page_data
+                });
+            }
+
+
+            function enable_dhcp_server_click() {
+
+                alert("enable_dhcp_server_click");
+
+                if ($("#enable_dhcp_ser").is(':checked') == true) {
+                    $("#dhcp_ser_ip_start").show();
+                    $("#dhcp_ser_ip_end").show();
+                    $("#leasetime").show();
+                    $("#dhcp_ser_gateway").show();
+                    $("#dhcp_ser_dns").show();
+                    $("#dhcp_ser_alternatedn").show();
+
+                } else {
+                    $("#dhcp_ser_ip_start").hide();
+                    $("#dhcp_ser_ip_end").hide();
+                    $("#leasetime").hide();
+                    $("#dhcp_ser_gateway").hide();
+                    $("#dhcp_ser_dns").hide();
+                    $("#dhcp_ser_alternatedn").hide();
+
+                }
+            }
+
+
+
+
+
+
+
+
+
+            function xxsubmit_dhcp_setting() {
+
+                var data = {
+                    "action": "submit_dhcp",
+                    "enable_dhcp": $("#enable_dhcp").is(':checked'),
+                    "dhcp_ip_start": $("#dhcp_ip_start").val(),
+                    "dhcp_ip_end": $("#dhcp_ip_end").val(),
+                    "dhcpmtu": $("#dhcpmtu").val()
+                };
+                //$("#dhcp_setting_load").show();
+                // $("#dhcp_setting_load_img").show();
+
+                var url_dest = 'http://withfi.com:8000/router/jsonHandler';
+                $.ajax({
+                    type: "POST",
+                    url: url_dest,
+                    data: data,
+                    dataType: "json",
+                    success: load_network_page_data
+                });
+            }
+
+
+
+            function submit_dhcp_setting() {
+                //$("#wanusername").attr("value", "username");
+                //$("#wanpassword").attr("value", "passwd");
+                var flag_pre = $("#enable_dhcp").is(':checked');
+                //$("#enable_dhcp").val(true);
+                $("#enable_dhcp").attr("checked", "checked");
+                var flag_after = $("#enable_dhcp").is(':checked');
+                alert("submit_dhcp_setting");
+            }
+
+
+        </script>
+
+
+        <!-- header logo: style can be found in header.less -->
+        <header class="header">
+            <a href="dashboard.html" class="logo">
+                <!-- Add the class icon to your logo image or logo icon to add the margining -->
+                www.weafee.net
+            </a>
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top" role="navigation">
+                <!-- Sidebar toggle button-->
+                <a href="#" class="navbar-btn sidebar-toggle" data-toggle="offcanvas" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>    
+                <div class="navbar-right">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown user user-menu">
+                            <a  href="/router/logout">
+                                <span>Logout</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <div class="wrapper row-offcanvas row-offcanvas-left">
+            <!-- Left side column. contains the logo and sidebar -->
+            <aside class="left-side sidebar-offcanvas">                
+                <!-- sidebar: style can be found in sidebar.less -->
+                <section class="sidebar">
+                    <!-- Sidebar user panel -->
+                    <div class="user-panel">
+                        <div class="pull-left image">
+                            <img src="/static/img/avatar3.png" class="img-circle" alt="User Image" />
+                        </div>
+                        <div class="pull-left info">
+                            <p>Hello</p>
+
+                            <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                        </div>
+                    </div>                   
+                    <!-- sidebar menu: : style can be found in sidebar.less -->
+
+                    <ul class="sidebar-menu">
+                        <li >
+                            <a href="dashboard.html">
+                                <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+                            </a>
+                        </li>    
+                        <li class="active">
+                            <a href="network.html">
+                                <i class="fa fa-bar-chart-o"></i> <span>Network</span>
+                            </a>
+                        </li>                        
+                        <li>
+                            <a href="vlan.html">
+                                <i class="fa fa-th"></i> <span>VLAN Setting</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="qos.html">
+                                <i class="fa fa-calendar"></i> <span>QoS Setting</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="firewall.html">
+                                <i class="fa fa-envelope"></i> <span>Firewall Setting</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="system.html">
+                                <i class="fa fa-laptop"></i> <span>System</span>
+                            </a>
+                        </li>                        
+                    </ul>
+                </section>
+                <!-- /.sidebar -->
+            </aside>
+
+            <!-- Right side column. Contains the navbar and content of the page -->
+            <aside class="right-side">  
+
+                <!-- Content Header (Page header) -->
+                <section class="content-header">
+                    <h1>
+                        Network Setting
+                        <small>Control panel</small>
+                    </h1>
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                        <li class="active">Network Setting</li>
+                    </ol>
+                </section>
+
+
+                <!-- Main content -->
+                <section class="content">
+                    <!--wan setting-->
+                    <h4 class="page-header">
+                        WAN Setting
+                        <small>Configuration WAN setting to make the router connect to Internet</small>
+                    </h4>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="box box-info">
+                                <div class="box-header">
+                                    <h3 class="box-title">WAN Setting</h3>
+                                    <div class="box-tools pull-right">
+                                        <button class="btn btn-primary btn-xs refresh-btn" title="" data-toggle="tooltip" data-original-title="Reload"><i class="fa fa-refresh"></i></button>
+                                    </div>
+                                </div>
+                                <form role="form" class="form-horizontal">
+                                    <div class="box-body">                                    
+                                        <div class="form-group" >
+                                            <label for="wanusername" class="col-sm-3 control-label">WAN Type</label>
+                                            <div class="col-sm-9">
+                                                <select class="form-control" id="wan_type" onchange=wan_type_check(this.value)>
+                                                    <option value=1 selected="selected">PPPoE</option>
+                                                    <option value=2>DHCP</option>
+                                                    <option value=3>Static</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group" id="form_user_name">
+                                            <label for="wanusername" class="col-sm-3 control-label">User Name</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="wanusername" placeholder="User Name">
+                                            </div>
+                                        </div>
+                                        <div class="form-group" id="form_password">
+                                            <label for="wanpassword" class="col-sm-3 control-label">Password</label>
+                                            <div class="col-sm-9">
+                                                <input type="password" class="form-control" id="wanpassword" placeholder="Password">
+                                            </div>
+                                        </div>
+                                        <div class="form-group" id="form_pppoemtu">
+                                            <label for="pppoemtu" class="col-sm-3 control-label">PPPoE MTU</label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control" id="pppoemtu" type="text" placeholder="example: 1500">
+                                            </div>
+                                        </div>
+                                        <div class="form-group" id="form_pppoe_dns">
+                                            <label for="pppoe_dns" class="col-sm-3 control-label">PPPOE DNS</label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control" id="pppoe_dns" type="text" data-mask="" data-inputmask="'alias': 'ip'">
+                                            </div>
+                                        </div>
+                                        <div class="form-group" id="form_pppoe_alternate_dns">
+                                            <label for="pppoe_alternate_dns" class="col-sm-3 control-label">PPPOE Alternate DNS</label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control" id="pppoe_alternate_dns" type="text" data-mask="" data-inputmask="'alias': 'ip'">
+                                            </div>
+                                        </div>
+                                        <!--dhcp-->
+                                        <div class="form-group" style="display: none" id="form_dhcpmtu">
+                                            <label for="dhcpmtu" class="col-sm-3 control-label"> DHCP MTU</label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control" id="dhcpmtu" type="text" placeholder="example: 1500">
+                                            </div>
+                                        </div>
+                                        <div class="form-group" id="form_dhcp_dns">
+                                            <label for="dhcp_dns" class="col-sm-3 control-label">DHCP DNS</label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control" id="dhcp_dns" type="text" data-mask="" data-inputmask="'alias': 'ip'">
+                                            </div>
+                                        </div>
+                                        <div class="form-group" id="form_dhcp_alternate_dns">
+                                            <label for="dhcp_alternate_dns" class="col-sm-3 control-label">dhcp Alternate DNS</label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control" id="dhcp_alternate_dns" type="text" data-mask="" data-inputmask="'alias': 'ip'">
+                                            </div>
+                                        </div>
+                                        <!--static wan-->
+                                        <div class="form-group"  style="display: none"  id="form_ip">
+                                            <label for="staticipaddr" class="col-sm-3 control-label">IP Address</label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control" id="staticipaddr" type="text" data-mask="" data-inputmask="'alias': 'ip'">
+                                            </div>
+                                        </div>
+                                        <div class="form-group" style="display: none" id="form_staticsubnet">
+                                            <label for="staticsubnet" class="col-sm-3 control-label">Subnet Mask</label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control" id="staticsubnet" type="text" data-mask="" data-inputmask="'alias': 'ip'">
+                                            </div>
+                                        </div>
+                                        <div class="form-group" style="display: none" id="form_staticgateway">
+                                            <label for="staticgateway" class="col-sm-3 control-label">Default Gateway</label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control" id="staticgateway" type="text" data-mask="" data-inputmask="'alias': 'ip'">
+                                            </div>
+                                        </div>    
+                                        <div class="form-group" style="display: none" id="form_staticmtu">
+                                            <label for="staticmtu" class="col-sm-3 control-label">static MTU</label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control" id="staticmtu" type="text" placeholder="example: 1500">
+                                            </div>
+                                        </div>
+                                        <div class="form-group"  id="form_staticdns">
+                                            <label for="staticdns" class="col-sm-3 control-label">static DNS</label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control" id="staticdns" type="text" data-mask="" data-inputmask="'alias': 'ip'">
+                                            </div>
+                                        </div>
+                                        <div class="form-group"  id="form_staticalternatedns">
+                                            <label for="staticalternatedns" class="col-sm-3 control-label">static Alternate DNS</label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control" id="staticalternatedns" type="text" data-mask="" data-inputmask="'alias': 'ip'">
+                                            </div>
+                                        </div>                                        
+                                        <!--end static wan-->
+                                    </div>                                    
+                                    <div class="box-footer">
+                                        <input type="button" class="btn btn-primary" value="Submit" onclick="submit_wan_setting()">
+                                    </div>
+                                </form>
+                                <div class="overlay" style="display: none" id="wan_setting_load"></div>
+                                <div class="loading-img" style="display: none" id="wan_setting_load_img"></div>
+                            </div><!-- /.box -->                        
+                        </div>
+                        <!--end wan setting-->
+                    </div>
+
+                    <h4 class="page-header">
+                        LAN Setting
+                        <small>Configurate LAN IP address and DHCP Server pool </small>
+                    </h4>
+                    <div class="row">
+                        <!--lan setting-->
+                        <div class="col-md-6">
+                            <div class="box box-warning">
+                                <div class="box-header">
+                                    <h3 class="box-title">LAN Setting</h3>
+                                </div>
+                                <form role="form" class="form-horizontal">
+                                    <div class="box-body">   
+                                        <div class="form-group" >
+                                            <label for="lan_ip" class="col-sm-3 control-label">LAN IP Address</label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control" id="lan_ip" type="text" data-mask="" data-inputmask="'alias': 'ip'">
+                                            </div>
+                                        </div>
+                                        <div class="form-group" >
+                                            <label for="lan_subnet"  class="col-sm-3 control-label">LAN Subnet Mask</label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control" id="lan_subnet" type="text" data-mask="" data-inputmask="'alias': 'ip'">
+                                            </div>
+                                        </div>                                        
+                                        <!--end LAN setting-->
+                                    </div>
+                                </form>
+                                <div class="box-header">
+                                    <h3 class="box-title">DHCP Server Setting</h3>
+                                </div>
+                                <form role="form" class="form-horizontal">
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                            <label for="enable_dhcp_ser" class="col-sm-3 control-label">Enable DHCP Server</label>
+                                            <div class="col-sm-9">
+                                                <input type="checkbox" id="enable_dhcp_ser" >
+                                            </div>
+                                        </div>
+                                        <div class="form-group"  id="form_dhcp_ip_start">
+                                            <label for="dhcp_ser_ip_start" class="col-sm-3 control-label">DHCP IP start</label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control" id="dhcp_ser_ip_start" type="text" data-mask="" data-inputmask="'alias': 'ip'">
+                                            </div>
+                                        </div>
+                                        <div class="form-group"  id="form_dhcp_ser_ip_end">
+                                            <label for="dhcp_ser_ip_end" class="col-sm-3 control-label">DHCP IP end</label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control" id="dhcp_ser_ip_end" type="text" data-mask="" data-inputmask="'alias': 'ip'">
+                                            </div>
+                                        </div>
+                                        <div class="form-group" id="form_leasetime">
+                                            <label for="leasetime" class="col-sm-3 control-label">Lease Time</label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control" id="leasetime" type="text" placeholder="example: 86400">
+                                            </div>
+                                        </div>
+                                        <div class="form-group"  id="form_dhcp_ser_gateway">
+                                            <label for="dhcp_ser_gateway" class="col-sm-3 control-label">Gateway IP</label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control" id="dhcp_ser_gateway" type="text" data-mask="" data-inputmask="'alias': 'ip'">
+                                            </div>
+                                        </div>
+                                        <div class="form-group"  id="form_dhcp_ser_dns">
+                                            <label for="dhcp_ser_dns" class="col-sm-3 control-label">DHCP Server DNS</label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control" id="dhcp_ser_dns" type="text" data-mask="" data-inputmask="'alias': 'ip'">
+                                            </div>
+                                        </div>
+                                        <div class="form-group"  id="form_dhcp_ser_alternatedns">
+                                            <label for="dhcp_ser_alternatedn" class="col-sm-3 control-label">DHCP Server Alternate DNS</label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control" id="dhcp_ser_alternatedn" type="text" data-mask="" data-inputmask="'alias': 'ip'">
+                                            </div>
+                                        </div>
+                                        <!--end LAN setting-->
+                                    </div>
+                                    <div class="box-footer">
+                                        <input type="button" class="btn btn-primary" value="Submit" onclick="submit_lan_setting()">
+                                    </div>                                    
+                                </form>
+                                <form>
+                                    <div class="box-body">
+                                        <div class="form-group">                                                
+                                            <label class="text-aqua">Note:</label>
+                                            <ul>
+                                                <li class="text-aqua">The DHCP Server IP range is 172.16.20.2~172.16.20.254</li>
+                                                <li class="text-aqua">If you do not input DHCP Server gateway address, its default value is LAN IP</li>
+                                                <li class="text-aqua">If you do not input DHCP Server DNS, its default value is DHCP Server gateway address</li>
+                                            </ul>
+                                        </div>                                        
+                                    </div>
+                                </form>
+                                <div class="overlay" style="display: none" id="lan_setting_load"></div>
+                                <div class="loading-img" style="display: none" id="lan_setting_load_img"></div>
+                            </div>
+                        </div>
+                        <!--end lan setting-->
+                    </div>
+                    
+                    
+                    <h4 class="page-header">
+                        Static IP Binding
+                        <small>Bind static IP for certain terminal </small>
+                    </h4>
+
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div class="box">
+                                <div class="box-header">
+                                    <h3 class="box-title">Static IP Binding</h3>
+                                    <div class="box-tools pull-right">
+                                        <div class="input-group">
+                                            <input type="button" value="&nbsp&nbsp Add &nbsp&nbsp" class="btn btn-primary btn-sm" onclick="add_static_bind_ip()">
+                                        </div>
+                                    </div>
+                                </div><!-- /.box-header -->
+                                <div class="box-body table-responsive no-padding">
+                                    <table class="table table-hover table-bordered">
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>MAC</th>
+                                            <th>IP</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        <tr>
+                                            <td>CEO PC</td>
+                                            <td>19:19:19:11</td>
+                                            <td>1.12.215.21</td>
+                                            <td><input type="button" value="Delete" class="btn btn-danger btn-sm" onclick="add_static_bind_ip(1)"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>CEO PC</td>
+                                            <td>19:19:19:11</td>
+                                            <td>1.12.215.21</td>
+                                            <td><input type="button" value="Delete" class="btn btn-danger btn-sm" onclick="add_static_bind_ip(2)"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>CEO PC</td>
+                                            <td>19:19:19:11</td>
+                                            <td>1.12.215.21</td>
+                                            <td><input type="button" value="Delete" class="btn btn-danger btn-sm" onclick="add_static_bind_ip(3)"></td>
+                                        </tr>
+                                    </table>
+                                </div><!-- /.box-body -->
+                            </div><!-- /.box -->
+                        </div>
+                    </div>
+                    
+                
+
+
+
+
+                </section><!-- /.content -->  
+
+            </aside><!-- /.right-side -->
+        </div><!-- ./wrapper -->
+
+
+        <!-- jQuery 2.0.2 -->
+        <!--script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script-->
+        <script src="/static/js/jquery/2.1.4/jquery.min.js"></script>
+
+        <!-- InputMask -->
+        <script src="/static/js/plugins/input-mask/jquery.inputmask.js" type="text/javascript"></script>
+        <script src="/static/js/plugins/input-mask/jquery.inputmask.date.extensions.js" type="text/javascript"></script>
+        <script src="/static/js/plugins/input-mask/jquery.inputmask.extensions.js" type="text/javascript"></script>
+
+
+        <!-- Bootstrap -->
+        <script src="/static/js/bootstrap.min.js" type="text/javascript"></script>
+        <!-- AdminLTE App -->
+        <script src="/static/js/AdminLTE/app.js" type="text/javascript"></script>
+
+
+        <script type="text/javascript">
+                                            $(function () {
+                                                //Datemask dd/mm/yyyy
+                                                $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+                                                //Datemask2 mm/dd/yyyy
+                                                $("#datemask2").inputmask("mm/dd/yyyy", {"placeholder": "mm/dd/yyyy"});
+                                                //Money Euro
+                                                $("[data-mask]").inputmask();
+                                                //Date range picker
+                                                /*
+                                                 $('#reservation').daterangepicker();
+                                                 //Date range picker with time picker
+                                                 $('#reservationtime').daterangepicker({timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY h:mm A'});
+                                                 //Date range as a button
+                                                 $('#daterange-btn').daterangepicker(
+                                                 {
+                                                 ranges: {
+                                                 'Today': [moment(), moment()],
+                                                 'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
+                                                 'Last 7 Days': [moment().subtract('days', 6), moment()],
+                                                 'Last 30 Days': [moment().subtract('days', 29), moment()],
+                                                 'This Month': [moment().startOf('month'), moment().endOf('month')],
+                                                 'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+                                                 },
+                                                 startDate: moment().subtract('days', 29),
+                                                 endDate: moment()
+                                                 },
+                                                 function (start, end) {
+                                                 $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+                                                 }
+                                                 );
+                                                 */
+                                                /*
+                                                 //Colorpicker
+                                                 $(".my-colorpicker1").colorpicker();
+                                                 //color picker with addon
+                                                 $(".my-colorpicker2").colorpicker();
+                                                 */
+                                                /*
+                                                 //Timepicker
+                                                 $(".timepicker").timepicker({
+                                                 showInputs: false
+                                                 });*/
+                                            }
+                                            );
+        </script>
+
+
+    </body>
+</html>

@@ -1,0 +1,87 @@
+#!/bin/sh
+
+CONFIGS="/etc/openvpn/clients.conf /etc/openvpn/clients-tcp.conf"
+TIMESTAMP=`date "+%b-%d-%Y-%T"`
+
+# Create dh1024.pem if one does not exist
+#----------------------------------------
+
+if [ ! -e /etc/openvpn/ssl/dh1024.pem ]; then
+    openssl dhparam -out /etc/openvpn/ssl/dh1024.pem 1024 >/dev/null 2>&1
+fi
+
+# PAM check
+#----------
+
+CHECK=`grep clearos/openvpn.d /etc/pam.d/openvpn 2>/dev/null`
+if [ -z "$CHECK" ]; then
+    logger -p local6.notice -t installer "app-openvpn-core - applying PAM configuration"
+    [ -e /etc/pam.d/openvpn ] && cp /etc/pam.d/openvpn /var/clearos/openvpn/backup/openvpn.pam.$TIMESTAMP
+    cp /usr/clearos/apps/openvpn/deploy/openvpn.pam /etc/pam.d/openvpn
+fi
+
+# Cleanup
+#--------
+
+CHECK=`grep "^cert /etc/openvpn/ssl/server.crt" /etc/openvpn/clients.conf 2>/dev/null`
+if [ -n "$CHECK" ]; then
+    sed -i -e 's/^cert \/etc\/openvpn\/ssl\/server.crt.*/cert \/etc\/pki\/CA\/sys-0-cert.pem/' /etc/openvpn/clients.conf
+fi
+
+CHECK=`grep "^key /etc/openvpn/ssl/server.key" /etc/openvpn/clients.conf 2>/dev/null`
+if [ -n "$CHECK" ]; then
+    sed -i -e 's/^key \/etc\/openvpn\/ssl\/server.key/key \/etc\/pki\/CA\/private\/sys-0-key.pem/' /etc/openvpn/clients.conf
+fi
+
+# Plugin file name change
+#------------------------
+
+for CONFIG in $CONFIGS; do
+    CHECKOLD=`grep "^plugin[[:space:]].*openvpn-auth-pam.so" $CONFIG`
+    if [ -n "$CHECKOLD" ]; then
+        logger -p local6.notice -t installer "app-openvpn-core - upgrading plugin path in $CONFIG"
+        sed -i -e "s/^plugin.*openvpn-auth-pam.so.*/plugin \/usr\/lib64\/openvpn\/plugins\/openvpn-plugin-auth-pam.so openvpn/" $CONFIG
+    fi
+done
+
+# Check arch for annoying lib64 path name in config file
+#-------------------------------------------------------
+
+for CONFIG in $CONFIGS; do
+    if [ `/bin/arch` == "x86_64" ]; then
+        CHECK=`grep "^plugin[[:space:]]/usr/lib/openvpn/" $CONFIG`
+        if [ -n "$CHECK" ]; then
+            logger -p local6.notice -t installer "app-openvpn-core - updating plugin path to 64-bit"
+            sed -i -e 's/^plugin[[:space:]]*\/usr\/lib\/openvpn/plugin \/usr\/lib64\/openvpn/' $CONFIG
+        fi
+    else
+        CHECK=`grep "^plugin[[:space:]]/usr/lib64/openvpn/" $CONFIG`
+        if [ -n "$CHECK" ]; then
+            logger -p local6.notice -t installer "app-openvpn-core - updating plugin path to 32-bit"
+            sed -i -e 's/^plugin[[:space:]]*\/usr\/lib64\/openvpn/plugin \/usr\/lib\/openvpn/' $CONFIG
+        fi
+    fi
+done
+
+# Update ifconfig-pool-persist parameter (tracker #822)
+#------------------------------------------------------
+
+for CONFIG in $CONFIGS; do
+    CHECK=`grep "^ifconfig-pool-persist.*ipp.txt$" $CONFIG`
+    if [ -n "$CHECK" ] ; then
+        logger -p local6.notice -t installer "app-openvpn-core - updating ifconfig-pool-persist time: $CONFIG"
+        sed -i -e 's/^ifconfig-pool-persist.*/ifconfig-pool-persist \/var\/lib\/openvpn\/ipp.txt 120/' $CONFIG
+    fi
+done
+
+CHECK=`grep "^ifconfig-pool-persist /var/lib/openvpn/ipp.txt" /etc/openvpn/clients-tcp.conf 2>/dev/null`
+if [ -n "$CHECK" ]; then
+    logger -p local6.notice -t installer "app-openvpn-core - updating ifconfig-pool-persist filename for TCP"
+    sed -i -e 's/^ifconfig-pool-persist \/var\/lib\/openvpn\/ipp.txt/ifconfig-pool-persist \/var\/lib\/openvpn\/ipp-tcp.txt/' /etc/openvpn/clients-tcp.conf
+    /sbin/service openvpn restart >/dev/null 2>&1
+fi
+
+# Sync action: updates configuration using clearsync hook
+#--------------------------------------------------------
+
+/var/clearos/events/network_configuration/openvpn

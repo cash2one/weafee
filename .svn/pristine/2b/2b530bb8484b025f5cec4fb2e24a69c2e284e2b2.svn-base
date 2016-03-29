@@ -1,0 +1,16 @@
+# Section "Device"
+#	Identifier  "Card0"
+#	Driver      "vesa"
+#	BusID       "PCI:0:2:0"
+# EndSection
+
+Section "Screen"
+    Identifier    "Default Screen"
+    Monitor        "Configured Monitor"
+    Device        "Configured Video Device"
+    DefaultDepth    24
+    Subsection "Display"
+        Depth       24
+        Modes       "800x600" "640x480"
+       EndSubsection
+EndSection

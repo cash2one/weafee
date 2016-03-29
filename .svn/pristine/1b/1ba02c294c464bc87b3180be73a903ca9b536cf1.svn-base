@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html class=" js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients no-cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths" style=""><head>
+        <title>南京皮孚网络科技有限公司，智能网关广告专家</title>
+        <meta name="description" content="广告网关,认证网关,portal,软路由,广告路由器,营销系统,江苏南京">
+
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta http-equiv="content-language" content="en">
+
+        <link rel="canonical" href="http://www.withfi.com">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+        <!--
+        <link rel="icon" type="image/png" sizes="32x32" href="http://7xidx4.com1.z0.glb.clouddn.com//assets_cdn_10/images/favicon.png" /> -->
+
+        <link rel="shortcut icon" href="logo-zh-small-2.png" type="image/x-icon">
+        <link rel="icon" href="logo-zh-small-2.png" type="image/x-icon">
+
+        <!--<link type="text/css" rel="stylesheet" href="css/font.css"/> -->
+        <!--script src="analytics.js" async=""></script><script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+            ga('create', 'UA-29401176-14', 'thinkyeah.com');
+            ga('send', 'pageview');
+        </script-->
+
+
+        <link rel="stylesheet" href="template/bootstrap/3.3.5/css/bootstrap.min.css" media="all" type="text/css">     
+
+
+        <script type="application/javascript" src="template/js/jquery-2.js"></script>
+        <script type="application/javascript" src="template/js/jquery_003.js"></script>
+        <script type="application/javascript" src="template/js/jquery_002.js"></script>
+
+        <script type="application/javascript" src="template/js/index.js"></script>
+        <script type="application/javascript" src="template/js/transition.js"></script>
+
+
+        <link rel="stylesheet" href="template/css/home.css" media="all" type="text/css">
+        <!--<link rel="stylesheet" href="http://7xidx4.com1.z0.glb.clouddn.com//assets_cdn_10/css/jobs.css" media="all" type="text/css"> -->
+
+        <link rel="stylesheet" href="template/css/nivo-lightbox.css" type="text/css">
+        <link rel="stylesheet" href="template/css/default.css" type="text/css">
+
+        <!--
+                <script type="application/javascript" src="template/js/jquery.js"></script>
+        -->
+        <script src="template/js/jquery.js" type="text/javascript" charset="utf-8"></script>
+        <script src="template/js/nivo-lightbox.js"></script>
+        <script src="template/js/scroll.js"></script>
+        <script type="application/javascript" src="template/js/modernizr.js"></script>
+        <script type="application/javascript" src="template/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <!--
+        <style>
+            .label-primary {
+                background-color: #428bca;
+            }
+            .label-success {
+                background-color: #5cb85c;
+            }
+            .label-info {
+                background-color: #5bc0de;
+            }
+            .label-warning {
+                background-color: #f0ad4e;
+            }
+            .label-success {
+                background-color: #5cb85c;
+            }
+            .label {
+                border-radius: 0.25em;
+                color: #fff;
+                display: inline;
+                font-size: 75%;
+                font-weight: bold;
+                line-height: 1;
+                padding: 0.2em 0.6em 0.3em;
+                text-align: center;
+                vertical-align: baseline;
+                white-space: nowrap;
+            }
+        </style>
+        -->
+    </head>
+
+    <body>
+        <div id="body">
+            <div id="full-width-container">
+                <div style="height: 741px;" id="header">
+                    <nav>
+                        <div style="background-color: rgba(255, 255, 255, 0.624);" id="desktop" class="topMenu">
+                            <ul id="menu-items" class="left">
+                                <li>
+                                    <a href="http://www.withfi.com">
+                                        <div class="table-cell imgholder item">
+                                            <img class="inversion" src="template/index/Shape_15.png" style="position: absolute; opacity: 0.377868;" alt="">
+                                            <img src="template/index/HeaderShape15.png" alt="">
+                                        </div>
+                                    </a> 
+                                </li>
+                                <li style="color: rgb(96, 191, 223);" class="button animateBtn">
+                                    <a href="#intro" title="">产品简介</a>
+                                </li>
+                                <li style="color: rgb(96, 191, 223);" class="button animateBtn">
+                                    <a href="#ad">广告演示</a>
+                                </li>
+                                
+                                <li style="color: rgb(96, 191, 223);" class="button animateBtn">
+                                    <a href="#coretech">核心实力</a>
+                                </li>
+
+                                <li style="color: rgb(96, 191, 223);" class="button animateBtn">
+                                    <a href="#profit">利润空间</a>
+                                </li>
+
+                                <li style="color: rgb(96, 191, 223);" class="button animateBtn">
+                                    <a href="#taobao">淘宝商城</a>
+                                </li>
+
+                                <li style="color: rgb(96, 191, 223);" class="button animateBtn">
+                                    <a href="#contact_us">联系我们</a>
+                                </li>
+                                <li style="color: rgb(96, 191, 223);" class="button animateBtn">
+                                    <a href="contact_us.html">了解我们</a>
+                                </li>
+                            </ul>
+                            <div class="right">                
+                                <div class="button animateBtn item">
+                                    <a href="http://admin.withfi.com/report" >
+                                        <div id="signup" class="transition-button">
+                                            登陆路由管理云后台
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="mobile" class="topMenu">
+                            <ul id="menu-items">
+                                <li><a href="http://www.withfi.com"><div>主页</div></a></li>
+                                <li><a href="#intro" onclick="$('.topMenu').toggleClass('open')">产品简介</a></li>
+                                <li><a href="#ad" onclick="$('.topMenu').toggleClass('open')">广告演示</a></li>
+                                <li><a href="#coretech" onclick="$('.topMenu').toggleClass('open')">核心实力</a></li>
+                                <li><a href="#profit" onclick="$('.topMenu').toggleClass('open')">利润空间</a></li>
+                                <li><a href="#taobao" onclick="$('.topMenu').toggleClass('open')">淘宝商城</a></li>
+                                <li><a href="#contact_us" onclick="$('.topMenu').toggleClass('open')">联系我们</a></li>
+                                <li><a href="contact_us.html" onclick="$('.topMenu').toggleClass('open')">了解我们</a></li>
+                            </ul>
+                            <div id="menu-head">
+                                <span><img id="logo" src="template/index/HeaderShape15.png"><span>withfi.com</span></span>
+                                <span id="toggle" onclick="$('.topMenu').toggleClass('open')"></span>
+                            </div>
+                        </div>
+                    </nav>
+                    <!--
+                    <script>
+                        $(function () {                        });
+                    </script>
+                    -->
+                    <div id="homer-gallery">
+                        <div class="slide" id="first">
+                            <!--
+                            <video preload="auto" loop autobuffer poster="">
+                                <source src="http://static.thinkyeah.com/newsite/videos/bike_drive-mpeg4.mp4" type="video/mp4">
+                                <source src="http://static.thinkyeah.com/newsite/videos/bike_drive-ogg.ogv" type="video/ogg">
+                            </video> -->
+                            <img style="width: 1460px; height: 778.667px;" src="template/index/smartlock_slide_bg.jpg" alt="">
+
+                            <div style="margin-bottom: 520.5px;" class="cover-text">
+                                <div class="cover-title font-ultra-light"><span>唯飞路由广告系统</span></div>
+                                <div class="cover-desc font-bold">用户通过唯飞网关路由上网，上网途中，路由器持续向其浏览的网页、App中推送广告，唯飞广告团队负责路由器广告投送，您负责路由器安装铺设</div>
+                            </div>
+                            <div class="cover-image"></div>
+                        </div>
+                        <div class="slide" id="second">
+                            <img style="width: 1460px; height: 778.667px;" src="template/index/galleryvault_slide_bg.jpg" alt="">
+
+                            <div style="margin-bottom: 520.5px;" class="cover-text">
+                                <div class="cover-title font-ultra-light">完美的广告体验</div>
+                                <div class="cover-desc font-bold">路由器推送的广告与网页、App界面完美融合，用户无法察觉广告来自于路由器，不打扰用户上网体验</div>
+                            </div>
+                            <div class="cover-image"></div>
+                        </div>
+                        <div class="slide active" id="third">
+                            <img style="width: 1460px; height: 778.667px;" src="template/index/privatespace_slide_bg.jpg" alt="">
+
+                            <div style="margin-bottom: 520.5px;" class="cover-text">
+                                <div class="cover-title font-ultra-light">丰富的路由网关产品线</div>
+                                <div class="cover-desc font-bold">唯飞R200、R400、R600型号三层路由网关，满足200、400、600人场所同时上网需求</div>
+                            </div>
+                            <div class="cover-image"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section3 home-blocks-2" id="intro">
+                    <div class="inner-container">
+                        <div class="image-part">
+                            <img class="image" src="template/index/gateways.png" alt="">
+                            <div class="gradient"></div>
+                        </div>
+                        <div class="text-part">
+                            <h2 class="title">什么是唯飞网关路由器 </h2>
+                            <div class="text">
+                                <ul style="list-style: circle">
+                                    <li>唯飞网关路由器是商用网关级别路由器</li>
+                                    <li>用户使用该网关路由器上网时，路由器 <span style="color:#0099cc;font-size:20pt">持续</span> 向其浏览的网页、手机App中植入广告，为您赚取广告利润</li>
+                                    <li>路由网关销售利润全部属于您，唯飞团队为您运营广告，广告利润与您按比例分成！</li>
+                                </ul>      
+                            </div>
+                            <div class="mobile-padding">
+                                <!--
+                                <a href="#" data-toggle="modal" data-target="#myModalstorage" class='disabled'>
+                                    <div class="small-button"> 查看路由网关型号</div>
+                                </a>
+                                -->
+                                <a href="solution.html" >
+                                    <div class="small-button"> 查看网关型号</div>
+                                </a>
+                                <a href="solution.html" >
+                                    <div class="small-button"> 查看组网案例</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section3 home-blocks-3" id="ad">
+                    <div class="inner-container reverse-content-flow">
+                        <div class="image-part">
+                            <img src="template/index/iapplock_intro.png" alt="">
+                            <div class="gradient"></div>
+
+                        </div>
+                        <div class="text-part">
+                            <h2 class="title">  路由器广告如何推送  </h2>
+                            <div class="text">
+                                <ul style="list-style: circle">
+                                    <li>用户上网途中，路由器推送的广告， <span style="color:#0099cc;font-size:20pt">持续出现</span> 在其浏览的网页、App中，用户浏览网页、App越多，时间越长，广告展示次数越多</li>
+                                    <li>路由器向电脑、Ipad、手机App、网页中推送广告形式多样，广告条、应用下载、淘宝、京东商品展示等等，应有尽有，</li>
+                                    <li>广告与APP、网页完美融合，推送方式隐蔽,不打扰上网体验，上网者无法感知广告来自唯飞网关路由器</li>
+                                    <li>路由器广告推送功能，支持远程开启、关闭，让您远离售后烦恼</li>
+									<li>更多广告样例，请联系我们获取</li>
+                                </ul>
+                            </div>
+                            <a href="addemo.html" >
+                                <div class="blue-text font-bold">广告效果演示视频</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section3 home-blocks-3" id="coretech">
+                    <div class="inner-container">
+                        <div class="image-part">
+                            <img src="template/index/15.png" alt="">
+                            <div class="gradient"></div>
+                        </div>
+                        <div class="text-part">
+                            <h2 class="title">  核心实力  </h2>
+                            <div class="text">
+                                <ul style="list-style: circle">
+                                    <li>AC云端化，唯飞路由器工作状态云端可视，广告推送功能支持远程开关，广告收益云端可查</li>
+                                    <li>内核态七层SDPI技术，内核中实现网页、App广告植入，对网速零影响</li>
+                                    <li>内核态净荷特征匹配技术，支持GB级别数据吞吐，网络数据包线速转发</li>
+                                    <li>CDN自组织技术，全球的唯飞网关路由，自动组成CDN网络，广告文件从云端同步至路由器固态硬盘，实现内网级加速功能</li>
+                                    <li>六重安全防护体系，防病毒、防木马、防劫持、防钓鱼、防蹭网</li>
+                                    <li>丰富产品线，唯飞各型号网关，满足各类场所设备安装需求</li>
+                                    <li>广告DSP运营团队专业化，为您 7x24 小时创造利益</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+
+                <div class="section3 home-blocks-4" id="profit">
+                    <div class="inner-container reverse-content-flow">
+                        <div class="image-part">
+                            <img src="template/index/13.png" alt="">
+                            <div class="gradient"></div>
+
+                        </div>
+                        <div class="text-part">
+                            <h2 class="title disable-word-wrapping">  市场规模、利润如何 </h2>
+                            <div class="text">
+                                <ul style="list-style: circle">
+                                    <li>中国市场每年网关路由器的销量超过一千万台</li>
+                                    <li>弱电、网络安装公司和系统集成公司，每年采购网关路由器接近 900万台</li>
+                                    <li>随便一个淘宝、京东店铺，每月零售 800台 网关路由器</li>
+                                    <li>商场、楼宇、住宅设备等网络工程安装订单如雪片一般</li>
+                                    <li>每台 网关路由器 每月 广告收入达到 300 - 2200元</li>
+                                </ul>  
+                            </div>
+
+                            <a title="影响广告收入的因素" data-container="body" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-html="true" 
+                               data-content="
+                               <ul>
+                               <li>每台网关路由器，上网的人数越多、时间越长，浏览网页和APP次数越多，广告展示次数就越多，收入越高</li>
+                               <li>部署、销售的网关路由器越多，广告展示次数就越多，收入越高</li>
+                               </ul>
+                               "
+                               ><div class="blue-text font-bold">如何估算每台路由器广告利润</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section3 home-blocks-5" id="solution">
+                    <div class="inner-container">
+                        <div class="image-part">
+                            <img src="template/index/4.png" alt="">
+                            <div class="gradient"></div>
+
+                        </div>
+                        <div class="text-part">
+                            <h2 class="title">谁适合这个商业模式</h2>
+                            <div class="text">
+                                <ul style="list-style: circle">
+                                    <li>弱电、网络工程公司</li>
+                                    <li>路由器生产工厂</li>
+                                    <li>淘宝、京东等路由器销售</li>
+                                </ul>
+                            </div>
+                            <!--
+                            <a href="">
+                                <div class="blue-text font-bold">了解更多</div>
+                            </a>
+                            -->
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="section3 home-blocks-6" id="xx">
+                    <div class="inner-container reverse-content-flow">
+                        <div class="image-part">
+                            <img src="template/index/waiter.png" alt="">
+                            <div class="gradient"></div>
+
+                        </div>
+                        <div class="text-part">
+                            <h2 class="title disable-word-wrapping">广告投送、运营</h2>
+                            <div class="text">
+                                <ul style="list-style: circle">
+                                    <li>唯飞网络，拥有完善的广告投送、运营团队，为您全程托管广告运营</li>
+                                    <li>广告招商、运营这种脏活累活请交给我们,您只需多卖路由器，坐收利润 </li>
+                                </ul> 
+                            </div>
+                            <a href="addemo.html" >
+                                <div class="blue-text font-bold">了解更多</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section3 home-blocks-7" id="11">
+                    <div class="inner-container">
+                        <div class="image-part">
+                            <img src="template/index/1.png" alt="">
+                            <div class="gradient"></div>
+
+                        </div>
+                        <div class="text-part">
+                            <h2 class="title">广告利润监管、分成</h2>
+                            <div class="text">
+                                <ul style="list-style: circle">
+                                    <li>网关路由器销售利润 全部归您所有</li>
+                                    <li>广告收益，唯飞网络与您按比例分成</li>
+                                    <li>所有设备、广告运营成本，唯飞网络承担</li>
+                                    <li>签订合作合同并交换双方公司三证复印件</li>
+                                    <li>专业广告运营后台，实时查询您名下路由器的广告盈利情况</li>
+                                    <li>利润每月结算一次，由我公司财务汇至您的指定账户</li> 
+                                    <li>需要您提供发票，若不能提供发票，我们会为您代扣所得税 6%</li>
+                                </ul> 
+                            </div>
+                            <a href="http://admin.withfi.com/report"  class='disabled'>
+                                <div class="blue-text font-bold">查看路由管理云后台</div>
+                            </a>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section3 home-blocks-6" id="taobao">
+                    <div class="inner-container reverse-content-flow">
+                        <div class="image-part">
+                            <img src="template/index/fatsuperman.png" alt="">
+                            <div class="gradient"></div>
+
+                        </div>
+                        <div class="text-part">
+                            <h2 class="title disable-word-wrapping">招募：合伙人</h2>
+                            <div class="text">
+                                <ul style="list-style: circle">
+                                    <li>您负责网关路由铺货、安装，我们负责技术维护、广告运营，广告利润按比例分成</li>
+                                    <li>我们为您准备了  <span class="label label-primary">唯飞  R200  型号 </span>  &nbsp 网关路由器供您安装测试，请点击下面按钮进入淘宝<br> 
+                                        <span class="label label-primary">每台899元押金</span>
+                                        <span class="label label-success">淘宝交易</span>
+                                        <span class="label label-info">15天包退</span>
+                                        <span class="label label-warning">30天包换</span>
+                                        <span class="label label-success">顺丰发货</span>
+                                    </li>
+                                </ul> 
+                            </div>
+
+                            <a href="https://item.taobao.com/item.htm?id=37160666997" >
+                                <div class="small-button">进入淘宝获取样机</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="section3 home-blocks-6" id="contact_us">
+                    <div class="inner-container">
+                        <div class="image-part">
+                            <img src="template/index/2.png" alt="">
+                            <div class="gradient"></div>
+
+                        </div>
+                        <div class="text-part">
+                            <h2 class="title disable-word-wrapping">联系我们</h2>
+                            <div class="text">
+                                <ul style="list-style: circle">
+                                    <li>QQ:    1068659321 孟经理</li>
+                                    <li>Email: hey@withfi.com</li>
+                                    <li>Addr:  江苏 南京 软件大道 花神科技园2栋</li>
+                                </ul>   
+                            </div>
+                            <div class="mobile-padding">
+                                <a href="contact_us.html" >
+                                    <div class="small-button">了解我们</div>
+                                </a>
+                                <a href="https://item.taobao.com/item.htm?id=37160666997" >
+                                    <div class="small-button">进入淘宝购买样机</div>
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+                <div id="section7" class="home-blocks-7">
+                    <div class="inner-container">
+                        <div class="content">
+                            <h2 class="title font-ultra-light"> 关于我们</h2>
+                            <div class="text font-bold"> 
+                                南京皮孚网络科技有限公司，是国内领先的 智能智能路由技术提供商<br>
+                                主营智能广告路由器、云服务器，研发、生产、定制、广告运营,
+                                核心产品 唯飞系列智能智能路由广告系统，是国内领先智能智能路由产品,
+                                我们为电信、移动运营商，及全国各大广告公司、微信公众号运营公司
+                                销售、定制、运维智能路由广告系统
+                            </div>
+                            <!--<div class="white-text">+ LEARN MORE ABOUT THINKYEAH</div> -->
+                            <div class="bottom-bar table">
+
+                                <div class="text-button font-bold">
+                                    <a href="contact_us.html">+ 了解更多</a>
+                                </div>
+
+                                <!--
+                                <div class="holder font-bold">
+                                    <div class="text-button">
+                                        <a href="https://www.youtube.com/watch?v=uIgW719D4AQ" rel="prettyPhoto" title="">
+                                            <img src="http://7xidx4.com1.z0.glb.clouddn.com//assets_cdn_10/images/home/playvid_white_small.png" alt=""/>WATCH THE VIDEO</a>
+                                    </div>
+                                </div> -->
+                            </div>
+                        </div>
+
+                        <!--
+                        <div class="content image-part"></div> -->
+
+                    </div>
+                </div>
+
+                <!--
+                <div id="section8" class="home-blocks-8">
+                    <div class="inner-container">
+                        <div class="content">
+                            <div class="title font-ultra-light">From the press...</div>
+                            <div>
+                                <img class="image" src="http://7xidx4.com1.z0.glb.clouddn.com//assets_cdn_10/images/thinkyeah/homepage_logos.png" alt=""/>
+                            </div>
+                        </div>
+                
+                    </div>
+                </div> -->
+
+
+                <footer>
+                    <div class="inner-container font-light">
+                        <div class="column mobile-hide">
+                            <div class="content">
+                                <!--
+                                <div class="logo">
+                                    <img src="http://7xidx4.com1.z0.glb.clouddn.com//assets_cdn_10/images/thinkyeah/HeaderShape15.png">
+                                </div> -->
+                                <div class="text-styling text font-bold logo">
+                                    © www.withfi.com &nbsp; <a href="http://www.miitbeian.gov.cn/">苏ICP备12065708号</a>                
+									</div>
+									<img src="/template/img/knet.png" style="width:47px;height:13px">
+                            </div>
+                        </div>
+                        <div class="column-wrapper">
+                            <div class="column title" style="font-size: 19px">
+                                <select name="languages" id="language-selector">
+
+                                    <option value="en">  English</option>
+                                    <option value="zh_cn" selected="selected"> 简体中文</option>
+                                </select>
+                            </div>
+                            <div class="column title mobile-show">
+                                <span>公司</span>
+                                <div class="ul show-on-mobile">
+                                    <div class="mobile-view">
+                                        <!--
+                                        <div class="li">
+                                            <a href="about/vision">Our Vision</a>
+                                        </div> -->
+                                        <div class="li">                                            关于                        </div>
+                                        <div class="li">                                            招聘                        </div>
+                                    </div>
+                                    <div class="mobile-view">
+                                        <div class="li">                                            常见问题                        </div>
+                                        <!--
+                                        <div class="li">
+                                            <a href="legal/privacy-policy">Privacy Policy</a>
+                                        </div>
+                                        <div class="li">
+                                            <a href="legal/app-license-agreement">Terms of Service</a>
+                                        </div>
+                                        -->
+
+                                        <div class="desktop-hide li">
+                                            <img src="template/index/HeaderShape15.png">
+                                            © www.withfi.com &nbsp; <a href="http://www.miitbeian.gov.cn/">苏ICP备13031700号-3</a>                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="column title mobile-hide">
+                                更多介绍
+                                <div class="ul">
+                                    <div class="li">
+                                        <a href=""></a>
+                                    </div>
+                                    <div class="li">
+                                        <a href=""></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column title mobile-hide">
+                                关注我们
+                                <div class="ul">
+                                    <div class="li">
+                                        <a href="mailto:hey@withfi.com">电子邮箱（hey@withfi.com）</a>
+                                    </div>
+                                    <div class="li">
+                                        <a href="#">微博</a>
+                                    </div>
+                                    <div class="li">
+                                        <a href="#">微信公众号</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+                <script>
+                    $('#language-selector').on('change', function () {
+                        var localeLang, val = $(this).val();
+
+                        if (val === 'zh_cn') {
+                            localeLang = 'zh_cn';
+                        } else {
+                            localeLang = 'en';
+                        }
+
+                        var currentHref = window.location.href;
+
+                        $.cookie("locale_lang", localeLang);
+
+                        window.location.href = currentHref;
+                    })
+                </script>
+                <script>
+                    $(function ()
+                    {
+                        $("[data-toggle='popover']").popover();
+                    });
+                </script>
+
+            </div>
+        </div>
+
+    </body></html>

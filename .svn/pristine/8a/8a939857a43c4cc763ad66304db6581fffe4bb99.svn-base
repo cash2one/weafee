@@ -1,0 +1,86 @@
+#!/usr/local/bin/python
+from urllib2 import Request, urlopen, URLError, HTTPError 
+from urllib import urlencode
+import re
+import json
+from collections import OrderedDict
+params = {'iqiyi': {
+                 'slotid': 100124,
+                 'aw': 896,
+		 'ah': 504,
+		 },
+          'tencent': {
+	         'slotid': 100149,
+                 'aw': 480,
+		 'ah': 272,
+		 },
+	}
+def dsp_bid(enable_dump=False, type='iqiyi'):
+    default_resp = False, '', '', [], 'local default'
+    parameters = OrderedDict()
+    parameters['slotid'] = params[type]['slotid']
+    parameters['aw'] = params[type]['aw']
+    parameters['ah'] = params[type]['ah']
+    parameters['adtype'] = 1
+    parameters['dt'] = 1
+    parameters['cr'] = 0
+    parameters['os'] = 'android'
+    parameters['osv'] = '4.1.2'
+    parameters['brand'] = 'xxxx'
+    parameters['model'] = 'xxxxx'
+    parameters['sw'] = 1280
+    parameters['sh'] = 720
+    parameters['did'] = 'xxxx'
+    parameters['uuid'] = 'xxxx'
+    parameters['ip'] = '192.168.1.254'
+    addr = '?'.join(('http://ad.test.rtbs.cn/ad', urlencode(parameters)))
+    req = Request(addr)
+    #req.add_header('Content-Type', 'application/x-www-form-urlencoded')
+    try: 
+        response = urlopen(req) 
+    except HTTPError, e: 
+        print "The server couldn't fulfill the request."
+        print 'Error code: ', e.code 
+	print default_resp[4]
+        return default_resp
+    except URLError, e: 
+        print 'We failed to reach a server.' 
+	print default_resp[4]
+        return default_resp
+    result = response.read()
+    response.close()
+    #print 'Response from server: %s' % (result,)
+    p = re.compile('{.+}')
+    meta = json.loads(p.search(result).group(0));
+    if enable_dump:
+        print("===Request===\n%s" % (json.dumps(parameters, indent=2),))
+        print("===Request Url===\n%s" % (addr))
+        print("===Response===\n%s" % (json.dumps(meta, indent=2),))
+    def retrieve_bid_result(x):
+        ret, creative_url, click_url, track_urls, src = default_resp
+        def bid_ok(x):
+            return x.has_key('creative_url') and x.has_key('click_monitor') and x.has_key('monitorurls')
+        if bid_ok(x):
+            creative_url = meta['creative_url']
+            click_url = meta['click_monitor']
+            track_urls = meta['monitorurls']
+	    src = 'success'
+	    print src
+            ret = True
+        else:
+            try:
+                default = json.loads(x['return_code'])
+                creative_url = default['creative_url']
+                click_url = default['click_monitor']
+                track_urls = default['monitorurls']
+	        src = 'server default'
+	        print src
+                ret = True
+            except:
+                pass
+        return ret, creative_url, click_url, track_urls, src
+
+    return retrieve_bid_result(meta)
+    #http://ad.test.rtbs.cn/ad?slotid=100124&aw=896&ah=504&adtype=1&dt=1&cr=0&nt=0&os=android&osv=4.1.2&brand=xxxx&model=xxxxx&sw=1280&sh=720&did=xxxx&uuid=xxxx&pn=xxxxx&ip=192.168.1.254
+    #                          slotid=100149&aw=896&ah=504&adtype=1&dt=1&cr=0&nt=0&os=android&osv=4.1.2&brand=xxxx&model=xxxxx&sw=1280&sh=720&did=xxxx&uuid=xxxx&ip=192.168.1.254
+

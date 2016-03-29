@@ -1,0 +1,27 @@
+start on runlevel [2345]
+stop on runlevel [06]
+
+env SERVICE_NAME=nginx
+env CHECK_INTERVAL=10
+env LOG_TAG=nginx-watchdog
+
+respawn
+respawn limit 10 100
+
+
+console output
+
+script
+    logger -t $LOG_TAG "start watchdog script for service: $SERVICE_NAME, check interval: $CHECK_INTERVAL"
+    while [ 1 ]
+    do
+         if ! (service $SERVICE_NAME status > /dev/null 2>&1)
+         then
+            logger -t $LOG_TAG "service($SERVICE_NAME) is not running, start it now. "
+            service $SERVICE_NAME start > /dev/null 2>&1 || true
+            logger -t $LOG_TAG  "return code: $?"
+         fi
+
+        sleep $CHECK_INTERVAL
+    done
+end script

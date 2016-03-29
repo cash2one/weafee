@@ -1,0 +1,17 @@
+#!/usr/local/bin/python
+import json
+from pprint import pprint
+from random import randint
+import re
+
+from libmproxy import filt
+from libmproxy.protocol.http import HTTPResponse
+from libmproxy.script import concurrent
+import time
+from sys import path
+path.append(r"/tmp/videos")
+from bid import dsp_bid
+(ret_ok, creative_url, click_url, track_urls, src) = dsp_bid(enable_dump=True, type='tencent')
+#print creative_url
+#print click_url
+#print track_urls

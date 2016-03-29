@@ -1,0 +1,9 @@
+db.access.group(
+{
+  "key": {"p":true},
+  "initial":{"count": 0},
+  "reduce":function(doc, prev){
+      prev.count = prev.count + 1;
+  }
+}
+)

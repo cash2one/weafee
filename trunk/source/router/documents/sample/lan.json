@@ -1,0 +1,23 @@
+{
+    "index": 1,
+    "name": "LAN",
+    "status": "enabled",
+    "phy_interface": ["eth1", "eth2", "eth3", "eth4", "eth5"],
+    "logic_interface": "br0",
+    "ipaddr": "172.16.20.1",
+    "natmask": "255.255.255.0",
+    "lan_dhcp_ena": "enabled",
+    "lan_ipstart": "172.16.20.100",
+    "lan_ipend": "172.16.20.250",
+    "leasetime": "86400",
+    "lan_gw_addr": "172.16.20.1",
+    "lan_dns1": "172.16.20.1",
+    "lan_dns2": "8.8.8.8",
+    "static_binding": "enabled",
+    "static_name1": "boss pc",
+    "static_mac1": "11:22:33:44:55:66",
+    "static_ip1": "172.168.20.123",
+    "static_name2": "CTO pc",
+    "static_mac2": "AA:BB:CC:DD:EE:FF",
+    "static_ip2": "172.168.20.124"
+}

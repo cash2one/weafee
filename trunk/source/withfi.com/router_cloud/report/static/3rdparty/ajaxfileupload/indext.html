@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+	<script type="text/javascript" src="./ajaxfileupload.js"></script>
+        <script>
+            jQuery(function () {
+                $("#buttonUpload").click(function () {
+                    //加载图标   
+                    /* $("#loading").ajaxStart(function(){
+                     $(this).show();
+                     }).ajaxComplete(function(){
+                     $(this).hide();
+                     });*/
+                    //上传文件
+                    $.ajaxFileUpload({
+                        url: 'ad/global_blacklist/upload_file', //处理图片脚本
+                        secureuri: false,
+                        fileElementId: 'fileToUpload', //file控件id
+                        dataType: 'json',
+                        success: function (data, status) {
+                            if (typeof (data.error) != 'undefined') {
+                                if (data.error != '') {
+                                    alert(data.error);
+                                } else {
+                                    alert(data.msg);
+                                }
+                            }
+                        },
+                        error: function (data, status, e) {
+                            alert(e);
+                        }
+                    })
+                    return false;
+                })
+            })
+        </script>
+        <div class="box-tools pull-left col-md-2">
+            <input id="fileToUpload" type="file" name="upfile" >
+            <button id="buttonUpload" class="btn btn-primary btn-sm">Upload</button>
+        </div>
+
+        <div>TODO write content</div>
+    </body>
+</html>

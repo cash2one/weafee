@@ -1,0 +1,59 @@
+'''
+Replace iqiyi video ads
+'''
+import json
+from pprint import pprint
+from random import randint
+import re
+
+from libmproxy import filt
+from libmproxy.protocol.http import HTTPResponse
+from netlib.odict import ODictCaseless
+
+with open('/etc/withfi/miwifi_toolbar_info.js', 'r') as f:
+    p = re.compile('{.+}')
+    s = f.read()
+    meta = json.loads( p.search(s).group(0));
+    params = '&'.join(["%s=%s" %(k,v) for k, v in meta.items()])
+
+fake_video = 'http://dev.10086.cn/videos/other/20151215/54/64/333.f4v?v=864201235'
+fake_click_url = 'http://www.baidu.com'
+filter_str = '~u api.cupid.iqiyi.com/mixer'
+track_url = '&'.join(('http://54.65.245.210/track/track.php?proj=iqiyi_video', params))
+
+def response(context, flow):
+    with open('./iqiyi.log', 'a') as f:
+        if flow.match(filt.parse(filter_str)):
+            f.write('\n')
+            f.write('-'*50)
+            f.write('\n')
+            f.write('find hj video\n')
+            # f.write(flow.response.content)
+            bid_mixer = json.loads(flow.response.content)
+            # f.write(json.dumps(bid_mixer, indent=2))
+            if bid_mixer.has_key('adSlots'):
+                f.write('start replace response')
+                for ad_solt in bid_mixer['adSlots']: 
+                    if ad_solt['type'] == 1:
+                        ad_solt['duration'] = str(len(ad_solt['ads']) * 15)
+                        for ad in ad_solt['ads']:
+                            ad['duration'] = "15"
+                            ad['clickThroughUrl'] = fake_click_url
+                            videoObject = ad['creativeObject']
+                            videoObject['qipuid'] = str(randint(1, 999999999))
+                            videoObject['duration'] = "15"
+                            videoObject['bUrl'], \
+                            videoObject['cUrl'], \
+                            videoObject['gUrl'], \
+                            videoObject['jUrl'], \
+                            videoObject['m200Url'], \
+                            videoObject['m400Url'] = [fake_video for i in range(6)]
+
+                            if ad.has_key('impressionTracking') and ad['impressionTracking'].has_key('thirdPartyTracking'):
+                                ad['impressionTracking']['thirdPartyTracking'].append(track_url)
+                            else:
+                                ad['impressionTracking'] = {'thirdPartyTracking': [track_url,]}
+
+                f.write(json.dumps(bid_mixer, indent=2))
+                flow.response.content = json.dumps(bid_mixer)
+

@@ -1,0 +1,26 @@
+#!/bin/sh
+
+# Add daemon setting
+#-------------------
+
+CHECK=`grep ^user /etc/dnsmasq.conf 2>/dev/null`
+if [ -z "$CHECK" ]; then
+	logger -p local6.notice -t installer "app-dns - adding daemon user setting to configuration"
+	echo "user=nobody" >> /etc/dnsmasq.conf
+fi
+
+# Add alternate resolv.conf
+#--------------------------
+
+CHECK=`grep "^resolv-file=" /etc/dnsmasq.conf 2>/dev/null`
+if [ -z "$CHECK" ]; then
+    logger -p local6.notice -t installer "app-dns - adding resolv-peerdns.conf alternative"
+    echo "resolv-file=/etc/resolv-peerdns.conf" >> /etc/dnsmasq.conf
+fi
+
+/var/clearos/events/network_configuration/network_resolver
+
+# Reload dnsmasq
+#---------------
+
+/sbin/service dnsmasq condrestart >/dev/null 2>&1

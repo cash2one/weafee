@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# Sudoers
+#--------
+
+/usr/sbin/addsudo /usr/sbin/nscd app-accounts-core
+/usr/sbin/addsudo /usr/sbin/initialize-builtin-directory app-accounts-core

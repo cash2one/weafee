@@ -1,0 +1,35 @@
+server {
+    listen       8880;
+    server_name  api.cupid.iqiyi.com dev.10086.cn;
+
+    access_log /var/log/nginx/iqiyi.access.log  main;
+
+    resolver localhost ipv6=off valid=0s ;
+#   resolver_timeout 5s;
+
+    location / {
+        access_log  /var/log/nginx/transparent.access.log main;
+        proxy_pass $scheme://$host$request_uri;
+        proxy_set_header Host $http_host;
+        proxy_set_header Accept-Encoding "";
+        proxy_pass_header "server";
+        proxy_buffering off;
+    } 
+
+    location /mixer {
+        proxy_pass http://127.0.0.1:8888;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header ServerAddress $server_addr;
+#       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+    location = /videos/other/20151215/54/64/333.f4v {
+        add_header Content-Type "text/plain";
+        return 200 "{\"t\":\"CMNET|JiangSu-183.206.164.107\",\"s\":\"1\",\"z\":\"jiangsu_cmnet\",\"h\":\"0\",\"l\":\"http://dev.10086.cn/videos/test/3.f4v?v=864293472&pv=0.1&client=183.206.164.107&src=iqiyi.com\",\"e\":\"0\"}";
+    }
+
+    location /videos/test {
+        root /tmp;
+    }
+}

@@ -1,0 +1,84 @@
+#!/bin/sh
+
+if [ "$1" == "install_event" ]; then
+    logger -p local6.notice -t clearsync "base - performing post-install cleanup"
+
+    # TODO: see how this behaves.  It should only be done
+    # on virtual machines (use virt-what tool)
+    # First command is to cleanup duplicates [tracker #909]
+    sed -i -e 's/ video=vesafb.* rhgb/ rhgb/' /boot/grub/grub.conf
+
+    if [ -x /usr/sbin/virt-what ]; then
+        VM=`/usr/sbin/virt-what 2>/dev/null`
+        if [ $VM = "hyperv" ]; then
+            logger -p local6.notice -t clearsync "base - skipping graphical boot changes"
+        else
+            logger -p local6.notice -t clearsync "base - applying graphical boot changes"
+            sed -i -e 's/ rhgb/ video=vesafb vga=0x314 rhgb/' /boot/grub/grub.conf
+        fi
+    fi
+
+    # TODO: anaconda should really use "Linux" instead of ClearOS xyz
+    # It's referring to the kernel, not the OS
+    sed -i -e 's/ClearOS Community/Linux/' /boot/grub/grub.conf
+    sed -i -e 's/ClearOS Professional/Linux/' /boot/grub/grub.conf
+
+elif [ "$1" == "clearsync_change_event" ]; then
+    logger -p local6.notice -t clearsync "base - clearsync configuration change detected"
+
+    # Flock was not behaving, so use simple file test
+    [ -e /var/tmp/clearsync-restart ] && exit 0
+    touch /var/tmp/clearsync-restart
+
+    trap "rm -f /var/tmp/clearsync-restart" 0 1 2 3 15
+
+    # See note about hack below
+    while ( [ -n "`/sbin/pidof -x wc-yum`" ] || [ -n "`/sbin/pidof -x yum`" ] || [ -n "`ps af | grep syncaction | grep -v grep | grep -v clearsync_change_event`" ] ); do
+        sleep 3
+    done
+
+    logger -p local6.notice -t clearsync 'base - restarting clearsync'
+    /sbin/service clearsyncd condrestart >/dev/null 2>&1
+
+    rm -f /var/tmp/clearsync-restart
+
+elif [ "$1" == "webconfig_change_event" ]; then
+    logger -p local6.notice -t clearsync "base - webconfig restart requested"
+
+    # Flock and trap were not working here (?), so use this hack instead
+    IS_RUNNING=`ps af | grep -c "syncaction[[:space:]]*webconfig_change_event"`
+    if [ $IS_RUNNING == 3 ]; then
+        logger -p local6.notice -t clearsync 'base - webconfig restart already queued'
+        exit 0
+    fi
+    
+    while ( [ -n "`/sbin/pidof -x wc-yum`" ] || [ -n "`/sbin/pidof -x yum`" ] ); do
+        sleep 3
+    done
+
+    logger -p local6.notice -t clearsync 'base - restarting webconfig'
+    /sbin/service webconfig restart
+
+    # TODO: this is a workaround for a weird issue when system-mysqld is installed
+    # It dies (process dead) when the above webconfig restart is performed.
+    logger -p local6.notice -t clearsync 'base - checking system database'
+    sleep 3
+    PID=`/sbin/pidof system-mysqld`
+    if ( [ -z "$PID" ] && [ -e /var/lock/subsys/system-mysqld ] ); then
+        logger -p local6.notice -t clearsync 'base - reviving system-mysqld'
+        /sbin/service system-mysqld stop >/dev/null 2>&1
+        sleep 2
+        /sbin/service system-mysqld start >/dev/null 2>&1
+    fi
+elif [ "$1" == "ulimit_workaround" ]; then
+    # Only needed on SysV systems
+    # KLUDGE: see tracker #1436 for details
+    if [ -x /etc/rc.d/init.d/squid ]; then
+        UPTIME=`cat /proc/uptime | awk '{ print $1 }' | sed 's/\..*//'`
+        if [ $UPTIME -lt 200 ]; then
+            sleep 200
+            logger -p local6.notice -t clearsync 'base - restarting web proxy for ulimit update'
+            /sbin/service squid condrestart >/dev/null 2>&1
+        fi
+    fi
+fi

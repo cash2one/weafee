@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Withfi | Cloud</title>
+        <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+        <!-- bootstrap 3.0.2 -->
+        <link href="../static/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <!-- font Awesome -->
+        <link href="../static/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+        <!-- Ionicons -->
+        <link href="../static/css/ionicons.min.css" rel="stylesheet" type="text/css" />
+        <!-- Theme style -->
+        <link href="../static/css/AdminLTE.css" rel="stylesheet" type="text/css" />
+    </head>
+
+    <body class="skin-blue">
+        <script src="../static/js/jquery/1.11.3/jquery.min.js" type="text/javascript"></script>   
+        <!-- Bootstrap -->
+        <script src="../static/js/bootstrap.min.js" type="text/javascript"></script>
+        <!-- AdminLTE App -->
+        <script src="../static/js/AdminLTE/app.js" type="text/javascript"></script>
+        <script>
+
+            $(function () {
+
+                var url_dest = '/user/info';
+
+                $.ajax({
+                    type: "GET",
+                    url: url_dest,
+                    dataType: "json",
+                    success: function (resp) {
+                        // resp = {"username":"demo","level"："admin","state":"online"}
+                        $("#account_info").html(resp.username);
+
+                        var state_html = '<i class="fa fa-circle text-success"></i>' + resp.state;
+                        $("#account_state").html(state_html);
+
+                        var account_privilege_html = '<i class="fa fa-circle text-info"></i>' + resp.level;
+                        $("#account_privilege").html(account_privilege_html);
+                    }
+                });
+            });
+
+
+            function get_account_info() {
+
+                var url_dest = "/system/get_account_info";
+
+                $.ajax({
+                    type: "GET",
+                    url: url_dest,
+                    dataType: "json",
+                    success: function (resp) {
+                        $("#account_balance").val(resp.account_balance);
+                        $("#account_name").val(resp.account_name);
+                        $("#company").val(resp.company);
+                        $("#contactor").val(resp.contactor);
+                        $("#contactor_title").val(resp.contactor_title);
+                        $("#fixed_telephone").val(resp.fixed_telephone);
+                        $("#cell_phone").val(resp.cell_phone);
+                        $("#email").val(resp.email);
+                        $("#address").val(resp.address);
+                    }
+                });
+
+            }
+
+            function submit_account_info() {
+                //check input                
+                if ($("#contactor") == null || $("#contactor") == '') {
+                    alert('Contactor empty, please input contactor');
+                    return;
+                }
+
+                if ($("#contactor_title") == null || $("#contactor_title") == '') {
+                    alert('contactor title empty, please input contactor_title');
+                    return;
+                }
+
+                if ($("#fixed_telephone") == null || $("#fixed_telephone") == '') {
+                    alert('fixed_telephone empty, please input fixed_telephone');
+                    return;
+                }
+
+                if ($("#cell_phone") == null || $("#cell_phone") == '') {
+                    alert('cell_phone empty, please input cell_phone');
+                    return;
+                }
+
+                if ($("#email") == null || $("#email") == '') {
+                    alert('email empty, please input email');
+                    return;
+                }
+
+                if ($("#address") == null || $("#address") == '') {
+                    alert('address empty, please input address');
+                    return;
+                }
+
+
+                var data = {
+                    "account_name": $("#account_name").val(),
+                    "company": $("#company").val(),
+                    "contactor": $("#contactor").val(),
+                    "contactor_title": $("#contactor_title").val(),
+                    "fixed_telephone": $("#fixed_telephone").val(),
+                    "cell_phone": $("#cell_phone").val(),
+                    "email": $("#email").val(),
+                    "address": $("#address").val()
+                };
+
+
+                var url_dest = '/system/change_account_info';
+
+                $.ajax({
+                    type: "POST",
+                    url: url_dest,
+                    data: data,
+                    dataType: "json",
+                    //success: load_network_page_data
+                    success: function (resp) {
+                        alert('Account info change successfully');
+                    }
+                });
+
+            }
+            
+            
+            function submit_password_change(){
+                
+                if ($("#old_password").val() == null || $("#old_password").val() == '') {
+                    alert('Please enter old_password.');
+                    return;
+                }
+                
+                if ($("#new_password").val() == null || $("#new_password").val() == '') {
+                    alert('Please enter new_password.');
+                    return;
+                }
+                
+                if ($("#new_password2").val() == null || $("#new_password2").val() == '') {
+                    alert('Please enter new password again.');
+                    return;
+                }
+                
+                if ($("#new_password2").val() != $("#new_password").val()) {
+                    alert('The new passwords you entered are not same, please try again.');
+                    return;
+                }
+
+                var data = {
+                    "old_password": $("#old_password").val(),
+                    "new_password": $("#new_password").val(),
+                    "new_password2": $("#new_password2").val()
+                };
+                
+                
+                var url_dest = '/user/password';
+                
+                $.ajax({
+                    type: "POST",
+                    url: url_dest,
+                    data: data,
+                    dataType: "json",
+                    success: function (resp) {
+                        if(resp.ret_code == 'success'){
+                            alert('Password changed. Please use new password to login.');
+                            location.reload();
+                        }else{
+                            alert('Failed to change password.');
+                        }    
+                    }
+                });
+            }
+
+
+
+
+            // get account info
+            $(function () {
+                get_account_info();
+            });
+
+
+        </script>
+
+
+
+        <!-- header logo: style can be found in header.less -->
+        <header class="header">
+            <a href="/" class="logo">
+                <!-- Add the class icon to your logo image or logo icon to add the margining -->
+                admin.withfi.com
+            </a>
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top" role="navigation">
+                <!-- Sidebar toggle button-->
+                <a href="#" class="navbar-btn sidebar-toggle" data-toggle="offcanvas" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a> 
+                <div class="navbar-right">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown user user-menu">
+                            <a  href="/user/logout">
+                                <span>Logout</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <div class="wrapper row-offcanvas row-offcanvas-left">
+            <!-- Left side column. contains the logo and sidebar -->
+            <aside class="left-side sidebar-offcanvas">                
+                <!-- sidebar: style can be found in sidebar.less -->
+                <section class="sidebar">
+                    <!-- Sidebar user panel -->
+                    <div class="user-panel">
+                        <div class="pull-left image">
+                            <img src="../static/img/avatar5.png" class="img-circle" alt="User Image" />
+                        </div>
+                        <div class="pull-left info">
+                            <p id="account_info"></p>
+                            <a href="#" id="account_state"><i class="fa fa-circle text-success"></i></a>
+                            <a href="#" id="account_privilege"><i class="fa fa-circle text-info"></i></a>
+                        </div>
+                    </div>                   
+                    <!-- sidebar menu: : style can be found in sidebar.less -->
+
+                    <ul class="sidebar-menu">
+                        <li >
+                            <a href="/report">
+                                <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+                            </a>
+                        </li>    
+                        <li>
+                            <a href="/ad" >
+                                <i class="fa fa-bar-chart-o"></i> <span>Ad Management</span>
+                            </a>
+                        </li>  
+                        <li>
+                            <a href="/device" >
+                                <i class="fa fa-calendar"></i> <span>Device Management</span>
+                            </a>
+                        </li>  
+                        <li class="active">
+                            <a href="/system">
+                                <i class="fa fa-th"></i> <span>System</span>
+                            </a>
+                        </li>                        
+                        <!--li>
+                            <a href="vlan.html">
+                                <i class="fa fa-th"></i> <span>VLAN Setting</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="qos.html">
+                                <i class="fa fa-calendar"></i> <span>QoS Setting</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="firewall.html">
+                                <i class="fa fa-envelope"></i> <span>Firewall Setting</span>
+                            </a>
+                        </li>
+                        <li >
+                            <a href="system.html">
+                                <i class="fa fa-laptop"></i> <span>System</span>
+                            </a>
+                        </li-->                        
+                    </ul>
+                </section>
+                <!-- /.sidebar -->
+            </aside>
+
+            <!-- Right side column. Contains the navbar and content of the page -->
+            <aside class="right-side">                
+                <!-- Content Header (Page header) -->
+                <section class="content-header">
+                    <h1>
+                        System
+                    </h1>
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                        <li class="active">System</li>
+                    </ol>
+                </section>
+
+                <!-- Main content -->
+                <section class="content">
+                    <!--account setting-->
+                    <div class="row" style="display:none">
+                        <div class="col-md-12">
+                            <div class="box box-primary">
+                                <div class="box-header">
+                                    <h3 class="box-title">Account Info</h3>
+                                </div><!-- /.box-header -->
+                                <!-- form start -->
+                                <form role="form" class="form-horizontal">
+                                    <div class="box-body">
+                                        <div class="form-group" >
+                                            <label for="account_balance" class="col-sm-2 control-label">Account Balance</label>
+                                            <div class="col-sm-6">
+                                                <input class="form-control" disabled="disabled" id="account_balance" type="text" value="1000 USD">
+                                            </div>
+                                        </div>
+                                        <div class="form-group" >
+                                            <label for="account_name" class="col-sm-2 control-label">Account Name</label>
+                                            <div class="col-sm-6">
+                                                <input class="form-control" disabled="disabled" id="account_name" type="text" value="jpz">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group" >
+                                            <label for="company" class="col-sm-2 control-label">Company</label>
+                                            <div class="col-sm-6">
+                                                <input class="form-control" disabled="disabled" id="company" type="text" value="Ezcom">
+                                            </div>
+                                        </div>
+                                        <div class="form-group" >
+                                            <label for="contactor" class="col-sm-2 control-label">Contactor</label>
+                                            <div class="col-sm-6">
+                                                <input class="form-control" id="contactor" type="text" value="Liu Aiguo">
+                                            </div>
+                                        </div>
+                                        <div class="form-group" >
+                                            <label for="contactor_title" class="col-sm-2 control-label">Contactor Title</label>
+                                            <div class="col-sm-6">
+                                                <input class="form-control" id="contactor_title" type="text" value="CEO">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group" >
+                                            <label for="fixed_telephone" class="col-sm-2 control-label">Fixed Telephone</label>
+                                            <div class="col-sm-6">
+                                                <input class="form-control" id="fixed_telephone" type="text" value="02565658878">
+                                            </div>
+                                        </div>
+                                        <div class="form-group" >
+                                            <label for="cell_phone" class="col-sm-2 control-label">Cell Phone</label>
+                                            <div class="col-sm-6">
+                                                <input class="form-control" id="cell_phone" type="text" value="15956585556">
+                                            </div>
+                                        </div>
+                                        <div class="form-group" >
+                                            <label for="email" class="col-sm-2 control-label">Email</label>
+                                            <div class="col-sm-6">
+                                                <input class="form-control" id="email" type="text" value="aiguo@ezcom.com">
+                                            </div>
+                                        </div>
+                                        <div class="form-group" >
+                                            <label for="address" class="col-sm-2 control-label">Address</label>
+                                            <div class="col-sm-6">
+                                                <input class="form-control" id="address" type="text" value="SEATEL CAMBODIA,6th floor, #149,St. 432, Village 5, Sangkat Boeung Trabek, Khan Charmkamorn, Phnom Penh, Cambodia">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="box-footer">
+                                        <input type="button" class="btn btn-sm btn-primary" value="Submit" onclick="submit_account_info()">
+                                    </div>
+                                </form>
+                            </div>        
+                        </div>
+                    </div>
+                    <!--end account setting-->
+                    <!--reboot router-->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box box-primary">
+                                <div class="box-header">
+                                    <h3 class="box-title">Password Change</h3>
+                                </div><!-- /.box-header -->
+                                <!-- form start -->
+                                <form role="form" class="form-horizontal">
+                                    <div class="box-body">
+                                        <div class="form-group" >
+                                            <label for="old_password" class="col-sm-2 control-label">Old Password</label>
+                                            <div class="col-sm-6">
+                                                <input class="form-control"  id="old_password" type="password">
+                                            </div>
+                                        </div>
+                                        <div class="form-group" >
+                                            <label for="new_password" class="col-sm-2 control-label">New Password</label>
+                                            <div class="col-sm-6">
+                                                <input class="form-control"  id="new_password" type="password">
+                                            </div>
+                                        </div>
+                                        <div class="form-group" >
+                                            <label for="new_password2" class="col-sm-2 control-label">Repeat Password</label>
+                                            <div class="col-sm-6">
+                                                <input class="form-control"  id="new_password2" type="password">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="box-footer">
+                                        <input type="button" class="btn btn-sm btn-primary" value="Submit" onclick="submit_password_change()">
+                                    </div>
+                                </form>
+                            </div>        
+                        </div>
+
+                    </div>
+
+
+
+
+
+
+                </section><!-- /.content -->
+            </aside><!-- /.right-side -->
+        </div><!-- ./wrapper -->
+
+
+
+    </body>
+</html>

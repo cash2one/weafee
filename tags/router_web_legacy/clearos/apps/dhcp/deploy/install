@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# Initialize domain name with default
+#------------------------------------
+
+/usr/clearos/apps/dhcp/deploy/initialize

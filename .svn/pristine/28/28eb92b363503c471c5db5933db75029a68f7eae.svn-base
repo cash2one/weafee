@@ -1,0 +1,53 @@
+'''
+Replace tencent vedio ads
+'''
+
+from lxml import etree as ET
+import re
+import json
+import random
+
+from libmproxy import filt
+
+with open('/etc/withfi/miwifi_toolbar_info.js', 'r') as f:
+    p = re.compile('{.+}')
+    s = f.read()
+    meta = json.loads( p.search(s).group(0));
+    params = '&'.join(["%s=%s" %(k,v) for k, v in meta.items()])
+
+filter_url = 'lives.l.qq.com/livemsg'
+fake_video_url = "http://www.10086.cn/videos/test/txbb.mp4"
+fake_click_url = "http://www.baidu.com?"
+withfi_track_url = '&'.join(('http://54.65.245.210/track/track.php?proj=tencent_video', params))
+tencent_track_item = '''
+<reportitem><url><![CDATA[%s]]></url><reporttime>0</reporttime></reportitem>
+'''%withfi_track_url
+
+random_alpha = 'abcdefghijklmnopqrstuvwxyz1234567890'
+
+def response(context, flow):
+    if flow.match(filt.parse(filter_url)):
+        
+        #for CDATA handle
+        parser = ET.XMLParser(strip_cdata=False)
+        root = ET.fromstring(flow.response.content, parser)
+
+        for node in root.findall('.//adList/item'):
+            if int(node.findtext('order_id')) != 1:
+                for video_link in node.findall('./image/url'):
+                    video_link.text = ET.CDATA(fake_video_url)
+
+                for vid in node.findall('./image/vid'):
+                    vid.text = "".join(random.sample(random_alpha, 11))
+                 
+                if node.find('params') is not None: 
+                    node.remove(node.find('params'))
+                
+                node.find('link').text = ET.CDATA(fake_click_url)
+                    
+                node.find('reportUrlOther').append(ET.XML(tencent_track_item, parser))
+
+        flow.response.content = ET.tostring(root)
+        # print '-'*50 +'\n'
+        # print flow.response.content
+

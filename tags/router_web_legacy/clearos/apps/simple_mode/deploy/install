@@ -1,0 +1,5 @@
+#!/bin/sh
+
+logger -p local6.notice -t installer "app-simple-mode-core - setting mode driver"
+mkdir -p /var/clearos/mode
+echo "driver = simple_mode" > /var/clearos/mode/driver.conf

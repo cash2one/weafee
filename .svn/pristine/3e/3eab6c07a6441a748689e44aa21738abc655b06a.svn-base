@@ -1,0 +1,202 @@
+[Sat Jul 25 11:15:01 2015] [notice] SELinux policy enabled; httpd running as context system_u:system_r:initrc_t:s0
+[Sat Jul 25 11:15:01 2015] [notice] suEXEC mechanism enabled (wrapper: /usr/clearos/sandbox/usr/sbin/suexec)
+[Sat Jul 25 11:15:01 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Sat Jul 25 11:15:01 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Sat Jul 25 11:15:01 2015] [notice] Digest: generating secret for digest authentication ...
+[Sat Jul 25 11:15:01 2015] [notice] Digest: done
+[Sat Jul 25 11:15:02 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Sat Jul 25 11:15:02 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Sat Jul 25 11:15:02 2015] [notice] Apache/2.2.15 (Unix) DAV/2 mod_ssl/2.2.15 OpenSSL/1.0.1e-fips configured -- resuming normal operations
+[Sat Jul 25 11:18:04 2015] [notice] caught SIGTERM, shutting down
+[Sat Jul 25 23:18:49 2015] [notice] suEXEC mechanism enabled (wrapper: /usr/clearos/sandbox/usr/sbin/suexec)
+[Sat Jul 25 23:18:50 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Sat Jul 25 23:18:50 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Sat Jul 25 23:18:50 2015] [notice] Digest: generating secret for digest authentication ...
+[Sat Jul 25 23:18:50 2015] [notice] Digest: done
+[Sat Jul 25 23:18:50 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Sat Jul 25 23:18:50 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Sat Jul 25 23:18:50 2015] [notice] Apache/2.2.15 (Unix) DAV/2 mod_ssl/2.2.15 OpenSSL/1.0.1e-fips configured -- resuming normal operations
+[Sat Jul 25 23:30:30 2015] [error] [client 192.168.1.6] File does not exist: /usr/clearos/framework/htdocs/favicon.ico, referer: https://192.168.1.19:81/app/configuration/hostname
+[Sat Jul 25 23:32:40 2015] [error] [client 192.168.1.6] File does not exist: /usr/clearos/themes/default/css/images/ui-icons_ef8c08_256x240.png, referer: https://192.168.1.19:81/themes/default/css/jquery-ui-1.10.3.custom.css?v=6.5.0
+[Sat Jul 25 23:32:40 2015] [error] [client 192.168.1.6] File does not exist: /usr/clearos/themes/default/css/images/ui-bg_diagonals-thick_20_666666_40x40.png, referer: https://192.168.1.19:81/themes/default/css/jquery-ui-1.10.3.custom.css?v=6.5.0
+[Sat Jul 25 23:51:47 2015] [error] [client 192.168.1.6] File does not exist: /var/clearos/framework/cache/app-logo-openldap_directory.png, referer: https://192.168.1.19:81/app/marketplace/wizard/selection
+[Sat Jul 25 23:52:08 2015] [error] [client 192.168.1.6] File does not exist: /var/clearos/framework/cache/app-logo-dynamic_dns.png, referer: https://192.168.1.19:81/app/marketplace/wizard/selection
+[Sat Jul 25 23:52:08 2015] [error] [client 192.168.1.6] File does not exist: /var/clearos/framework/cache/app-logo-pptpd.png, referer: https://192.168.1.19:81/app/marketplace/wizard/selection
+[Sat Jul 25 23:52:08 2015] [error] [client 192.168.1.6] File does not exist: /var/clearos/framework/cache/app-logo-openvpn.png, referer: https://192.168.1.19:81/app/marketplace/wizard/selection
+[Sat Jul 25 23:52:08 2015] [error] [client 192.168.1.6] File does not exist: /var/clearos/framework/cache/app-logo-static_vpn.png, referer: https://192.168.1.19:81/app/marketplace/wizard/selection
+[Sat Jul 25 23:52:09 2015] [error] [client 192.168.1.6] File does not exist: /var/clearos/framework/cache/app-logo-dns.png, referer: https://192.168.1.19:81/app/marketplace/wizard/selection
+[Sat Jul 25 23:53:35 2015] [error] [client 192.168.1.6] File does not exist: /var/clearos/framework/cache/app-logo-antiphishing.png, referer: https://192.168.1.19:81/app/marketplace/wizard/selection
+[Sat Jul 25 23:53:35 2015] [error] [client 192.168.1.6] File does not exist: /var/clearos/framework/cache/app-logo-intrusion_detection.png, referer: https://192.168.1.19:81/app/marketplace/wizard/selection
+[Sat Jul 25 23:53:35 2015] [error] [client 192.168.1.6] File does not exist: /var/clearos/framework/cache/app-logo-intrusion_protection_updates.png, referer: https://192.168.1.19:81/app/marketplace/wizard/selection
+[Sat Jul 25 23:53:49 2015] [error] [client 192.168.1.6] File does not exist: /var/clearos/framework/cache/app-logo-content_filter.png, referer: https://192.168.1.19:81/app/marketplace/wizard/selection
+[Sat Jul 25 23:53:49 2015] [error] [client 192.168.1.6] File does not exist: /var/clearos/framework/cache/app-logo-content_filter_updates.png, referer: https://192.168.1.19:81/app/marketplace/wizard/selection
+[Sat Jul 25 23:53:49 2015] [error] [client 192.168.1.6] File does not exist: /var/clearos/framework/cache/app-logo-proxy_report.png, referer: https://192.168.1.19:81/app/marketplace/wizard/selection
+[Sat Jul 25 23:53:49 2015] [error] [client 192.168.1.6] File does not exist: /var/clearos/framework/cache/app-logo-web_access_control.png, referer: https://192.168.1.19:81/app/marketplace/wizard/selection
+[Sat Jul 25 23:54:01 2015] [error] [client 192.168.1.6] File does not exist: /var/clearos/framework/cache/app-logo-imap.png, referer: https://192.168.1.19:81/app/marketplace/wizard/selection
+[Sat Jul 25 23:54:01 2015] [error] [client 192.168.1.6] File does not exist: /var/clearos/framework/cache/app-logo-zarafa_community.png, referer: https://192.168.1.19:81/app/marketplace/wizard/selection
+[Sat Jul 25 23:54:07 2015] [error] [client 192.168.1.6] File does not exist: /var/clearos/framework/cache/app-logo-configuration_backup.png, referer: https://192.168.1.19:81/app/marketplace/wizard/selection
+[Sat Jul 25 23:54:07 2015] [error] [client 192.168.1.6] File does not exist: /var/clearos/framework/cache/app-logo-remote_backup.png, referer: https://192.168.1.19:81/app/marketplace/wizard/selection
+[Sat Jul 25 23:54:07 2015] [error] [client 192.168.1.6] File does not exist: /var/clearos/framework/cache/app-logo-remote_backup_5gb.png, referer: https://192.168.1.19:81/app/marketplace/wizard/selection
+[Sat Jul 25 23:54:07 2015] [error] [client 192.168.1.6] File does not exist: /var/clearos/framework/cache/app-logo-smart_monitor.png, referer: https://192.168.1.19:81/app/marketplace/wizard/selection
+[Sat Jul 25 23:54:23 2015] [error] [client 192.168.1.6] File does not exist: /var/clearos/framework/cache/app-logo-dropbox.png, referer: https://192.168.1.19:81/app/marketplace/wizard/selection
+[Sat Jul 25 23:54:23 2015] [error] [client 192.168.1.6] File does not exist: /var/clearos/framework/cache/app-logo-photo_organizer.png, referer: https://192.168.1.19:81/app/marketplace/wizard/selection
+[Sat Jul 25 23:54:23 2015] [error] [client 192.168.1.6] File does not exist: /var/clearos/framework/cache/app-logo-plex.png, referer: https://192.168.1.19:81/app/marketplace/wizard/selection
+[Sat Jul 25 23:54:23 2015] [error] [client 192.168.1.6] File does not exist: /var/clearos/framework/cache/app-logo-serviio.png, referer: https://192.168.1.19:81/app/marketplace/wizard/selection
+[Sun Jul 26 01:28:00 2015] [error] [client 192.168.8.237] File does not exist: /var/clearos/framework/cache/app-logo-qos.png, referer: https://192.168.8.1:81/app/marketplace/search
+[Sun Jul 26 01:28:00 2015] [error] [client 192.168.8.237] File does not exist: /var/clearos/framework/cache/app-logo-bandwidth.png, referer: https://192.168.8.1:81/app/marketplace/search
+[Sun Jul 26 01:28:42 2015] [error] [client 192.168.8.237] File does not exist: /usr/clearos/themes/default/css/images/ui-icons_ef8c08_256x240.png, referer: https://192.168.8.1:81/themes/default/css/jquery-ui-1.10.3.custom.css?v=6.5.0
+[Sun Jul 26 01:28:42 2015] [error] [client 192.168.8.237] File does not exist: /usr/clearos/themes/default/css/images/ui-bg_diagonals-thick_20_666666_40x40.png, referer: https://192.168.8.1:81/themes/default/css/jquery-ui-1.10.3.custom.css?v=6.5.0
+[Sun Jul 26 01:29:47 2015] [error] [client 192.168.8.237] File does not exist: /var/clearos/framework/cache/app-logo-users.png, referer: https://192.168.8.1:81/app/marketplace/search
+[Sun Jul 26 01:57:44 2015] [warn] child process 20292 still did not exit, sending a SIGTERM
+[Sun Jul 26 01:57:46 2015] [warn] child process 20292 still did not exit, sending a SIGTERM
+[Sun Jul 26 01:57:48 2015] [warn] child process 20292 still did not exit, sending a SIGTERM
+[Sun Jul 26 01:57:50 2015] [error] child process 20292 still did not exit, sending a SIGKILL
+[Sun Jul 26 01:59:56 2015] [notice] suEXEC mechanism enabled (wrapper: /usr/clearos/sandbox/usr/sbin/suexec)
+[Sun Jul 26 01:59:56 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Sun Jul 26 01:59:56 2015] [warn] RSA server certificate CommonName (CN) `clearos1' does NOT match server name!?
+[Sun Jul 26 01:59:56 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Sun Jul 26 01:59:56 2015] [warn] RSA server certificate CommonName (CN) `clearos1' does NOT match server name!?
+[Sun Jul 26 01:59:56 2015] [notice] Digest: generating secret for digest authentication ...
+[Sun Jul 26 01:59:56 2015] [notice] Digest: done
+[Sun Jul 26 01:59:56 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Sun Jul 26 01:59:56 2015] [warn] RSA server certificate CommonName (CN) `clearos1' does NOT match server name!?
+[Sun Jul 26 01:59:56 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Sun Jul 26 01:59:56 2015] [warn] RSA server certificate CommonName (CN) `clearos1' does NOT match server name!?
+[Sun Jul 26 01:59:56 2015] [notice] Apache/2.2.15 (Unix) DAV/2 mod_ssl/2.2.15 OpenSSL/1.0.1e-fips configured -- resuming normal operations
+[Sun Jul 26 03:46:26 2015] [notice] caught SIGTERM, shutting down
+[Sun Jul 26 04:02:29 2015] [notice] suEXEC mechanism enabled (wrapper: /usr/clearos/sandbox/usr/sbin/suexec)
+[Sun Jul 26 04:02:30 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Sun Jul 26 04:02:30 2015] [warn] RSA server certificate CommonName (CN) `clearos1' does NOT match server name!?
+[Sun Jul 26 04:02:30 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Sun Jul 26 04:02:30 2015] [warn] RSA server certificate CommonName (CN) `clearos1' does NOT match server name!?
+[Sun Jul 26 04:02:30 2015] [notice] Digest: generating secret for digest authentication ...
+[Sun Jul 26 04:02:30 2015] [notice] Digest: done
+[Sun Jul 26 04:02:30 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Sun Jul 26 04:02:30 2015] [warn] RSA server certificate CommonName (CN) `clearos1' does NOT match server name!?
+[Sun Jul 26 04:02:30 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Sun Jul 26 04:02:30 2015] [warn] RSA server certificate CommonName (CN) `clearos1' does NOT match server name!?
+[Sun Jul 26 04:02:30 2015] [notice] Apache/2.2.15 (Unix) DAV/2 mod_ssl/2.2.15 OpenSSL/1.0.1e-fips configured -- resuming normal operations
+zend_mm_heap corrupted
+[Sun Jul 26 04:10:16 2015] [notice] caught SIGTERM, shutting down
+[Sun Jul 26 04:12:22 2015] [notice] suEXEC mechanism enabled (wrapper: /usr/clearos/sandbox/usr/sbin/suexec)
+[Sun Jul 26 04:12:23 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Sun Jul 26 04:12:23 2015] [warn] RSA server certificate CommonName (CN) `clearos1' does NOT match server name!?
+[Sun Jul 26 04:12:23 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Sun Jul 26 04:12:23 2015] [warn] RSA server certificate CommonName (CN) `clearos1' does NOT match server name!?
+[Sun Jul 26 04:12:23 2015] [notice] Digest: generating secret for digest authentication ...
+[Sun Jul 26 04:12:23 2015] [notice] Digest: done
+[Sun Jul 26 04:12:23 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Sun Jul 26 04:12:23 2015] [warn] RSA server certificate CommonName (CN) `clearos1' does NOT match server name!?
+[Sun Jul 26 04:12:23 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Sun Jul 26 04:12:23 2015] [warn] RSA server certificate CommonName (CN) `clearos1' does NOT match server name!?
+[Sun Jul 26 04:12:23 2015] [notice] Apache/2.2.15 (Unix) DAV/2 mod_ssl/2.2.15 OpenSSL/1.0.1e-fips configured -- resuming normal operations
+[Sun Jul 26 04:55:37 2015] [notice] suEXEC mechanism enabled (wrapper: /usr/clearos/sandbox/usr/sbin/suexec)
+[Sun Jul 26 04:55:38 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Sun Jul 26 04:55:38 2015] [warn] RSA server certificate CommonName (CN) `clearos1' does NOT match server name!?
+[Sun Jul 26 04:55:38 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Sun Jul 26 04:55:38 2015] [warn] RSA server certificate CommonName (CN) `clearos1' does NOT match server name!?
+[Sun Jul 26 04:55:38 2015] [notice] Digest: generating secret for digest authentication ...
+[Sun Jul 26 04:55:38 2015] [notice] Digest: done
+[Sun Jul 26 04:55:38 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Sun Jul 26 04:55:38 2015] [warn] RSA server certificate CommonName (CN) `clearos1' does NOT match server name!?
+[Sun Jul 26 04:55:38 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Sun Jul 26 04:55:38 2015] [warn] RSA server certificate CommonName (CN) `clearos1' does NOT match server name!?
+[Sun Jul 26 04:55:38 2015] [notice] Apache/2.2.15 (Unix) DAV/2 mod_ssl/2.2.15 OpenSSL/1.0.1e-fips configured -- resuming normal operations
+[Sun Jul 26 04:57:03 2015] [notice] caught SIGTERM, shutting down
+[Sun Jul 26 04:58:10 2015] [notice] suEXEC mechanism enabled (wrapper: /usr/clearos/sandbox/usr/sbin/suexec)
+[Sun Jul 26 04:58:11 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Sun Jul 26 04:58:11 2015] [warn] RSA server certificate CommonName (CN) `clearos1' does NOT match server name!?
+[Sun Jul 26 04:58:11 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Sun Jul 26 04:58:11 2015] [warn] RSA server certificate CommonName (CN) `clearos1' does NOT match server name!?
+[Sun Jul 26 04:58:11 2015] [notice] Digest: generating secret for digest authentication ...
+[Sun Jul 26 04:58:11 2015] [notice] Digest: done
+[Sun Jul 26 04:58:11 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Sun Jul 26 04:58:11 2015] [warn] RSA server certificate CommonName (CN) `clearos1' does NOT match server name!?
+[Sun Jul 26 04:58:11 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Sun Jul 26 04:58:11 2015] [warn] RSA server certificate CommonName (CN) `clearos1' does NOT match server name!?
+[Sun Jul 26 04:58:11 2015] [notice] Apache/2.2.15 (Unix) DAV/2 mod_ssl/2.2.15 OpenSSL/1.0.1e-fips configured -- resuming normal operations
+zend_mm_heap corrupted
+[Sun Jul 26 05:00:01 2015] [notice] caught SIGTERM, shutting down
+[Sun Jul 26 05:01:06 2015] [notice] suEXEC mechanism enabled (wrapper: /usr/clearos/sandbox/usr/sbin/suexec)
+[Sun Jul 26 05:01:06 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Sun Jul 26 05:01:06 2015] [warn] RSA server certificate CommonName (CN) `clearos1' does NOT match server name!?
+[Sun Jul 26 05:01:06 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Sun Jul 26 05:01:06 2015] [warn] RSA server certificate CommonName (CN) `clearos1' does NOT match server name!?
+[Sun Jul 26 05:01:06 2015] [notice] Digest: generating secret for digest authentication ...
+[Sun Jul 26 05:01:06 2015] [notice] Digest: done
+[Sun Jul 26 05:01:07 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Sun Jul 26 05:01:07 2015] [warn] RSA server certificate CommonName (CN) `clearos1' does NOT match server name!?
+[Sun Jul 26 05:01:07 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Sun Jul 26 05:01:07 2015] [warn] RSA server certificate CommonName (CN) `clearos1' does NOT match server name!?
+[Sun Jul 26 05:01:07 2015] [notice] Apache/2.2.15 (Unix) DAV/2 mod_ssl/2.2.15 OpenSSL/1.0.1e-fips configured -- resuming normal operations
+zend_mm_heap corrupted
+[Sun Jul 26 05:03:41 2015] [notice] caught SIGTERM, shutting down
+[Sun Jul 26 05:04:48 2015] [notice] suEXEC mechanism enabled (wrapper: /usr/clearos/sandbox/usr/sbin/suexec)
+[Sun Jul 26 05:04:48 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Sun Jul 26 05:04:48 2015] [warn] RSA server certificate CommonName (CN) `clearos1' does NOT match server name!?
+[Sun Jul 26 05:04:48 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Sun Jul 26 05:04:48 2015] [warn] RSA server certificate CommonName (CN) `clearos1' does NOT match server name!?
+[Sun Jul 26 05:04:48 2015] [notice] Digest: generating secret for digest authentication ...
+[Sun Jul 26 05:04:48 2015] [notice] Digest: done
+[Sun Jul 26 05:04:48 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Sun Jul 26 05:04:48 2015] [warn] RSA server certificate CommonName (CN) `clearos1' does NOT match server name!?
+[Sun Jul 26 05:04:48 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Sun Jul 26 05:04:48 2015] [warn] RSA server certificate CommonName (CN) `clearos1' does NOT match server name!?
+[Sun Jul 26 05:04:48 2015] [notice] Apache/2.2.15 (Unix) DAV/2 mod_ssl/2.2.15 OpenSSL/1.0.1e-fips configured -- resuming normal operations
+[Sun Jul 26 05:15:14 2015] [error] [client 192.168.8.237] File does not exist: /var/clearos/framework/cache/app-logo-network_visualiser.png, referer: https://192.168.8.1:81/app/marketplace
+[Sun Jul 26 05:15:14 2015] [error] [client 192.168.8.237] File does not exist: /var/clearos/framework/cache/app-logo-security_audit.png, referer: https://192.168.8.1:81/app/marketplace
+[Sun Jul 26 05:15:14 2015] [error] [client 192.168.8.237] File does not exist: /var/clearos/framework/cache/app-logo-account_import.png, referer: https://192.168.8.1:81/app/marketplace
+[Sun Jul 26 05:17:15 2015] [error] [client 192.168.8.237] File does not exist: /var/clearos/framework/cache/app-logo-certificate_manager.png, referer: https://192.168.8.1:81/app/marketplace/search
+[Sun Jul 26 05:17:56 2015] [error] [client 192.168.8.237] File does not exist: /usr/clearos/themes/default/css/images/ui-bg_diagonals-thick_20_666666_40x40.png, referer: https://192.168.8.1:81/themes/default/css/jquery-ui-1.10.3.custom.css?v=6.5.0
+[Sun Jul 26 05:17:56 2015] [error] [client 192.168.8.237] File does not exist: /usr/clearos/themes/default/css/images/ui-icons_ef8c08_256x240.png, referer: https://192.168.8.1:81/themes/default/css/jquery-ui-1.10.3.custom.css?v=6.5.0
+[Sun Jul 26 05:22:45 2015] [error] [client 192.168.8.237] File does not exist: /var/clearos/framework/cache/app-logo-network_map.png, referer: https://192.168.8.1:81/app/marketplace/search
+[Sun Jul 26 05:22:45 2015] [error] [client 192.168.8.237] File does not exist: /var/clearos/framework/cache/app-logo-ssh_server.png, referer: https://192.168.8.1:81/app/marketplace/search
+[Sun Jul 26 05:33:24 2015] [notice] caught SIGTERM, shutting down
+[Sun Jul 26 18:42:17 2015] [notice] suEXEC mechanism enabled (wrapper: /usr/clearos/sandbox/usr/sbin/suexec)
+[Sun Jul 26 18:42:17 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Sun Jul 26 18:42:17 2015] [warn] RSA server certificate CommonName (CN) `clearos1' does NOT match server name!?
+[Sun Jul 26 18:42:17 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Sun Jul 26 18:42:17 2015] [warn] RSA server certificate CommonName (CN) `clearos1' does NOT match server name!?
+[Sun Jul 26 18:42:17 2015] [notice] Digest: generating secret for digest authentication ...
+[Sun Jul 26 18:42:17 2015] [notice] Digest: done
+[Sun Jul 26 18:42:17 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Sun Jul 26 18:42:17 2015] [warn] RSA server certificate CommonName (CN) `clearos1' does NOT match server name!?
+[Sun Jul 26 18:42:17 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Sun Jul 26 18:42:17 2015] [warn] RSA server certificate CommonName (CN) `clearos1' does NOT match server name!?
+[Sun Jul 26 18:42:17 2015] [notice] Apache/2.2.15 (Unix) DAV/2 mod_ssl/2.2.15 OpenSSL/1.0.1e-fips configured -- resuming normal operations
+[Mon Jul 27 07:26:58 2015] [notice] suEXEC mechanism enabled (wrapper: /usr/clearos/sandbox/usr/sbin/suexec)
+[Mon Jul 27 07:26:58 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Mon Jul 27 07:26:58 2015] [warn] RSA server certificate CommonName (CN) `clearos1' does NOT match server name!?
+[Mon Jul 27 07:26:58 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Mon Jul 27 07:26:58 2015] [warn] RSA server certificate CommonName (CN) `clearos1' does NOT match server name!?
+[Mon Jul 27 07:26:59 2015] [notice] Digest: generating secret for digest authentication ...
+[Mon Jul 27 07:26:59 2015] [notice] Digest: done
+[Mon Jul 27 07:26:59 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Mon Jul 27 07:26:59 2015] [warn] RSA server certificate CommonName (CN) `clearos1' does NOT match server name!?
+[Mon Jul 27 07:26:59 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Mon Jul 27 07:26:59 2015] [warn] RSA server certificate CommonName (CN) `clearos1' does NOT match server name!?
+[Mon Jul 27 07:26:59 2015] [notice] Apache/2.2.15 (Unix) DAV/2 mod_ssl/2.2.15 OpenSSL/1.0.1e-fips configured -- resuming normal operations
+[Wed Jul 29 02:51:54 2015] [notice] suEXEC mechanism enabled (wrapper: /usr/clearos/sandbox/usr/sbin/suexec)
+[Wed Jul 29 02:51:55 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Wed Jul 29 02:51:55 2015] [warn] RSA server certificate CommonName (CN) `clearos1' does NOT match server name!?
+[Wed Jul 29 02:51:55 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Wed Jul 29 02:51:55 2015] [warn] RSA server certificate CommonName (CN) `clearos1' does NOT match server name!?
+[Wed Jul 29 02:51:55 2015] [notice] Digest: generating secret for digest authentication ...
+[Wed Jul 29 02:51:55 2015] [notice] Digest: done
+[Wed Jul 29 02:51:55 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Wed Jul 29 02:51:55 2015] [warn] RSA server certificate CommonName (CN) `clearos1' does NOT match server name!?
+[Wed Jul 29 02:51:55 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Wed Jul 29 02:51:55 2015] [warn] RSA server certificate CommonName (CN) `clearos1' does NOT match server name!?
+[Wed Jul 29 02:51:55 2015] [notice] Apache/2.2.15 (Unix) DAV/2 mod_ssl/2.2.15 OpenSSL/1.0.1e-fips configured -- resuming normal operations
+[Wed Jul 29 02:58:34 2015] [notice] suEXEC mechanism enabled (wrapper: /usr/clearos/sandbox/usr/sbin/suexec)
+[Wed Jul 29 02:58:34 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Wed Jul 29 02:58:34 2015] [warn] RSA server certificate CommonName (CN) `clearos1' does NOT match server name!?
+[Wed Jul 29 02:58:34 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Wed Jul 29 02:58:34 2015] [warn] RSA server certificate CommonName (CN) `clearos1' does NOT match server name!?
+[Wed Jul 29 02:58:34 2015] [notice] Digest: generating secret for digest authentication ...
+[Wed Jul 29 02:58:34 2015] [notice] Digest: done
+[Wed Jul 29 02:58:35 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Wed Jul 29 02:58:35 2015] [warn] RSA server certificate CommonName (CN) `clearos1' does NOT match server name!?
+[Wed Jul 29 02:58:35 2015] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Wed Jul 29 02:58:35 2015] [warn] RSA server certificate CommonName (CN) `clearos1' does NOT match server name!?
+[Wed Jul 29 02:58:35 2015] [notice] Apache/2.2.15 (Unix) DAV/2 mod_ssl/2.2.15 OpenSSL/1.0.1e-fips configured -- resuming normal operations

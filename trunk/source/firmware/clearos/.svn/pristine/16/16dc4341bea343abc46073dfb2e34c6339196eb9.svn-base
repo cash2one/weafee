@@ -1,0 +1,24 @@
+#!/bin/sh
+#
+# This script will be executed *after* all the other init scripts.
+# You can put your own initialization stuff in here if you don't
+# want to do the full Sys V style init stuff.
+
+touch /var/lock/subsys/local
+
+base_dir='/var/spool/withfi/firmware'
+
+# init ipset blacklist
+/usr/local/bin/python $base_dir'/BlackListUpdate.py' > '/var/log/withfi/blacklist.log' 
+#init hj
+/bin/sh /etc/clearos/firewall.d/local
+service firewall restart
+
+#[Alex] for withfi register
+if [ -f /etc/rc.d/register.py ]; then
+	/usr/local/bin/python /etc/rc.d/register.py > /etc/rc.d/register.log
+fi
+
+if [ -f /root/bridge/Makefile ]; then
+    (cd /root/bridge/ && make start)
+fi

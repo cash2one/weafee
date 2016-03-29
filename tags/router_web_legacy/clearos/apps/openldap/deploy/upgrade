@@ -1,0 +1,90 @@
+#!/bin/sh
+
+# Sudoers
+#--------
+
+/usr/sbin/addsudo /usr/sbin/slapadd app-openldap-core
+/usr/sbin/addsudo /usr/sbin/slapcat app-openldap-core
+
+# Set default sysconfig
+#----------------------
+
+# ClearOS 6 only
+if [ -e /etc/sysconfig/ldap ]; then
+    CHECK=`grep ^BIND_POLICY /etc/sysconfig/ldap 2>/dev/null`
+
+    if [ -z "$CHECK" ]; then
+        logger -p local6.notice -t installer "app-openldap-core - updating LDAP sysconfig"
+        cp /usr/clearos/apps/openldap/deploy/ldap.sysconfig /etc/sysconfig/ldap
+    fi
+fi
+
+# Grab bootstrap certificates from Certificate Manager
+#-----------------------------------------------------
+
+KEY_SOURCE=/etc/pki/CA/bootstrap.key
+KEY=/etc/openldap/cacerts/key.pem
+
+if [ ! -s "$KEY" ]; then
+    logger -p local6.notice -t installer "app-openldap-core - prepping server key"
+    cp $KEY_SOURCE $KEY
+    chown root.ldap $KEY
+    chmod 640 $KEY
+fi
+
+CRT_SOURCE=/etc/pki/CA/bootstrap.crt
+CRT=/etc/openldap/cacerts/cert.pem
+
+if [ ! -s "$CRT" ]; then
+    logger -p local6.notice -t installer "app-openldap-core - prepping server certificate"
+    cp $CRT_SOURCE $CRT
+    chown root.ldap $CRT
+    chmod 640 $CRT
+fi
+
+# Add OwnCloud schema
+#--------------------
+
+# config.php check: don't bother with upgrade if LDAP not yet provisioned
+if [ -e /var/clearos/openldap/config.php ]; then
+    CHECK=`grep ^include[[:space:]]*/etc/openldap/schema/owncloud.schema /etc/openldap/slapd.conf 2>/dev/null`
+
+    if [ -z "$CHECK" ]; then
+        logger -p local6.notice -t installer "app-openldap-core - adding owncloud schema"
+        # Messy - using samba3 as a file marker
+        sed -i -e "s/^include[[:space:]]*\/etc\/openldap\/schema\/samba3.schema/include \/etc\/openldap\/schema\/samba3.schema\n\n# OwnCloud\ninclude \/etc\/openldap\/schema\/owncloud.schema/" /etc/openldap/slapd.conf 
+    fi
+fi
+
+# Add empty netgroup file
+#------------------------
+
+if [ ! -e /etc/netgroup ]; then
+    logger -p local6.notice -t installer "app-openldap-core - adding netgroup file"
+    touch /etc/netgroup
+fi
+
+# Configure server certificates
+#------------------------------
+
+/var/clearos/events/certificate_manager/openldap
+
+# Detect lingering file permission problem in /var/lib/ldap
+#----------------------------------------------------------
+
+if [ -e /var/lib/ldap/__db.001 ]; then
+    OWNER=`stat --format=%U /var/lib/ldap/__db.001`
+
+    if [ "$OWNER" == "root" ]; then
+        logger -p local6.notice -t installer "app-ldap-core - fixing file permissions"
+        chown -R ldap.ldap /var/lib/ldap
+        service slapd restart
+        service nslcd restart
+        service nscd restart
+    fi
+fi
+
+# Restart LDAP in case of schema changes
+#---------------------------------------
+
+/sbin/service slapd condrestart >/dev/null 2>&1

@@ -1,0 +1,1768 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Withfi | Cloud</title>
+        <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+        <!-- bootstrap 3.0.2 -->
+        <link href="../static/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <!-- font Awesome -->
+        <link href="../static/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+        <!-- Ionicons -->
+        <link href="../static/css/ionicons.min.css" rel="stylesheet" type="text/css" />
+        <!-- Theme style -->
+        <link href="../static/css/AdminLTE.css" rel="stylesheet" type="text/css" />
+        <link href="../static/css/multiselect.css" media="screen" rel="stylesheet" type="text/css">
+        <!--link href="../static/3rdparty/bootstrap-daterangepicker-master/daterangepicker-bs3.css" rel="stylesheet" type="text/css" /-->
+        <link href="../static/3rdparty/bootstrap-daterangepicker-master/daterangepicker.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body class="skin-blue">
+        <script src="../static/js/jquery/1.11.3/jquery.min.js" type="text/javascript"></script>
+        <script src="../static/js/jquery.quicksearch.js" type="text/javascript"></script>
+        <script src="../static/js/jquery.multi-select.js" type="text/javascript"></script>
+        <script type="text/javascript" src="../static/3rdparty/ajaxfileupload/ajaxfileupload.js"></script>
+        <script src="../static/js/bootstrap.min.js" type="text/javascript"></script>
+
+        <script src="../static/3rdparty/bootstrap-daterangepicker-master/moment.js" type="text/javascript"></script>
+        <script src="../static/3rdparty/bootstrap-daterangepicker-master/daterangepicker.js" type="text/javascript"></script>
+
+        <!-- AdminLTE App -->
+        <script src="../static/js/AdminLTE/app.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            
+            $(function () {                
+                
+                var url_dest = '/user/info';
+
+                    $.ajax({
+                        type: "GET",
+                        url: url_dest,
+                        dataType: "json",
+                        success: function (resp) {   
+                            // resp = {"username":"demo","level"："admin","state":"online"}
+                            $("#account_info").html(resp.username);
+                            
+                            var state_html = '<i class="fa fa-circle text-success"></i>' + resp.state;                            
+                            $("#account_state").html(state_html);
+                            
+                            var account_privilege_html = '<i class="fa fa-circle text-info"></i>' + resp.level;
+                            $("#account_privilege").html(account_privilege_html);
+                        }
+                    });
+            });
+            
+            
+
+            function select_ad_type(value) {
+                if (value == 1) {
+                    $('#float_banner_setting_container').show();
+                    $('#iCast_setting_container').hide();
+                    $('#ios_papery_setting_container').hide();
+                    $('#couplet_setting_container').hide();
+                    $('#popup_setting_container').hide();
+                    $('#404_setting_container').hide();
+                } else if (value == 2) {
+                    $('#float_banner_setting_container').hide();
+                    $('#iCast_setting_container').show();
+                    $('#ios_papery_setting_container').hide();
+                    $('#couplet_setting_container').hide();
+                    $('#popup_setting_container').hide();
+                    $('#404_setting_container').hide();
+                } else if (value == 3) {
+                    $('#float_banner_setting_container').hide();
+                    $('#iCast_setting_container').hide();
+                    $('#ios_papery_setting_container').show();
+                    $('#couplet_setting_container').hide();
+                    $('#popup_setting_container').hide();
+                    $('#404_setting_container').hide();
+                } else if (value == 4) {
+                    $('#float_banner_setting_container').hide();
+                    $('#iCast_setting_container').hide();
+                    $('#ios_papery_setting_container').hide();
+                    $('#couplet_setting_container').show();
+                    $('#popup_setting_container').hide();
+                    $('#404_setting_container').hide();
+                } else if (value == 5) {
+                    $('#float_banner_setting_container').hide();
+                    $('#iCast_setting_container').hide();
+                    $('#ios_papery_setting_container').hide();
+                    $('#couplet_setting_container').hide();
+                    $('#popup_setting_container').show();
+                    $('#404_setting_container').hide();
+                } else if (value == 6) {
+                    $('#float_banner_setting_container').hide();
+                    $('#iCast_setting_container').hide();
+                    $('#ios_papery_setting_container').hide();
+                    $('#couplet_setting_container').hide();
+                    $('#popup_setting_container').hide();
+                    $('#404_setting_container').show();
+                } else {
+                    alert("unkown value[" + value + "]");
+                    return;
+                }
+
+
+
+            }
+
+
+
+            /*get data for ad_table*/
+            $(function () {
+
+                /*for debug*/
+                var obj_arr = [
+                    {
+                        "id": 0,
+                        "name": "ceo",
+                        "mac": "11:11:10:10:10",
+                        "ip": "1.1.1.1"
+                    },
+                    {
+                        "id": 1,
+                        "name": "market",
+                        "mac": "11:11:11:11:11",
+                        "ip": "1.1.1.111"
+                    },
+                    {
+                        "id": 2,
+                        "name": "finance",
+                        "mac": "1:12:22:12:12",
+                        "ip": "1.1.1.222"
+                    }
+                ];
+                /*end debug*/
+
+                var url_dest = "/ad/adctl/show";
+                $.ajax({
+                    type: "GET",
+                    url: url_dest,
+                    dataType: "json",
+                    success: function (resp) {
+                        /*generate ad table*/
+
+                        var ad_num = resp.length
+
+                        var table_content = '<tr><th>ID</th><th>Ad Type</th><th>Ad Name</th><th>Relocation URL</th><th>Terminal OS</th><th>Start Time</th><th>End Time</th><th>Web Quality</th><th>Target Countries</th><th>Target Routers</th><th>Budget(Times)</th><th>Sync Flag</th><th>Action</th></tr>';
+                        for (var i = 0; i < ad_num; i++) {
+                            var sync_flag = '';
+                            var ad_target_website_quality = '';
+                            var ad_type = '';
+                            var terminal_os = '';
+
+                            var terminal_os_arr = JSON.parse(resp[i]['target_terminal_os']);
+
+                            for (var j = 0; j < terminal_os_arr.length; j++) {
+                                if (terminal_os_arr[j] == 1) {
+                                    terminal_os = terminal_os + '<span class="badge bg-light-blue">Android</span>';
+                                } else if (terminal_os_arr[j] == 2) {
+                                    terminal_os = terminal_os + '<span class="badge bg-yellow">IOS</span>';
+                                } else {
+                                    terminal_os = terminal_os + '<span class="badge bg-green">PC</span>';
+                                }
+                            }
+
+
+                            if (resp[i]['ad_type'] == 1) {
+                                ad_type = 'Banner';
+                            } else if (resp[i]['ad_type'] == 2) {
+                                ad_type = 'iCast';
+                            } else if (resp[i]['ad_type'] == 3) {
+                                ad_type = 'IOS papery';
+                            } else if (resp[i]['ad_type'] == 4) {
+                                ad_type = 'Couplet';
+                            } else if (resp[i]['ad_type'] == 5) {
+                                ad_type = 'Popup Window';
+                            } else if (resp[i]['ad_type'] == 6) {
+                                ad_type = '404 Error Page';
+                            }
+
+
+
+
+                            if (resp[i]['sync_flag'] == 0) {
+                                sync_flag = '<span class="badge bg-red">No</span>';
+                            } else {
+                                sync_flag = '<span class="badge bg-green">Yes</span>';
+                            }
+
+
+                            if (resp[i]['ad_target_website_quality'] == 1) {
+                                ad_target_website_quality = 'All Quality';
+                            } else if (resp[i]['ad_target_website_quality'] == 2) {
+                                ad_target_website_quality = 'Low Quality';
+                            } else if (resp[i]['ad_target_website_quality'] == 3) {
+                                ad_target_website_quality = 'Average Quality';
+                            } else if (resp[i]['ad_target_website_quality'] == 4) {
+                                ad_target_website_quality = 'High Quality';
+                            } else {
+                                ad_target_website_quality = 'Top Quality';
+                            }
+
+
+
+
+                            var target_routers = 'All';
+                            var ad_target_countries = 'Cambodia'; //var ad_target_countries = resp[i]['ad_target_country'];
+
+                            table_content = table_content + '<tr><td>' + resp[i]['id'] + '</td><td>' + ad_type + '</td><td>' + resp[i]['ad_name'] + '</td><td>' + resp[i]['ad_relocate_url'] + '</td><td>' + terminal_os + '</td><td>' + resp[i]['ad_start_timerange'] + '</td><td>' + resp[i]['ad_end_timerange'] + '</td><td>' + ad_target_website_quality + '</td><td>' + ad_target_countries + '</td><td>' + target_routers + '</td><td>' + resp[i]['ad_budget'] + '</td><td>' + sync_flag + '</td><td><input type="button" value="  Edit  " class="btn btn-success btn-xs disabled" onclick="edit_ad(' + resp[i]["id"] + ')">&nbsp&nbsp&nbsp<input type="button" value="Delete" class="btn btn-danger btn-xs" onclick="delete_ad(' + resp[i]["id"] + ')"></td></tr>';
+                            //alert(table_content);
+                        }
+
+                        $("#ad_table").append(table_content);
+                    }
+                });
+                //重新加载页面的代码
+                //window.location.reload();
+
+
+
+            });
+            /*end get data for ad_table*/
+
+            function add_new_ads() {
+
+                var new_ad_type = $('#new_ad_type').val();
+                var banner_relocate_url = '';
+                var couplet_relocate_url = '';
+                var popup_relocate_url = '';
+                var data = {};
+                if (new_ad_type == 1) {
+
+                    /* input check */
+                    if ($("#banner_name").val() == '' || $("#banner_name").val() == null) {
+                        alert('Please enter banner name');
+                        return;
+                    }
+
+                    if ($("#banner_pic_path").val() == '' || $("#banner_pic_path").val() == null) {
+                        alert('Please upload banner image');
+                        return;
+                    }
+
+                    if ($("#banner_title").val() == '' || $("#banner_title").val() == null) {
+                        alert('Please enter banner title');
+                        return;
+                    }
+
+                    if ($("#banner_content").val() == '' || $("#banner_content").val() == null) {
+                        alert('Please enter banner content');
+                        return;
+                    }
+
+                    if ($("#banner_relocate_url").val().length < 1) {
+                        alert('Please enter banner relocate url');
+                        return;
+                    }
+
+                    if ($("#banner_target_terminal_os").val() == '' || $("#banner_target_terminal_os").val() == null) {
+                        alert('Please enter banner target terminal os');
+                        return;
+                    }
+
+                    if ($("#banner_target_website_quality").val() == '' || $("#banner_target_website_quality").val() == null) {
+                        alert('Please enter banner target website quality');
+                        return;
+                    }
+
+                    if ($("#banner_target_country").val() == '' || $("#banner_target_country").val() == null) {
+                        alert('Please enter banner target country');
+                        return;
+                    }
+
+                    if ($("#banner_target_routers").val() == '' || $("#banner_target_routers").val() == null) {
+                        alert('Please enter banner target routers');
+                        return;
+                    }
+
+                    if ($("#banner_budget").val().length < 1) {
+                        alert('Please enter banner budget');
+                        return;
+                    }
+
+                    // handle format of $("#banner_relocate_url").val() 
+                    banner_relocate_url = $("#banner_relocate_url").val();
+                    if ((banner_relocate_url.substring(0, 7) != "http://") && (banner_relocate_url.substring(0, 8) != "https://")) {
+                        banner_relocate_url = "http://" + banner_relocate_url;
+                    }
+
+
+
+                    /*  end input check  */
+
+                    //banner
+                    data = {
+                        "new_ad_type": $("#new_ad_type").val(),
+                        "banner_name": $("#banner_name").val(),
+                        "banner_pic_path": $("#banner_pic_path").val(),
+                        "banner_title": $("#banner_title").val(),
+                        "banner_content": $("#banner_content").val(),
+                        "banner_relocate_url": banner_relocate_url,
+                        "banner_target_terminal_os": JSON.stringify($("#banner_target_terminal_os").val()),
+                        "banner_timerange": $("#banner_timerange").val(),
+                        "banner_target_website_quality": $("#banner_target_website_quality").val(),
+                        "banner_target_country": JSON.stringify($("#banner_target_country").val()),
+                        "banner_target_routers": JSON.stringify($("#banner_target_routers").val()),
+                        "banner_budget": $("#banner_budget").val()
+                    };
+                } else if (new_ad_type == 2) {
+                    alert("new_ad_type == 2");
+                    return;
+                } else if (new_ad_type == 3) {
+                    alert("new_ad_type == 3");
+                    return;
+                } else if (new_ad_type == 4) {
+                    //couplet
+                    if ($("#new_ad_type").val().length < 1) {
+                        alert('Please enter couplet name');
+                        return;
+                    }
+
+                    if ($("#couplet_pic_path").val().length < 1) {
+                        alert('Please upload couplet image');
+                        return;
+                    }
+
+                    if ($("#couplet_relocate_url").val().length < 1) {
+                        alert('Please enter couplet relocate url');
+                        return;
+                    }
+
+                    if ($("#couplet_target_terminal_os").val() == '' || $("#couplet_target_terminal_os").val() == null) {
+                        alert('Please enter couplet target terminal os');
+                        return;
+                    }
+
+                    if ($("#couplet_target_website_quality").val().length < 1) {
+                        alert('Please enter couplet target website quality');
+                        return;
+                    }
+
+                    if ($("#couplet_target_country").val() == '' || $("#couplet_target_country").val() == null) {
+                        alert('Please enter couplet target country');
+                        return;
+                    }
+
+                    if ($("#couplet_target_routers").val() == '' || $("#couplet_target_routers").val() == null) {
+                        alert('Please enter couplet target routers');
+                        return;
+                    }
+
+                    if ($("#couplet_budget").val().length < 1) {
+                        alert('Please enter couplet budget');
+                        return;
+                    }
+
+
+
+                    // handle format of $("#couplet_relocate_url").val() 
+                    couplet_relocate_url = $("#couplet_relocate_url").val();
+                    if ((couplet_relocate_url.substring(0, 7) != "http://") && (couplet_relocate_url.substring(0, 8) != "https://")) {
+                        couplet_relocate_url = "http://" + couplet_relocate_url;
+                    }
+
+                    data = {
+                        "new_ad_type": $("#new_ad_type").val(),
+                        "couplet_name": $("#couplet_name").val(),
+                        "couplet_pic_path": $("#couplet_pic_path").val(),
+                        "couplet_relocate_url": couplet_relocate_url,
+                        "couplet_target_terminal_os": JSON.stringify($("#couplet_target_terminal_os").val()),
+                        "couplet_timerange": $("#couplet_timerange").val(),
+                        "couplet_target_website_quality": $("#couplet_target_website_quality").val(),
+                        "couplet_target_country": JSON.stringify($("#couplet_target_country").val()),
+                        "couplet_target_routers": JSON.stringify($("#couplet_target_routers").val()),
+                        "couplet_budget": $("#couplet_budget").val()
+                    };
+                } else if (new_ad_type == 5) {
+                    //popup
+                    if ($("#popup_name").val().length < 1) {
+                        alert('Please enter popup name');
+                        return;
+                    }
+
+                    if ($("#popup_pic_path").val().length < 1) {
+                        alert('Please upload popup image');
+                        return;
+                    }
+
+                    if ($("#popup_relocate_url").val().length < 1) {
+                        alert('Please enter popup relocate url');
+                        return;
+                    }
+
+                    if ($("#popup_target_terminal_os").val() == '' || $("#popup_target_terminal_os").val() == null) {
+                        alert('Please enter popup target terminal os');
+                        return;
+                    }
+
+                    if ($("#popup_target_website_quality").val().length < 1) {
+                        alert('Please enter popup target website quality');
+                        return;
+                    }
+
+                    if ($("#popup_target_country").val() == '' || $("#popup_target_country").val() == null) {
+                        alert('Please enter popup target country');
+                        return;
+                    }
+
+                    if ($("#popup_target_routers").val() == '' || $("#popup_target_routers").val() == null) {
+                        alert('Please enter popup target routers');
+                        return;
+                    }
+
+                    // handle format of $("#popup_relocate_url").val() 
+                    popup_relocate_url = $("#popup_relocate_url").val();
+                    if ((popup_relocate_url.substring(0, 7) != "http://") && (popup_relocate_url.substring(0, 8) != "https://")) {
+                        popup_relocate_url = "http://" + popup_relocate_url;
+                    }
+
+
+
+
+                    data = {
+                        "new_ad_type": $("#new_ad_type").val(),
+                        "popup_name": $("#popup_name").val(),
+                        "popup_pic_path": $("#popup_pic_path").val(),
+                        "popup_relocate_url": popup_relocate_url,
+                        "popup_target_terminal_os": JSON.stringify($("#popup_target_terminal_os").val()),
+                        "popup_timerange": $("#popup_timerange").val(),
+                        "popup_target_website_quality": $("#popup_target_website_quality").val(),
+                        "popup_target_country": JSON.stringify($("#popup_target_country").val()),
+                        "popup_target_routers": JSON.stringify($("#popup_target_routers").val()),
+                        "popup_budget": $("#popup_budget").val()
+                    };
+                } else if (new_ad_type == 6) {
+                    alert("new_ad_type == 6");
+                    return;
+                } else if (new_ad_type == 7) {
+                    alert("new_ad_type == 7");
+                    return;
+                }
+
+                //alert($("#new_ad_type option:selected").text());
+
+
+                /*
+                 * post demo
+                 * 
+                 * banner_budget	
+                 1000
+                 banner_content	
+                 Banner Content
+                 banner_name	
+                 banner name
+                 banner_pic_path	
+                 ./output/1443620350.57.jpg
+                 banner_relocate_url	
+                 http://baidu.com
+                 banner_target_country[]	
+                 4
+                 banner_target_country[]	
+                 5
+                 banner_target_routers[]	
+                 2
+                 banner_target_routers[]	
+                 4
+                 banner_target_terminal_os...	
+                 1
+                 banner_target_website_qua...	
+                 1
+                 banner_timerange	
+                 09/30/2015 12:00-09/30/2015 12:00
+                 banner_title	
+                 banner title
+                 new_ad_type	
+                 1
+                 * 
+                 */
+
+
+
+                var url_dest = '/ad/adctl/add';
+                $.ajax({
+                    type: "POST",
+                    url: url_dest,
+                    data: data,
+                    dataType: "json",
+                    success: function (resp) {
+                        if (resp.ret_code == 'success') {
+                            alert('Ads add successful,start to reload page');
+                            window.location.reload();
+                            $('#myModal').modal('hide');
+                        } else {
+                            alert('Ads add failed');
+                        }
+                    }
+                });
+            }
+
+
+
+
+
+
+            function upload_float_banner_pic() {
+
+                $.ajaxFileUpload({
+                    url: '/ad/adctl/upload_file', //处理图片脚本
+                    secureuri: false,
+                    fileElementId: 'banner_pic_upload', //file控件id
+                    dataType: 'json',
+                    success: function (resp) {
+                        if (resp.ret_code == "success") {
+                            $('#banner_pic_path').val(resp.ret_msg);
+                            alert("Picture upload successfully");
+                        } else {
+                            alert("Upload failed, please try again");
+                        }
+                    }
+                });
+            }
+
+
+            function upload_couplet_pic() {
+
+                $.ajaxFileUpload({
+                    url: '/ad/adctl/upload_file', //处理图片脚本
+                    secureuri: false,
+                    fileElementId: 'couplet_pic_upload', //file控件id
+                    dataType: 'json',
+                    success: function (resp) {
+                        if (resp.ret_code == "success") {
+                            $('#couplet_pic_path').val(resp.ret_msg);
+                            alert("Image upload successful");
+                        } else {
+                            alert("Image upload failed, try again");
+                        }
+                    }
+                });
+            }
+
+
+
+            function upload_popup_pic() {
+
+                $.ajaxFileUpload({
+                    url: '/ad/adctl/upload_file', //处理图片脚本
+                    secureuri: false,
+                    fileElementId: 'popup_pic_upload', //file控件id
+                    dataType: 'json',
+                    success: function (resp) {
+                        if (resp.ret_code == "success") {
+                            $('#popup_pic_path').val(resp.ret_msg);
+                            alert("Image upload successful");
+                        } else {
+                            alert("Image upload failed, try again");
+                        }
+                    }
+                });
+            }
+
+            function edit_ad(value) {
+                alert('edit_ad');
+            }
+
+
+            function delete_ad(ad_no) {
+                var data = {
+                    "ad_no": ad_no
+                };
+
+                var url_dest = '/ad/adctl/delete';
+                $.ajax({
+                    type: "POST",
+                    url: url_dest,
+                    data: data,
+                    dataType: "json",
+                    success: function (resp) {
+                        if (resp.ret_code == 'success') {
+                            alert('Ad delete successful');
+                            window.location.reload();
+                        } else {
+                            alert('Ad delete failed');
+                        }
+                    }
+                });
+
+            }
+
+            function sync_ad() {
+                var url_dest = '/ad/adctl/sync';
+                $.ajax({
+                    type: "GET",
+                    url: url_dest,
+                    dataType: "json",
+                    success: function (resp) {
+                        if (resp.ret_code == 'success') {
+                            alert('Ad is syncronizing to routers now, It will cost 15 minutes, please wait');
+                            return;
+                        } else {
+                            alert('Ad sync failed, please try again [ ' + resp.ret_msg + ' ] ');
+                        }
+                    }
+                });
+            }
+
+
+
+
+        </script>
+
+
+        <!-- new adv -->
+        <div class="modal fade  "  id="myModal" aria-labelledby="myModalLabel" aria-hidden="true" role="dialog" tabindex="-1">
+            <!--div class="modal-dialog " style="display: inline-block; width: auto;"-->
+            <div class="modal-dialog  bs-example-modal-lg"  style="width:70%">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabelE5">New Advertisement</h4>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="wrapper row-offcanvas row-offcanvas-left">
+                            <!-- Main content -->
+                            <section class="content">
+                                <!--reboot router-->
+                                <!--后续配置项多了之后，需要改成Collapse collapse.js-->                                
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="box box-warning" >
+                                            <div class="box-header">
+                                                <h3 class="box-title"></h3>
+                                            </div>                                            
+                                            <form role="form" class="form-horizontal">
+                                                <div class="box-body">
+                                                    <div class="form-group" >
+                                                        <label for="ad_type" class="col-sm-2 control-label">Ad Type</label>
+                                                        <div class="col-sm-8">
+                                                            <select class="form-control" id="new_ad_type" onchange="select_ad_type(this.value)">
+                                                                <option value=1 selected="selected">Float Banner</option>
+                                                                <option value=2 disabled="disabled">iCast</option>
+                                                                <option value=3 disabled="disabled">IOS papery (IOS Only)</option>
+                                                                <option value=4>Couplet</option>
+                                                                <option value=5>Popup window</option>
+                                                                <option value=6 disabled="disabled">404 error page</option>                                                                
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div id="float_banner_setting_container">
+                                                        <div class="form-group" >
+                                                            <label for="banner_name" class="col-sm-2 control-label">Banner Name</label>
+                                                            <div class="col-sm-8">
+                                                                <input class="form-control" id="banner_name" type="text" placeholder="Please give a name for the banner">
+                                                            </div>                                                            
+                                                        </div>
+                                                        <div class="form-group" >
+                                                            <label for="banner_name_img" class="col-sm-2 control-label">Image</label>
+                                                            <div class="col-sm-8">
+                                                                <input id="banner_pic_upload" type="file" name="upfile" onchange="upload_float_banner_pic()">
+                                                                <p class="text-aqua">Image Demensions 72x72 &nbsp&nbsp Size Less Than 20KB</p>
+                                                            </div>
+                                                            <input class="form-control hidden" id="banner_pic_path" type="text">
+                                                        </div>
+                                                        <div class="form-group" >
+                                                            <label for="banner_title" class="col-sm-2 control-label">Banner Title</label>
+                                                            <div class="col-sm-8">
+                                                                <input class="form-control" id="banner_title" type="text" placeholder="Please enter the banner title  eg. Sina News">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group" >
+                                                            <label for="banner_content" class="col-sm-2 control-label">Banner Content</label>
+                                                            <div class="col-sm-8">
+                                                                <input class="form-control" id="banner_content" type="text"  placeholder="Please enter the banner content eg. Sina bring news all over the world">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group" >
+                                                            <label for="banner_relocate_url" class="col-sm-2 control-label">Banner Relocate URL</label>
+                                                            <div class="col-sm-8">
+                                                                <input class="form-control" id="banner_relocate_url" type="text"  placeholder="Please enter url which will be relocate to whenever ads is clicked">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group" >
+                                                            <label for="banner_target_terminal_os" class="col-sm-2 control-label">Target Terminal OS</label>
+                                                            <div class="col-sm-8">
+
+                                                                <div style="float:left;border:1px solid #DCDCDC;">
+                                                                    <div style="padding:10px;width:167px;text-align:center;float:left;" >Available</div>
+                                                                    <div style="padding:10px;width:167px;text-align:center;float:right;" >Selected</div>
+                                                                    <div  style="padding:10px;">
+                                                                        <select multiple class="searchable" name="searchable[]" id="banner_target_terminal_os">
+                                                                            <option value="1">Android</option>
+                                                                            <option value="2">IOS</option>
+                                                                            <option value="3" disabled="disabled">Windows PC</option>                                                                            
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label  for="banner_timerange" class="col-sm-2 control-label">Banner Time range</label>
+                                                            <div class="col-sm-8">
+                                                                <div class="input-group">
+                                                                    <div class="input-group-addon">
+                                                                        <i class="fa fa-clock-o"></i>
+                                                                    </div>
+                                                                    <input type="text" class="form-control pull-right" id="banner_timerange" />  
+                                                                </div>
+                                                            </div>                                                            
+                                                        </div>
+                                                        <div class="form-group" >
+                                                            <label for="banner_target_website_quality" class="col-sm-2 control-label">Target Website Quality</label>
+                                                            <div class="col-sm-8">
+                                                                <select class="form-control" id="banner_target_website_quality">
+                                                                    <option value=1 selected="selected">Any Quality( All Website )</option>
+                                                                    <option value=2 >Low Quality</option>
+                                                                    <option value=3 >Average Quality</option>
+                                                                    <option value=4 >High Quality</option>
+                                                                    <option value=5 >Top Quality</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group" >
+                                                            <label for="banner_target_country" class="col-sm-2 control-label">Target Countries</label>
+                                                            <div class="col-sm-8">
+                                                                <div style="float:left;border:1px solid #DCDCDC;">
+                                                                    <div style="padding:10px;width:167px;text-align:center;float:left;" >Available</div>
+                                                                    <div style="padding:10px;width:167px;text-align:center;float:right;" >Selected</div>
+                                                                    <div  style="padding:10px;">
+                                                                        <select multiple class="searchable" name="searchable[]" id="banner_target_country">
+                                                                            <!--option value="1">Bahrain</option>
+                                                                            <option value="2">Brazil</option-->
+                                                                            <option value="3">Cambodia</option>
+                                                                            <option value="4" disabled="disabled">China</option>
+                                                                            <option value="5" disabled="disabled">Indonesia</option>
+                                                                            <!--option value="6">Saudi Arabia</option-->
+                                                                            <option value="7" disabled="disabled">Thailand</option>
+                                                                            <!--option value="8">Vietnam</option-->
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group" >
+                                                            <label for="banner_target_routers" class="col-sm-2 control-label">Target Routers</label>
+                                                            <div class="col-sm-8">
+                                                                <div style="float:left;border:1px solid #DCDCDC;">
+                                                                    <div style="padding:10px;width:167px;text-align:center;float:left;" >Available</div>
+                                                                    <div style="padding:10px;width:167px;text-align:center;float:right;" >Selected</div>
+                                                                    <div  style="padding:10px;">
+                                                                        <select multiple class="searchable" name="searchable[]" id="banner_target_routers">
+                                                                            <option value="1">All Routers</option>
+                                                                            <option value="2" disabled="disabled">Router 3301</option>
+                                                                            <option value="3" disabled="disabled">Router 3302</option>
+                                                                            <option value="4" disabled="disabled">Router 3303</option>
+                                                                            <option value="5" disabled="disabled">Router 3304</option>
+                                                                            <option value="6" disabled="disabled">Router 3305</option>
+                                                                            <option value="7" disabled="disabled">Router 3306</option>
+                                                                            <option value="8" disabled="disabled">Router 3307</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group" >
+                                                            <label for="banner_budget" class="col-sm-2 control-label">Banner Show Times</label>
+                                                            <div class="col-sm-8">
+                                                                <input class="form-control" id="banner_budget" type="text" placeholder="Enter showing times setting for the ads    e.g. 1000">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div id="iCast_setting_container">
+                                                        <!--icast setting-->
+                                                        <p>iCast_setting_container</p>
+
+                                                    </div>
+                                                    <div id="ios_papery_setting_container">
+                                                        <p>ios_papery_setting_container</p>
+                                                    </div>
+
+                                                    <div id="couplet_setting_container">
+                                                        <div class="form-group" >
+                                                            <label for="couplet_name" class="col-sm-2 control-label">Couplet Name</label>
+                                                            <div class="col-sm-8">
+                                                                <input class="form-control" id="couplet_name" type="text" placeholder="Please give a name for the couplet">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group" >
+                                                            <label for="couplet_pic_upload" class="col-sm-2 control-label">Image</label>
+                                                            <div class="col-sm-8">
+                                                                <input id="couplet_pic_upload" type="file" name="upfile" onchange="upload_couplet_pic()">
+                                                                <p class="text-aqua">Image Demensions 120x300 &nbsp&nbsp Size Less Than 80KB</p>
+                                                            </div>
+
+                                                            <input class="form-control hidden" id="couplet_pic_path" type="text">
+                                                        </div>
+                                                        <div class="form-group" >
+                                                            <label for="couplet_relocate_url" class="col-sm-2 control-label">Couplet Relocate URL</label>
+                                                            <div class="col-sm-8">
+                                                                <input class="form-control" id="couplet_relocate_url" type="text"  placeholder="Please enter url which will be relocate to whenever ads is clicked">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group" >
+                                                            <label for="couplet_target_terminal_os" class="col-sm-2 control-label">Target Terminal OS</label>
+                                                            <div class="col-sm-8">
+
+                                                                <div style="float:left;border:1px solid #DCDCDC;">
+                                                                    <div style="padding:10px;width:167px;text-align:center;float:left;" >Available</div>
+                                                                    <div style="padding:10px;width:167px;text-align:center;float:right;" >Selected</div>
+                                                                    <div  style="padding:10px;">
+                                                                        <select multiple class="searchable" name="searchable[]" id="couplet_target_terminal_os">
+                                                                            <option value="1" disabled="disabled">Android</option>
+                                                                            <option value="2" disabled="disabled">IOS</option>
+                                                                            <option value="3">Windows PC</option>                                                                            
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label  for="couplet_timerange" class="col-sm-2 control-label">Couplet Time range</label>
+                                                            <div class="col-sm-8">
+                                                                <div class="input-group">
+                                                                    <div class="input-group-addon">
+                                                                        <i class="fa fa-clock-o"></i>
+                                                                    </div>
+                                                                    <input type="text" class="form-control pull-right" id="couplet_timerange" />  
+                                                                </div>
+                                                            </div>                                                            
+                                                        </div>
+                                                        <div class="form-group" >
+                                                            <label for="couplet_target_website_quality" class="col-sm-2 control-label">Target Website Quality</label>
+                                                            <div class="col-sm-8">
+                                                                <select class="form-control" id="couplet_target_website_quality">
+                                                                    <option value=1 selected="selected">Any Quality( All Website )</option>
+                                                                    <option value=2 >Low Quality</option>
+                                                                    <option value=3 >Average Quality</option>
+                                                                    <option value=4 >Hight Quality</option>
+                                                                    <option value=5 >Top Quality</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group" >
+                                                            <label for="couplet_target_country" class="col-sm-2 control-label">Target Countries</label>
+                                                            <div class="col-sm-8">
+                                                                <div style="float:left;border:1px solid #DCDCDC;">
+                                                                    <div style="padding:10px;width:167px;text-align:center;float:left;" >Available</div>
+                                                                    <div style="padding:10px;width:167px;text-align:center;float:right;" >Selected</div>
+                                                                    <div  style="padding:10px;">
+                                                                        <select multiple class="searchable" name="searchable[]" id="couplet_target_country">
+                                                                            <!--option value="1">Bahrain</option>
+                                                                            <option value="2">Brazil</option-->
+                                                                            <option value="3">Cambodia</option>
+                                                                            <option value="4" disabled="disabled">China</option>
+                                                                            <option value="5" disabled="disabled">Indonesia</option>
+                                                                            <!--option value="6">Saudi Arabia</option-->
+                                                                            <option value="7" disabled="disabled">Thailand</option>
+                                                                            <!--option value="8">Vietnam</option-->
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group" >
+                                                            <label for="couplet_target_routers" class="col-sm-2 control-label">Target Routers</label>
+                                                            <div class="col-sm-8">
+                                                                <div style="float:left;border:1px solid #DCDCDC;">
+                                                                    <div style="padding:10px;width:167px;text-align:center;float:left;" >Available</div>
+                                                                    <div style="padding:10px;width:167px;text-align:center;float:right;" >Selected</div>
+                                                                    <div  style="padding:10px;">
+                                                                        <select multiple class="searchable" name="searchable[]" id="couplet_target_routers">
+                                                                            <option value="1">All Routers</option>
+                                                                            <option value="2" disabled="disabled">Router 3301</option>
+                                                                            <option value="3" disabled="disabled">Router 3302</option>
+                                                                            <option value="4" disabled="disabled">Router 3303</option>
+                                                                            <option value="5" disabled="disabled">Router 3304</option>
+                                                                            <option value="6" disabled="disabled">Router 3305</option>
+                                                                            <option value="7" disabled="disabled">Router 3306</option>
+                                                                            <option value="8" disabled="disabled">Router 3307</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group" >
+                                                            <label for="couplet_budget" class="col-sm-2 control-label">Couplet Show Times</label>
+                                                            <div class="col-sm-8">
+                                                                <input class="form-control" id="couplet_budget" type="text" placeholder="Enter showing times setting for the ads    e.g. 1000">
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div id="popup_setting_container">
+                                                        <div class="form-group" >
+                                                            <label for="popup_name" class="col-sm-2 control-label">Popup Name</label>
+                                                            <div class="col-sm-8">
+                                                                <input class="form-control" id="popup_name" type="text" placeholder="Please give a name for the popup">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group" >
+                                                            <label for="popup_pic_upload" class="col-sm-2 control-label">Image</label>
+                                                            <div class="col-sm-8">
+                                                                <input id="popup_pic_upload" type="file" name="upfile" onchange="upload_popup_pic()">
+                                                                <p class="text-aqua">Image Demensions 370x210 &nbsp&nbsp Size Less Than 100KB</p>
+                                                            </div>
+                                                            <input class="form-control hidden" id="popup_pic_path" type="text">
+                                                        </div>
+                                                        <div class="form-group" >
+                                                            <label for="popup_relocate_url" class="col-sm-2 control-label">Popup Relocate URL</label>
+                                                            <div class="col-sm-8">
+                                                                <input class="form-control" id="popup_relocate_url" type="text"  placeholder="Please enter url which will be relocate to whenever ads is clicked">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group" >
+                                                            <label for="popup_target_terminal_os" class="col-sm-2 control-label">Target Terminal OS</label>
+                                                            <div class="col-sm-8">
+
+                                                                <div style="float:left;border:1px solid #DCDCDC;">
+                                                                    <div style="padding:10px;width:167px;text-align:center;float:left;" >Available</div>
+                                                                    <div style="padding:10px;width:167px;text-align:center;float:right;" >Selected</div>
+                                                                    <div  style="padding:10px;">
+                                                                        <select multiple class="searchable" name="searchable[]" id="popup_target_terminal_os">
+                                                                            <option value="1" disabled="disabled">Android</option>
+                                                                            <option value="2" disabled="disabled">IOS</option>
+                                                                            <option value="3">Windows PC</option>                                                                            
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label  for="popup_timerange" class="col-sm-2 control-label">Popup Time range</label>
+                                                            <div class="col-sm-8">
+                                                                <div class="input-group">
+                                                                    <div class="input-group-addon">
+                                                                        <i class="fa fa-clock-o"></i>
+                                                                    </div>
+                                                                    <input type="text" class="form-control pull-right" id="popup_timerange" />  
+                                                                </div>
+                                                            </div>                                                            
+                                                        </div>
+                                                        <div class="form-group" >
+                                                            <label for="popup_target_website_quality" class="col-sm-2 control-label">Target Website Quality</label>
+                                                            <div class="col-sm-8">
+                                                                <select class="form-control" id="popup_target_website_quality">
+                                                                    <option value=1 selected="selected">Any Quality( All Website )</option>
+                                                                    <option value=2 >Low Quality</option>
+                                                                    <option value=3 >Average Quality</option>
+                                                                    <option value=4 >Hight Quality</option>
+                                                                    <option value=5 >Top Quality</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group" >
+                                                            <label for="popup_target_country" class="col-sm-2 control-label">Target Countries</label>
+                                                            <div class="col-sm-8">
+                                                                <div style="float:left;border:1px solid #DCDCDC;">
+                                                                    <div style="padding:10px;width:167px;text-align:center;float:left;" >Available</div>
+                                                                    <div style="padding:10px;width:167px;text-align:center;float:right;" >Selected</div>
+                                                                    <div  style="padding:10px;">
+                                                                        <select multiple class="searchable" name="searchable[]" id="popup_target_country">
+                                                                            <!--option value="1">Bahrain</option>
+                                                                            <option value="2">Brazil</option-->
+                                                                            <option value="3">Cambodia</option>
+                                                                            <option value="4" disabled="disabled">China</option>
+                                                                            <option value="5" disabled="disabled">Indonesia</option>
+                                                                            <!--option value="6">Saudi Arabia</option-->
+                                                                            <option value="7" disabled="disabled">Thailand</option>
+                                                                            <!--option value="8">Vietnam</option-->
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group" >
+                                                            <label for="popup_target_routers" class="col-sm-2 control-label">Target Routers</label>
+                                                            <div class="col-sm-8">
+                                                                <div style="float:left;border:1px solid #DCDCDC;">
+                                                                    <div style="padding:10px;width:167px;text-align:center;float:left;" >Available</div>
+                                                                    <div style="padding:10px;width:167px;text-align:center;float:right;" >Selected</div>
+                                                                    <div  style="padding:10px;">
+                                                                        <select multiple class="searchable" name="searchable[]" id="popup_target_routers">
+                                                                            <option value="1">All Routers</option>
+                                                                            <option value="2" disabled="disabled">Router 3301</option>
+                                                                            <option value="3" disabled="disabled">Router 3302</option>
+                                                                            <option value="4" disabled="disabled">Router 3303</option>
+                                                                            <option value="5" disabled="disabled">Router 3304</option>
+                                                                            <option value="6" disabled="disabled">Router 3305</option>
+                                                                            <option value="7" disabled="disabled">Router 3306</option>
+                                                                            <option value="8" disabled="disabled">Router 3307</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group" >
+                                                            <label for="popup_budget" class="col-sm-2 control-label">Popup Show Times</label>
+                                                            <div class="col-sm-8">
+                                                                <input class="form-control" id="popup_budget" type="text" placeholder="Enter showing times setting for the ads   e.g.1000">
+                                                            </div>
+                                                        </div>
+
+
+                                                    </div>
+
+                                                    <div id="404_setting_container">
+                                                        <p>404_setting_container</p>
+                                                    </div>
+
+                                                </div>
+                                                <div class="box-footer">
+                                                    <input type="button" class="btn btn-sm btn-primary" value="Save" onclick="add_new_ads()">
+                                                </div>
+                                            </form>
+                                            <div class="overlay" style="display: none" id="lan_setting_load"></div>
+                                            <div class="loading-img" style="display: none" id="lan_setting_load_img"></div>
+                                        </div>
+                                    </div> 
+
+                                </div>
+                                <!--end reboot router-->
+
+
+
+                            </section><!-- /.content -->
+                        </div><!-- ./wrapper -->                           
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end new adv-->
+
+        <!-- header logo: style can be found in header.less -->
+        <header class="header">
+            <a href="/" class="logo">
+                <!-- Add the class icon to your logo image or logo icon to add the margining -->
+                admin.withfi.com
+            </a>
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top" role="navigation">
+                <!-- Sidebar toggle button-->
+                <a href="#" class="navbar-btn sidebar-toggle" data-toggle="offcanvas" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a> 
+                <div class="navbar-right">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown user user-menu">
+                            <a  href="/user/logout">
+                                <span>Logout</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <div class="wrapper row-offcanvas row-offcanvas-left">
+            <!-- Left side column. contains the logo and sidebar -->
+            <aside class="left-side sidebar-offcanvas">                
+                <!-- sidebar: style can be found in sidebar.less -->
+                <section class="sidebar">
+                    <!-- Sidebar user panel -->
+                    <div class="user-panel">
+                        <div class="pull-left image">
+                            <img src="../static/img/avatar5.png" class="img-circle" alt="User Image" />
+                        </div>
+                        <div class="pull-left info">
+                            <p id="account_info"></p>
+
+                            <a href="#" id="account_state"><i class="fa fa-circle text-success"></i></a>
+                            <a href="#" id="account_privilege"><i class="fa fa-circle text-info"></i></a>
+                        </div>
+                    </div>                   
+                    <!-- sidebar menu: : style can be found in sidebar.less -->
+
+                    <ul class="sidebar-menu">
+                        <li >
+                            <a href="/report">
+                                <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+                            </a>
+                        </li>    
+                        <li class="active">
+                            <a href="/ad" >
+                                <i class="fa fa-bar-chart-o"></i> <span>Ad Management</span>
+                            </a>
+                        </li> 
+                        <li>
+                            <a href="/device" >
+                                <i class="fa fa-calendar"></i> <span>Device Management</span>
+                            </a>
+                        </li>  
+                        <li>
+                            <a href="/system">
+                                <i class="fa fa-th"></i> <span>System</span>
+                            </a>
+                        </li> 
+                        <!--li>                           
+                            <a href="qos.html">
+                                <i class="fa fa-calendar"></i> <span>QoS Setting</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="firewall.html">
+                                <i class="fa fa-envelope"></i> <span>Firewall Setting</span>
+                            </a>
+                        </li>
+                        <li >
+                            <a href="system.html">
+                                <i class="fa fa-laptop"></i> <span>System</span>
+                            </a>
+                        </li-->                        
+                    </ul>
+                </section>
+                <!-- /.sidebar -->
+            </aside>
+
+            <!-- Right side column. Contains the navbar and content of the page -->
+            <aside class="right-side">                
+                <!-- Content Header (Page header) -->
+                <section class="content-header">
+                    <h1>
+                        Ad Management
+                    </h1>
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                        <li class="active">Ad Management</li>
+                    </ol>
+                </section>
+
+                <!-- Main content -->
+                <section class="content">
+                    <h4 class="page-header">
+                        Global Ads Control
+                        <small>
+                            The ads added here will be pushed to all the online routers. </br>
+                            The ads will be shown when users access to the website or Apps.
+                        </small>
+                    </h4>
+                    <!--reboot router-->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box box-primary">
+                                <div class="box-header">
+                                    <div class="box-tools pull-left"  data-container="body" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="false" title="User Guide" data-content="Create new advertisement">
+                                        <div class="input-group">
+                                            <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" id="add_ads">&nbsp&nbspNew&nbsp&nbsp</button>
+                                        </div>
+                                    </div>                                    
+                                    <div class="box-tools pull-left" data-container="body" data-toggle="popover" data-placement="top" data-trigger="hover" data-html="false" title="User Guide" data-content="The advertisements will be synchronized to all the routers in 15 minutes whenever the sync button is clicked">
+                                        <div class="input-group" >
+                                            <button class="btn btn-primary btn-sm"  onclick="sync_ad()" >Sync Ad</button>
+                                        </div>
+                                    </div>
+                                    <div class="pull-right box-tools" data-container="body" data-toggle="popover" data-placement="left" data-trigger="hover" data-html="true" title="User Guide"
+                                         data-content="
+                                         <ul>
+                                         <li>Firstly, add or delete the advertisements one by one</li>
+                                         <li>Secondly, click sync button whenever all the advertisement establishments are complete</li>
+                                         <li>Thirdly, advertisements will be synchronized to all the routers within 15 minutes after clicking sync button</li>
+                                         </ul>
+                                         ">
+                                        <button class="btn btn-primary btn-xs" id="adv_manager_guide">
+                                            <i class="fa fa-question-circle"></i>
+                                        </button>
+                                    </div>
+                                </div><!-- /.box-header -->
+                                <div class="box-body table-responsive no-padding ">
+                                    <table class="table table-hover table-bordered" id="ad_table">
+                                        <!--tr>
+                                            <th>Name</th>
+                                            <th>Type</th>
+                                            <th>Quality</th>
+                                            <th>Budget</th>
+                                            <th>Country Target</th>
+                                            <th>OS Filter</th>
+                                            <th>Scenarios Filter</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        <tr>
+                                            <td>Sina news website adv banner</td>
+                                            <td>banner</td>
+                                            <td>any quality</td>
+                                            <td>11322</td>
+                                            <td>Cambodia</td>
+                                            <td>All</td>
+                                            <td>Internet Cafe</td>
+                                            <td><input type="button" value="Delete" class="btn btn-danger btn-xs" onclick="add_static_bind_ip(1)"></td>
+                                        </tr-->     
+                                    </table>
+
+
+
+                                </div><!-- /.box-body -->
+                            </div><!-- /.box -->
+                        </div> 
+                    </div>
+                    <!--end reboot router-->
+
+                    <!--black list-->
+
+                    <script>
+                        /*for black list func*/
+                        //var blacklist_data_arr = new Array(); 
+                        var blacklist_data_arr = [];
+                        $(function () {
+
+                            var url_dest = '/ad/global_blacklist/show';
+                            $.ajax({
+                                type: "GET",
+                                url: url_dest,
+                                dataType: "json",
+                                success: function (resp) {
+                                    blacklist_data_arr = resp.global_blacklist;
+                                    draw_black_list_table();
+                                }
+                            });
+                        });
+                        function draw_black_list_table() {
+
+                            var table_content = '<table class="table table-hover table-bordered" id="black_list_table"><tr><th>Host</th><th>Action</th></tr>';
+                            var length = blacklist_data_arr.length;
+                            for (var i = 0; i < length; i++) {
+                                table_content = table_content + '<tr><td>' + blacklist_data_arr[i] + '</td><td style="width:35px"><input type="button" value="Delete" class="btn btn-danger btn-xs" onclick="delete_black_list(' + i + ')"></td></tr>';
+                            }
+
+                            table_content = table_content + '</table>';
+                            $("#black_list_table").replaceWith(table_content);
+                        }
+
+                        function getHostName(url) {
+
+                            var tt = url.substring(0, 7);
+                            var xx = url.substring(0, 8);
+                            if ((url.substring(0, 7) != "http://") && (url.substring(0, 8) != "https://")) {
+                                url = "http://" + url;
+                            }
+
+                            //scheme : // [username [: password] @] hostame [: port] [/ [path] [? query] [# fragment]]*/
+                            var e = new RegExp('^(?:(?:https?|ftp):)/*(?:[^@]+@)?([^:/#]+)'),
+                                    matches = e.exec(url);
+                            return matches ? matches[1] : url;
+                        }
+
+                        function add_black_list() {
+
+                            if ($('#black_list_input').val() == '' || $('#black_list_input').val() == null) {
+                                alert("Please input black list url");
+                                return;
+                            }
+
+                            var blacklist_url = $('#black_list_input').val();
+                            var blacklist_hostname = getHostName(blacklist_url);
+                            blacklist_data_arr.push(blacklist_hostname);
+                            draw_black_list_table();
+                        }
+
+
+                        function delete_black_list(value) {
+
+                            blacklist_data_arr.splice(value, 1);
+                            draw_black_list_table();
+                        }
+
+
+
+
+
+                        function submint_blacklist() {
+
+
+
+
+                            var data = {
+                                "blacklist": JSON.stringify(blacklist_data_arr)
+                            };
+                            var url_dest = '/ad/global_blacklist/submit';
+                            $.ajax({
+                                type: "POST",
+                                url: url_dest,
+                                data: data,
+                                dataType: "json",
+                                success: function (resp) {
+                                    if (resp.ret_code == 'success') {
+                                        alert('Global Blacklist is syncronizing to routers now, It will cost 15 minutes, please wait');
+                                    } else {
+                                        alert('Submit blacklist failed');
+                                    }
+                                }
+                            });
+                        }
+
+
+                    </script>
+
+                    <h4 class="page-header">
+                        Global Blacklist Host Control
+                        <small>
+                            The host name add here will pushed to all the online routers. </br>
+                            The ads will not shown when users access to the host under below.
+                        </small>
+                    </h4>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box box-primary">
+                                <div class="box-header">
+                                    <div class="box-tools pull-left col-md-5">
+                                        <div class="input-group input-group-sm"   data-container="body" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-html="true" title="User Guide" data-content="
+                                             <ul>
+                                             <li>Firstly,enter the url you want to add into global blacklist</li>
+                                             <li>Secondly, click add button and the host of the url will be added</li>
+                                             </ul>
+                                             ">
+                                            <input id="black_list_input" class="form-control " type="text">
+                                            <div class="input-group-btn">
+                                                <button class="btn btn-primary " type="button" onclick="add_black_list()">Add</button>
+                                            </div>                                            
+                                        </div>
+
+                                    </div>
+                                    <div class="box-tools pull-left col-md-2"   data-container="body" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-html="false" title="User Guide" data-content="Global blacklists will be synchronized to all the routers within 15 minutes after clicking submit button">
+                                        <div class="input-group input-group-sm">
+                                            <button class="btn btn-primary btn-sm"  onclick="submint_blacklist()">Submit</button>
+                                        </div>
+                                    </div>
+                                    <div class="pull-right box-tools" data-container="body" data-toggle="popover" data-placement="left" data-trigger="hover" data-html="true" title="User Guide"
+                                         data-content="
+                                         <ul>
+                                         <li>Firstly, add or delete the global blacklist one by one</li>
+                                         <li>Secondly, click submit button whenever all the global blacklists are complete</li>
+                                         <li>Thirdly, global blacklists will be synchronized to all the routers within 15 minutes after clicking submit button</li>
+                                         </ul>
+                                         ">
+                                        <button class="btn btn-primary btn-xs" id="adv_manager_guide">
+                                            <i class="fa fa-question-circle"></i>
+                                        </button>
+                                    </div>
+                                </div><!-- /.box-header -->
+                                <div class="box-body table-responsive no-padding ">
+                                    <table class="table table-hover table-bordered" id="black_list_table">
+
+
+                                    </table>
+                                </div><!-- /.box-body -->
+                            </div><!-- /.box -->
+                        </div> 
+                    </div>
+
+                    <!--end black list-->
+
+
+
+                    <!--add pic-->
+                    <!--div class="row">
+                        <div class="col-md-12">
+                            <div class="box box-primary">
+                                <div class="box-header">
+
+                                    <div class="box-tools pull-left col-md-2">
+                                        <div id="uploadForm">
+                                            <form id="upfileform" action="ad/global_blacklist/upload_file" target="iframe_key_958002" enctype="multipart/form-data" name="upimg" method="post">
+                                                {%csrf_token%}
+                                                <input type="hidden" value="ams_adspage" name="source_ui">
+                                                <input type="hidden" value="add_adsPic" name="sub_source_ui">                                                
+                                                <input id="upfile" class="filebot" type="file" onchange="imgUploadingAdv()" name="upfile">
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="box-tools pull-left col-md-5">
+                                        <form id="addpicform" action="ad/global_blacklist/upload_file" target="iframe_key_958003" enctype="multipart/form-data" method="post">  
+                                            {%csrf_token%}
+                                            <input id="imgid" name="upfile" type="file" >
+                                            <input type="submit" class="btn btn-primary btn-sm" value="Submit">                                    
+                                        </form>
+                                    </div>
+                                    <div class="box-tools pull-left col-md-2">
+                                        <input id="fileToUpload" type="file" name="upfile" >
+                                        <button id="buttonUpload" class="btn btn-primary btn-sm">Upload</button>
+                                    </div>
+
+
+
+                                </div>                           
+                            </div>
+                        </div> 
+                    </div-->
+
+                    <!--end addpic-->
+
+
+
+
+                </section><!-- /.content -->
+            </aside><!-- /.right-side -->
+        </div><!-- ./wrapper -->
+
+
+
+
+
+        <!-- jQuery 2.0.2 -->
+        <!--script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script-->
+        <!--script src="/static/js/jquery/2.1.4/jquery.min.js"></script-->
+
+        <!-- Bootstrap -->
+
+
+
+
+
+        <script defer="defer">
+            $('.searchable').multiSelect({
+                /*
+                 selectableHeader: "<input type='text' class='search-input' autocomplete='off' placeholder='搜索'>",
+                 selectionHeader: "<input type='text' class='search-input' autocomplete='off' placeholder='搜索'>",*/
+                afterInit: function (ms) {
+                    var that = this,
+                            $selectableSearch = that.$selectableUl.prev(),
+                            $selectionSearch = that.$selectionUl.prev(),
+                            selectableSearchString = '#' + that.$container.attr('id') + ' .ms-elem-selectable:not(.ms-selected)',
+                            selectionSearchString = '#' + that.$container.attr('id') + ' .ms-elem-selection.ms-selected';
+                    that.qs1 = $selectableSearch.quicksearch(selectableSearchString)
+                            .on('keydown', function (e) {
+                                if (e.which === 40) {
+                                    that.$selectableUl.focus();
+                                    return false;
+                                }
+                            });
+                    that.qs2 = $selectionSearch.quicksearch(selectionSearchString)
+                            .on('keydown', function (e) {
+                                if (e.which == 40) {
+                                    that.$selectionUl.focus();
+                                    return false;
+                                }
+                            });
+                },
+                afterSelect: function () {
+                    this.qs1.cache();
+                    this.qs2.cache();
+                },
+                afterDeselect: function () {
+                    this.qs1.cache();
+                    this.qs2.cache();
+                }
+            });
+            change_width();
+            $('select-all').click(function () {
+                $('#public-methods').multiSelect('select_all');
+                return false;
+            });
+            $('deselect-all').click(function () {
+                $('#public-methods').multiSelect('deselect_all');
+                return false;
+            });
+            function abc() {
+                alert($('.searchable').val());
+            }
+            function change_width() {
+                var _doc = (document.compatMode != "BackCompat") ? document.documentElement : document.body;
+                if (_doc.clientWidth > 1240) {
+                    $('.ms-container').css('width', "370px");
+                    $('.title_text').css('width', "167px");
+                }
+                else {
+                    $('.ms-container').css('width', "300px");
+                    $('.title_text').css('width', "135px");
+                }
+            }
+
+
+
+
+            /*
+             *选择模板
+             */
+            function chosetemp() {
+                $.get('index.php?ac=project&op=temp&tempid=' + moban, '', function (v) {
+                    MessageBox.Msg({title: '选择模板', content: v, mark: 1});
+                });
+            }
+            var moban = '1';
+            function chose(o) {
+                moban = o.value;
+            }
+            function chosemoban() {
+                if (moban != '') {
+                    $('#tempbutton').html('已选：模板' + moban);
+                    $('#tempid').val(moban);
+                }
+                MessageBox.close(MessageBox.aci);
+            }
+
+            /* 
+             *	选择登陆页
+             */
+            function choselogin() {
+                $.getJSON('index.php?ac=loginpage&op=ajaxshow', '', function (v) {
+                    var m = '';
+                    for (var i in v) {
+                        if (i != 'cou') {
+                            m += '<option value="' + v[i].login_id + '">' + v[i].shop_name + '</option>';
+                        }
+                    }
+                    var content = '<div class="out_div" style="width:400px;height:150px;">' +
+                            '<div class="inner_div">' +
+                            '<div>' +
+                            '<select style="width:155px" id="loginselect">' +
+                            m +
+                            '<option value=0>不需要登陆页</option></select>' +
+                            '</div>' +
+                            '<div style="margin-top:20px"><ul class="ui-tmPopup-btn-ul button-center-two"><li class="medium tm_button btn" role="button" style="margin-top: 8px;"><span class="button_content btn btn_name" onclick="choseloginid()">确定</span></li></ul></div>' +
+                            '</div>' +
+                            '</div>';
+                    MessageBox.Msg({title: '选择登陆页', content: content, mark: 1});
+                });
+            }
+
+            function choseloginid() {
+                $('#login_id').val($('#loginselect').val());
+                $('#loginbutton').html('已选择：' + $('#loginselect option:selected').text());
+                MessageBox.close(0);
+            }
+
+
+            var gid = "";
+            function pin() {
+                if ($('#gname').val().length < 1 || $('#tempid').val().length < 1 || $('#login_id').val().length < 1) {
+                    var content = '<div class="out_div" style="width:400px;height:150px;">' +
+                            '<div class="inner_div">' +
+                            '<div>请正确填写带星号项！</div>' +
+                            '<div style="margin-top:30px" id="ajaxbutton"></div>' +
+                            '</div>' +
+                            '</div>';
+                    MessageBox.Msg({title: "提示", content: content, mark: 1});
+                    $('#ajaxbutton').html('<ul class="ui-tmPopup-btn-ul button-center-two"><li class="medium tm_button btn" role="button" style="margin-top: 8px;"><span class="button_content btn btn_name" onclick="MessageBox.close(' + MessageBox.aci + ')">确定</span></li></ul>');
+                }
+                else {
+                    $.post('?ac=group&op=addgroup', {mids: $('#a').val(), ads: $('#b').val(), adtime: $('#adtime').val(), reauth: $('#reauth').val(), shop_site: $('#shop_site').val(), gname: $('#gname').val(), tempid: $('#tempid').val(), login_id: $('#login_id').val()}, function (v) {
+                        MessageBox.Msg({title: '提示', content: '<div style="padding:10px;text-align:center;width:200px;"><div style="padding:30px 0px;">修改成功</div><div style="margin-left:60px;height:40px;"><ul class="ui-tmPopup-btn-ul button-center-twice"><li class="medium tm_button btn" role="button" style="margin-top: 8px;"><span class="button_content btn btn_name" onclick="MessageBox.close(0);show_list()">确定</span></li></ul></div>	</div>', mark: 1, name: 'dialog'});
+                        gid = v;
+                    });
+                }
+            }
+
+            function show_list() {
+                location.href = "?ac=group";
+            }
+
+            function showtab() {
+                var content = '<div class="out_div" style="width:400px;height:150px;">' +
+                        '<div class="inner_div">' +
+                        '<div>请先选择本组的广告！</div>' +
+                        '<div style="margin-top:30px" id="ajaxbutton"></div>' +
+                        '</div>' +
+                        '</div>';
+                MessageBox.Msg({title: "提示", content: content, mark: 1});
+                $('#ajaxbutton').html('<ul class="ui-tmPopup-btn-ul button-center-two"><li class="medium tm_button btn" role="button" style="margin-top: 8px;"><span class="button_content btn btn_name" onclick="MessageBox.close(' + MessageBox.aci + ')">确定</span></li></ul>');
+            }
+
+            function showtip(t, obj) {
+                var tip = $(obj).attr("tip");
+                if (tip != "") {
+                    var tipId = "Tips" + t;
+                    $(obj).parent().bind("mouseleave", hidetip(t));
+                    if (!$$(tipId)) {
+                        var div = document.createElement("div");
+                        $(obj).parent().append(div);
+                        $(div).attr("id", tipId);
+                        $(div).attr("class", "tip_1");
+                    } else {
+                        var div = $$(tipId);
+                        $("#Tips" + t).show();
+                    }
+                    var pos = get_obj_position(obj);
+                    $(div).html(tip);
+                    $(div).css("top", pos[0] + pos[3]);
+                    $(div).css("left", pos[1] + pos[2]);
+                }
+            }
+
+            function hidetip(v) {
+
+                return function () {
+                    $('#Tips' + v).hide();
+                };
+            }
+
+
+        </script>
+
+        <script>
+            //禁用 modal点击空白或者 按 esc 退出 modal的功能
+            //$('#myModal').modal({backdrop: 'static', keyboard: false});
+        </script>
+
+        <script>
+
+            //$('#myModal')弹出框每次显示时，根据$("#new_ad_type").val() 自动隐藏多余的dom元素
+            $(function () {
+                $('#myModal').on('shown.bs.modal', function () {
+                    //alert('modal shown even');
+                    var new_ad_type = $("#new_ad_type").val();
+                    select_ad_type(new_ad_type);
+                })
+            });</script>
+
+
+
+        <script type="text/javascript">
+            $(function () {
+                $('#couplet_timerange').daterangepicker({
+                    "parentEl": $('#myModal'),
+                    "showDropdowns": true,
+                    "timePicker": true,
+                    "timePicker24Hour": true,
+                    "timePickerIncrement": 1,
+                    "startDate": "2015-10-01 01:01:01",
+                    "endDate": "2115-10-01 01:01:01",
+                    "locale": {
+                        "format": "YYYY-MM-DD h:mm:ss",
+                        "separator": "_",
+                        "applyLabel": "Apply",
+                        "cancelLabel": "Cancel",
+                        "fromLabel": "From",
+                        "toLabel": "To",
+                        "customRangeLabel": "Custom",
+                        "daysOfWeek": [
+                            "Su",
+                            "Mo",
+                            "Tu",
+                            "We",
+                            "Th",
+                            "Fr",
+                            "Sa"
+                        ],
+                        "monthNames": [
+                            "January",
+                            "February",
+                            "March",
+                            "April",
+                            "May",
+                            "June",
+                            "July",
+                            "August",
+                            "September",
+                            "October",
+                            "November",
+                            "December"
+                        ],
+                        "firstDay": 1
+                    },
+                    "linkedCalendars": false,
+                    //"opens": "left"
+                    "opens": "right"
+                });
+            });</script>
+        <script type="text/javascript">
+            $(function () {
+                $('#popup_timerange').daterangepicker({
+                    "parentEl": $('#myModal'),
+                    "showDropdowns": true,
+                    "timePicker": true,
+                    "timePicker24Hour": true,
+                    "timePickerIncrement": 1,
+                    "startDate": "2015-10-01 01:01:01",
+                    "endDate": "2115-10-01 01:01:01",
+                    "locale": {
+                        "format": "YYYY-MM-DD h:mm:ss",
+                        "separator": "_",
+                        "applyLabel": "Apply",
+                        "cancelLabel": "Cancel",
+                        "fromLabel": "From",
+                        "toLabel": "To",
+                        "customRangeLabel": "Custom",
+                        "daysOfWeek": [
+                            "Su",
+                            "Mo",
+                            "Tu",
+                            "We",
+                            "Th",
+                            "Fr",
+                            "Sa"
+                        ],
+                        "monthNames": [
+                            "January",
+                            "February",
+                            "March",
+                            "April",
+                            "May",
+                            "June",
+                            "July",
+                            "August",
+                            "September",
+                            "October",
+                            "November",
+                            "December"
+                        ],
+                        "firstDay": 1
+                    },
+                    "linkedCalendars": false,
+                    //"opens": "left"
+                    "opens": "right"
+                });
+            });
+        </script>
+        <script type="text/javascript">
+            $(function () {
+                $('#banner_timerange').daterangepicker({
+                    "parentEl": $('#myModal'),
+                    "showDropdowns": true,
+                    "timePicker": true,
+                    "timePicker24Hour": true,
+                    "timePickerIncrement": 1,
+                    "startDate": "2015-10-01 01:01:01",
+                    "endDate": "2115-10-01 01:01:01",
+                    "locale": {
+                        "format": "YYYY-MM-DD h:mm:ss",
+                        "separator": "_",
+                        "applyLabel": "Apply",
+                        "cancelLabel": "Cancel",
+                        "fromLabel": "From",
+                        "toLabel": "To",
+                        "customRangeLabel": "Custom",
+                        "daysOfWeek": [
+                            "Su",
+                            "Mo",
+                            "Tu",
+                            "We",
+                            "Th",
+                            "Fr",
+                            "Sa"
+                        ],
+                        "monthNames": [
+                            "January",
+                            "February",
+                            "March",
+                            "April",
+                            "May",
+                            "June",
+                            "July",
+                            "August",
+                            "September",
+                            "October",
+                            "November",
+                            "December"
+                        ],
+                        "firstDay": 1
+                    },
+                    "linkedCalendars": false,
+                    //"opens": "left"
+                    "opens": "right"
+                });
+            });
+        </script>
+
+        <script>
+            $(function ()
+            {
+                $("[data-toggle='popover']").popover();
+            });
+        </script>
+
+
+
+    </body>
+</html>

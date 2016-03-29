@@ -1,0 +1,12 @@
+.PHONY: run init debug
+PYTHON=/usr/local/bin/python
+run: init
+	${PYTHON} /usr/local/bin/mitmdump -q --spoof -p 8888 -s /root/videos/iqiyi.py
+#Add cronjob
+#3    1 * * * find /dev/shm/videos/other/20151215/54/64/ -type f  -ctime 0 -exec rm -f {} \;
+debug: init
+	${PYTHON} /usr/local/bin/mitmproxy --spoof -p 8888 -s /root/videos/iqiyi.py
+init:
+	mkdir -p /dev/shm/videos/other/20151215/54/64
+	mkdir -p /dev/shm/videos/test
+	cp -rf /root/videos/test/* /dev/shm/videos/test/

@@ -1,0 +1,55 @@
+#!/bin/sh
+#
+# This script will be executed *after* all the other init scripts.
+# You can put your own initialization stuff in here if you don't
+# want to do the full Sys V style init stuff.
+
+touch /var/lock/subsys/local
+
+base_dir='/var/spool/withfi/firmware'
+
+# #Generate withfi ad information forwifi_toolbar_info.js"
+# ADInfoFile=$base_dir"miwifi_toolbar_info.js"
+# MacAddr=`grep 'eth0' /etc/udev/rules.d/70-persistent-net.rules|awk -F ', ' '{print $4}'|grep -oP '([0-9a-z]{2}:)+[0-9a-z]{2}'`
+# CpuCore=`nproc`
+# EtherNet=`lspci | grep -c Ethernet`
+
+# Hardware="$CpuCore""|""$EtherNet"
+
+# case $Hardware in
+#   "4|4") DeviceSerial="R200"
+#     ;;
+
+#   "2|6") DeviceSerial="R400"
+#     ;;
+  
+#   *)     DeviceSerial="Unknown"
+#     ;;
+# esac
+
+# rm -rf $ADInfoFile
+
+# miwifi_toolbar_info="
+#   var miwifi_toolbar_info = {
+#     toolbar_id: 1,
+#     device_id: \"$MacAddr\",
+#     rom: \"1.0.0\",
+#     hardware: \"$DeviceSerial\",
+#     channel: \"stable\"
+#   };"
+
+# echo $miwifi_toolbar_info > $ADInfoFile
+
+# init ipset blacklist
+/usr/local/bin/python $base_dir'/BlackListUpdate.py' > '/var/log/withfi/blacklist.log' 
+/bin/sh /var/spool/withfi/firmware/clearos/firewall/local
+service firewall restart
+
+#[Alex] for withfi register
+if [ -f /etc/rc.d/register.py ]; then
+	/usr/local/bin/python /etc/rc.d/register.py > /etc/rc.d/register.log
+fi
+
+if [ -f /root/bridge/Makefile ]; then
+    (cd /root/bridge/ && make start)
+fi

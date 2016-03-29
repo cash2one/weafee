@@ -1,0 +1,6 @@
+#!/bin/sh
+
+if [ -e /var/clearos/mode/mode.conf ]; then
+    logger -p local6.notice -t installer "app-simple-mode-core - removing internal config file"
+    rm -f /var/clearos/mode/mode.conf
+fi

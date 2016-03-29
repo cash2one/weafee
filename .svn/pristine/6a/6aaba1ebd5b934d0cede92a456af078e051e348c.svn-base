@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Withfi | Cloud</title>
+        <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+        <!-- bootstrap 3.0.2 -->
+        <link href="../static/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <!-- font Awesome -->
+        <link href="../static/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+        <!-- Ionicons -->
+        <link href="../static/css/ionicons.min.css" rel="stylesheet" type="text/css" />
+        <!-- Theme style -->
+        <link href="../static/css/AdminLTE.css" rel="stylesheet" type="text/css" />
+    </head>
+
+    <body class="skin-blue">
+        <script src="../static/js/jquery/1.11.3/jquery.min.js" type="text/javascript"></script>   
+        <!-- Bootstrap -->
+        <script src="../static/js/bootstrap.min.js" type="text/javascript"></script>
+        <!-- AdminLTE App -->
+        <script src="../static/js/AdminLTE/app.js" type="text/javascript"></script>
+        <script>
+            
+            
+             $(function () {                
+                
+                var url_dest = '/user/info';
+
+                    $.ajax({
+                        type: "GET",
+                        url: url_dest,
+                        dataType: "json",
+                        success: function (resp) {   
+                            // resp = {"username":"demo","level"："admin","state":"online"}
+                            $("#account_info").html(resp.username);
+                            
+                            var state_html = '<i class="fa fa-circle text-success"></i>' + resp.state;                            
+                            $("#account_state").html(state_html);
+                            
+                            var account_privilege_html = '<i class="fa fa-circle text-info"></i>' + resp.level;
+                            $("#account_privilege").html(account_privilege_html);
+                        }
+                    });
+            });
+
+
+
+            var device_state_table_arr = [];
+
+
+            /*
+             var device_state_table_arr = [
+             {
+             "id": 3900,
+             "PowerOnTime": "3232",
+             "FreeMemory": "78",
+             "FreeCPU": "34",
+             "MAC": "11:11:10:10:10",
+             "AdsEnabled": 0,
+             "LastBeaconTime": 1594,
+             "ConnectionCount": "43"
+             },
+             {
+             "id": 3901,
+             "PowerOnTime": "3232",
+             "FreeMemory": "78",
+             "FreeCPU": "34",
+             "MAC": "11:11:10:10:10",
+             "AdsEnabled": 0,
+             "LastBeaconTime": 19,
+             "ConnectionCount": "43"
+             },
+             {
+             "id": 3902,
+             "PowerOnTime": "3232",
+             "FreeMemory": "78",
+             "FreeCPU": "34",
+             "MAC": "11:11:10:10:10",
+             "AdsEnabled": 1,
+             "LastBeaconTime": 15999,
+             "ConnectionCount": "43"
+             },
+             {
+             "id": 3902,
+             "PowerOnTime": "3232",
+             "FreeMemory": "78",
+             "FreeCPU": "34",
+             "MAC": "11:11:10:10:10",
+             "AdsEnabled": 1,
+             "LastBeaconTime": 15999,
+             "ConnectionCount": "43"
+             },
+             {
+             "id": 3902,
+             "PowerOnTime": "3232",
+             "FreeMemory": "78",
+             "FreeCPU": "34",
+             "MAC": "11:11:10:10:10",
+             "AdsEnabled": 1,
+             "LastBeaconTime": 15999,
+             "ConnectionCount": "43"
+             },
+             {
+             "id": 3902,
+             "PowerOnTime": "3232",
+             "FreeMemory": "78",
+             "FreeCPU": "34",
+             "MAC": "11:11:10:10:10",
+             "AdsEnabled": 1,
+             "LastBeaconTime": 15999,
+             "ConnectionCount": "43"
+             },
+             {
+             "id": 3902,
+             "PowerOnTime": "3232",
+             "FreeMemory": "78",
+             "FreeCPU": "34",
+             "MAC": "11:11:10:10:10",
+             "AdsEnabled": 1,
+             "LastBeaconTime": 158,
+             "ConnectionCount": "43"
+             },
+             {
+             "id": 3902,
+             "PowerOnTime": "3232",
+             "FreeMemory": "78",
+             "FreeCPU": "34",
+             "MAC": "11:11:10:10:10",
+             "AdsEnabled": 1,
+             "LastBeaconTime": 158,
+             "ConnectionCount": "43"
+             },
+             {
+             "id": 3903,
+             "PowerOnTime": "3232",
+             "FreeMemory": "78",
+             "FreeCPU": "34",
+             "MAC": "11:11:10:10:10",
+             "AdsEnabled": 1,
+             "LastBeaconTime": 158,
+             "ConnectionCount": "43"
+             }
+             ];
+             */
+
+
+
+            $(function () {
+                draw_device_state_table();
+            });
+
+
+            $(function () {
+
+                var url_dest = '/device/state';
+
+                $.ajax({
+                    type: "GET",
+                    url: url_dest,
+                    dataType: "json",
+                    success: function (resp) {
+                        device_state_table_arr = resp;
+                        /*    
+                         * @returns {undefined}
+                         * device_state demo pls refer to var device_state_table_arr                         * 
+                         */
+                        draw_device_state_table();
+                    }
+                });
+
+            });
+
+
+
+
+            function draw_device_state_table() {
+
+                var table_content = '<table class="table table-hover table-bordered" id="device_state_table"><tr><th>Device ID</th><th>Name</th><th>Hardware</th><th>PowerOn Time</th><th data-toggle="tooltip" data-original-title="Free memory of device">Free Memory (MB)</th><th data-toggle="tooltip" data-original-title="Free CPU of device">Free CPU (%)</th><th>MAC</th><th data-toggle="tooltip" data-original-title="Show that if the advertisement push function is switched on">Ads Enabled</th><th data-toggle="tooltip" data-original-title="Real time connections of device">Connection Count</th><th>State</th><th>Memo</th><th>Action</th></tr>';
+                var length = device_state_table_arr.length;
+
+                for (var i = 0; i < length; i++) {
+                    var AdsEnabled = 0;
+
+                    if (device_state_table_arr[i].AdsEnabled == 0) {
+                        AdsEnabled = '<span class="badge bg-red">OFF</span>';
+                    } else {
+                        AdsEnabled = '<span class="badge bg-green">ON</span>';
+                    }
+
+
+                    var dev_state = '';
+                    if (device_state_table_arr[i].LastBeaconTime <= 900) {
+                        dev_state = '<span class="badge bg-green">Online</span>';
+                    } else if (device_state_table_arr[i].LastBeaconTime > 900 && device_state_table_arr[i].LastBeaconTime <= 1800) {
+                        dev_state = '<span class="badge bg-yellow">Warning</span>';
+                    } else if (device_state_table_arr[i].LastBeaconTime > 1800) {
+                        dev_state = '<span class="badge bg-red">Offline</span>';
+                    } else {
+                        dev_state = '<span class="badge bg-light-blue">Unknown</span>';
+                    }
+
+                    table_content = table_content + '<tr><td>' + device_state_table_arr[i].id + '</td><td>' + device_state_table_arr[i].name + '</td><td>' + device_state_table_arr[i].Hardware + '</td><td>' + device_state_table_arr[i].PowerOnTime + '</td><td>' + device_state_table_arr[i].FreeMemory + '</td><td>' + device_state_table_arr[i].FreeCPU + '</td><td>' + device_state_table_arr[i].MAC + '</td><td>' + AdsEnabled + '</td><td>' + device_state_table_arr[i].ConnectionCount + '</td><td>' + dev_state + '</td><td>' + device_state_table_arr[i].memo + '</td><td style="width:135px"><input class="btn btn-success btn-xs" type="button" onclick="show_devie_edit(' + device_state_table_arr[i].id + ',\'' + device_state_table_arr[i].name + '\',\'' + device_state_table_arr[i].memo + '\')" value="Edit">&nbsp&nbsp&nbsp<input type="button" value="Reboot" class="btn btn-danger btn-xs disabled" onclick="reboot_device(' + device_state_table_arr[i].id + ')"></td></tr>';
+                }
+
+                table_content = table_content + '</table>';
+
+                $("#device_state_table").replaceWith(table_content);
+
+            }
+
+
+
+            function show_devie_edit(device_id, device_name, device_memo) {
+                //alert(device_id + device_name + device_memo);                
+                $("#device_id").val(device_id);
+                $("#device_name").val(device_name);
+                $("#device_memo").val(device_memo);
+                $("#myModal").modal();
+                return;
+            }
+
+            function submit_edit_device_info() {
+
+                if ($("#device_name").val().length < 1) {
+                    alert("device name is empty, please enter name");
+                    return;
+                }
+                
+                if ($("#device_memo").val().length < 1) {
+                    alert("device memo is empty, please enter memo");
+                    return;
+                }
+                
+                var data = {
+                    "device_id": $("#device_id").val(),
+                    "device_name": $("#device_name").val(),
+                    "device_memo": $("#device_memo").val()
+                };
+
+                var url_dest = '/device/edit_device_info/submit';
+                $.ajax({
+                    type: "POST",
+                    url: url_dest,
+                    data: data,
+                    dataType: "json",
+                    success: function (resp) {
+                        if (resp.ret_code == 'success') {
+                            alert('Submit new device info successful');
+                            window.location.reload();
+                        } else {
+                            alert('Submit new device info faild,please try again');
+                        }
+                    }
+                });
+
+            }
+
+        </script>
+
+
+
+
+        <div class="modal fade"  id="myModal" aria-labelledby="myModalLabel" aria-hidden="true" role="dialog" tabindex="-1">
+            <!--div class="modal-dialog " style="display: inline-block; width: auto;"-->
+            <div class="modal-dialog  bs-example-modal-lg"  style="width:70%">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabelE5">Edit Device Info</h4>
+                    </div>
+                    <div class="modal-body">                          
+                        <!-- Main content -->
+                        <section class="content">                            
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="box box-warning" >
+                                        <div class="box-header">
+                                            <h3 class="box-title"></h3>
+                                        </div>                                            
+                                        <form role="form" class="form-horizontal">
+                                            <div class="box-body">
+                                                <div id="edit_device_container">
+                                                    <div class="form-group" >
+                                                        <label for="device_id" class="col-sm-2 control-label">Device ID</label>
+                                                        <div class="col-sm-8">
+                                                            <input class="form-control" id="device_id" disabled="" type="text">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group" >
+                                                        <label for="device_name" class="col-sm-2 control-label">Device Name</label>
+                                                        <div class="col-sm-8">
+                                                            <input class="form-control" id="device_name" type="text" placeholder="Please give a name for the device">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group" >
+                                                        <label for="device_memo" class="col-sm-2 control-label">Device Memo</label>
+                                                        <div class="col-sm-8">
+                                                            <input class="form-control" id="device_memo" type="text"  placeholder="Please enter the description for the device">
+                                                        </div>
+                                                    </div>                                                                                         
+                                                </div>
+                                            </div>
+                                            <div class="box-footer">
+                                                <input type="button" class="btn btn-sm btn-primary" value="Save" onclick="submit_edit_device_info()">
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <!-- /.content -->                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- header logo: style can be found in header.less -->
+        <header class="header">
+            <a href="/" class="logo">
+                <!-- Add the class icon to your logo image or logo icon to add the margining -->
+                admin.withfi.com
+            </a>
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top" role="navigation">
+                <!-- Sidebar toggle button-->
+                <a href="#" class="navbar-btn sidebar-toggle" data-toggle="offcanvas" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a> 
+                <div class="navbar-right">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown user user-menu">
+                            <a  href="/user/logout">
+                                <span>Logout</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <div class="wrapper row-offcanvas row-offcanvas-left">
+            <!-- Left side column. contains the logo and sidebar -->
+            <aside class="left-side sidebar-offcanvas">                
+                <!-- sidebar: style can be found in sidebar.less -->
+                <section class="sidebar">
+                    <!-- Sidebar user panel -->
+                    <div class="user-panel">
+                        <div class="pull-left image">
+                            <img src="../static/img/avatar5.png" class="img-circle" alt="User Image" />
+                        </div>
+                        <div class="pull-left info">
+                            <p id="account_info"></p>
+                            <a href="#" id="account_state"><i class="fa fa-circle text-success"></i></a>
+                            <a href="#" id="account_privilege"><i class="fa fa-circle text-info"></i></a>
+                        </div>
+                    </div>                   
+                    <!-- sidebar menu: : style can be found in sidebar.less -->
+
+                    <ul class="sidebar-menu">
+                        <li >
+                            <a href="/report">
+                                <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+                            </a>
+                        </li>    
+                        <li>
+                            <a href="/ad" >
+                                <i class="fa fa-bar-chart-o"></i> <span>Ad Management</span>
+                            </a>
+                        </li>
+                        <li class="active">
+                            <a href="/device" >
+                                <i class="fa fa-calendar"></i> <span>Device Management</span>
+                            </a>
+                        </li>  
+                        <li>
+                            <a href="/system">
+                                <i class="fa fa-th"></i> <span>System</span>
+                            </a>
+                        </li>  
+                    </ul>
+                </section>
+                <!-- /.sidebar -->
+            </aside>
+
+            <!-- Right side column. Contains the navbar and content of the page -->
+            <aside class="right-side">                
+                <!-- Content Header (Page header) -->
+                <section class="content-header">
+                    <h1>
+                        Device Management
+                    </h1>
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                        <li class="active">Device Management</li>
+                    </ol>
+                </section>
+
+                <!-- Main content -->
+                <section class="content">
+                    <h4 class="page-header">
+                        State Monitor
+                        <small>
+                            The state of all routers are shown here
+                        </small>
+                    </h4>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box box-primary">
+                                <div class="box-header">
+                                    <div class="box-tools pull-left col-sx-1">
+                                        <button class="btn btn-primary btn-sm disabled" type="button" onclick="add_device()">Add</button>
+                                    </div>
+                                    <div class="pull-right box-tools">
+                                        <button class="btn btn-primary btn-xs" title="" data-toggle="tooltip" data-original-title="Show all devices state">
+                                            <i class="fa fa-question-circle"></i>
+                                        </button>
+                                    </div>
+
+                                    <!--div class="box-tools pull-left col-md-2">
+                                        <button class="btn btn-primary btn-sm"  onclick="draw_device_state_table()">Refresh</button>
+                                    </div-->
+                                </div><!-- /.box-header -->
+                                <div class="box-body table-responsive no-padding ">
+                                    <table class="table table-hover table-bordered" id="device_state_table">
+
+
+                                    </table>
+                                </div><!-- /.box-body -->
+                            </div><!-- /.box -->
+                        </div> 
+                    </div>
+
+
+
+
+
+
+
+
+
+                </section><!-- /.content -->
+            </aside><!-- /.right-side -->
+        </div><!-- ./wrapper -->
+
+
+
+    </body>
+</html>

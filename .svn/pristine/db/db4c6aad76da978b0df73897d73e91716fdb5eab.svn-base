@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# Set default start/boot
+#-----------------------
+
+logger -p local6.notice -t installer "app-network-map-core - enabling arpwatch server"
+chkconfig arpwatch on
+
+logger -p local6.notice -t installer "app-network-map-core - starting arpwatch server"
+service arpwatch start

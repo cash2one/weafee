@@ -1,0 +1,46 @@
+#----------------------------------------------------------
+# Core LDAP structure
+#----------------------------------------------------------
+
+dn: @@@base_dn@@@
+dc: @@@base_dn_rdn@@@
+objectClass: top
+objectClass: domain
+structuralObjectClass: domain
+
+dn: ou=Servers,@@@base_dn@@@
+objectClass: top
+objectClass: organizationalUnit
+ou: Servers
+
+dn: ou=Internal,@@@base_dn@@@
+objectClass: top
+objectClass: organizationalUnit
+ou: Internal
+
+#----------------------------------------------------------
+# Reserved Servers
+#----------------------------------------------------------
+
+dn: cn=Master,ou=Servers,@@@base_dn@@@
+objectClass: top
+objectClass: account
+objectClass: posixAccount
+cn: Master
+uid: master$
+homeDirectory: /dev/null
+loginShell: /sbin/nologin
+uidNumber: 1000
+gidNumber: 60000
+
+#----------------------------------------------------------
+# LDAP admin user
+#----------------------------------------------------------
+
+dn: cn=manager,ou=Internal,@@@base_dn@@@
+cn: manager
+sn: LDAP Manager
+uid: manager
+userPassword: @@@bind_pw_hash@@@
+objectClass: top
+objectClass: inetOrgPerson

@@ -1,0 +1,205 @@
+##腾讯视频hj分析
+腾讯视频手机端app的广告替换
+
+###flow分析
+经过分析，腾讯视频通过bidding获得播放的广告视频信息，数据格式XML。
+
+####bidding消息
+```
+http://lives.l.qq.com/livemsg?sdtfrom=v5004&coverid=&openudid=9FB2BEC94FBB3B9ABB3F779B76ADCB35&clip=1&platform
+=20303&channelId=news_video_top&defn=hd&appversion=150512&from=5&chid=2&ty=web&v=QNVaPhoneV4.6.7&pf=aphone&ada
+ptor=1&dtype=1&device=21&pu=1&ad_type=WL&vid=m0179wtvfow&live=0&data=AUbI0UoudSi9f0H4DedZW1gZl5zToMCOonEFMOBQN
+NvBXSIbeAl1bKZpSnbd1SuQ3E26qWcuLY7ULEW5GT%2BtJZCoeFuVrXIywME9mOxInsHxjoHqDEzre5%2FiKL7W%2Bvnns64MeZObY9IpJECuZ
+TOwUYhwvwUjPE2IH%2BLSmx9HTtr3Q4u3b305oFw90g3TM2k%2BhPyUQkniQvg80tJPnPWv7sw29SWYlS0TGKuFyvelT%2F7mru015V0Me89yE
+5Bmql9MkqOzy2qoxLy81h0JhtyarT%2BRtw515WdstUkANcKMh%2Bbr4FbyzZsLZ9ok1xQ%2FoT42ZvDo0pLlB9RiM%2F9T7RZrBoo%2B%2Bs7
+iCAD6Sc41adNyLUb%2B4BN9ixvfcGafLRZnfCRMcddsTMAJi%2Buiq8NnRgnvF89onKN3siqNZo%2BArUYz7cLpkdJJRfUht0g3sz5kyaOpMqL
+%2F1hC4IJFuaIi%2FWzyUlEb6J5Ebj6ixgle1tF%2FKARjKXk796Hn9%2FXlNl4beT7xE%2B3to1h4vMc4pOz3dpirDDU2Tq7R5UJVRSl2b3jF
+lxgM%2BPgF05BMUN0VdtGhDiAOuv23MZa2Yfz7WZw7gWuyXOW7AgHQe1wPxwODqGNrwDtvot3KEBDf0oCgumvSHiQjsX9YEgAFA9oOcLTznUxT
+5KBEKwBqmhsNHYfaKUN9QIOGgoc6vTHkpIgF%2BIMimoFfgBXU1L4yg6GShhQfnqbu3cKs%2B8CpzAAFN6UfHKQHg6ybHpwC0yrK%2BIns%3D
+```
+
+###分析response
+	<?xml version="1.0" encoding="utf-8"?>
+	
+	<root decs="video-web">
+	  <adList>
+	    <IsNeedTime>0</IsNeedTime>
+	    <item>
+	      <order_id>2448185</order_id>
+	      <type>WL</type>
+	      <display_code/>
+	      <cover_id><![CDATA[]]></cover_id>
+	      <url><![CDATA[http://bla.gtimg.com/qqlive/201512/BRDS_20151218152939700.flv]]></url>
+	      <urlsmall><![CDATA[http://bla.gtimg.com/qqlive/201512/BRDS_20151218152939700.flv]]></urlsmall>
+	      <params><![CDATA[oid=2489099&loc=LV_1001_YDLDVi_LD&orderfile=http%3A%2F%2Fbla.gtimg.com%2Fqqlive%2F&vid=&get_type=1&c_type=0&button_name=Come+On!&richdata=%7b%22loc%22%3a%22LV_1001_YDLDVi_LD%22%2c%22oid%22%3a%222489099%22%2c%22orderfile%22%3a%22http%3a%2f%2fbla.gtimg.com%2fqqlive%2f%22%2c%22plugins%22%3a%7b%22appdownloadurl%22%3a%22http%3a%2f%2fapi.gfan.com%2fmarket%2fapi%2fapk%3ftype%3dWAP%26cid%3d99%26uid%3d-1%26pid%3dwvh3HW%2bgCjxDvQGzG8bI4g%3d%3d%26sid%3d9Meqp7McYJAqfRemqMqqMg%3d%3d%22%2c%22applogourl%22%3a%22http%3a%2f%2fcdn2.image.apk.gfan.com%2fasdf%2fPImages%2f2014%2f8%2f7%2f%2fldpi_98660_28379a91e-7e5e-4b2b-a793-22ecfe5693b5.png%22%2c%22appname%22%3a%22%e7%bd%91%e6%98%93%e6%96%b0%e9%97%bb%22%2c%22autoinstall%22%3a%221%22%2c%22fullscreen_click%22%3a%22N%22%2c%22isdownload%22%3a%222%22%2c%22pname%22%3a%22com.tencent.tmgp.ttcz%22%2c%22safeInterface%22%3a%22Y%22%2c%22share_landing_page%22%3a%7b%22abstract%22%3a%22%22%2c%22is_custom%22%3a%22N%22%2c%22logo%22%3a%22%22%2c%22title%22%3a%22%22%2c%22url%22%3a%22%22%7d%2c%22trueview%22%3a%22Y%22%2c%22versioncode%22%3a%2221%22%7d%2c%22vid%22%3a%22%22%7d]]></params>
+	      <image>
+	        <index>0</index>
+	        <url><![CDATA[http://nginx.org/videos/test/txbb.mp4]]></url>
+	        <md5>7f2ff8d8a53d028954faa8c94fd0ce9f</md5>
+	        <cs>525500</cs>
+	        <ds>15</ds>
+	        <width>640</width>
+	        <height>360</height>
+	        <vid>c02001dbilk</vid>
+	      </image>
+	      <image>
+	        <index>1</index>
+	        <url><![CDATA[http://nginx.org/videos/test/txbb.mp4]]></url>
+	        <md5>7f2ff8d8a53d028954faa8c94fd0ce9f</md5>
+	        <cs>525500</cs>
+	        <ds>15</ds>
+	        <width>640</width>
+	        <height>360</height>
+	        <vid>c02001dbilk</vid>
+	      </image>
+	      <duration>15000</duration>
+	      <ReportTime>0</ReportTime>
+	      <no_click>N</no_click>
+	      <inner_jump>N</inner_jump>
+	      <link><![CDATA[http://www.baidu.com?]]></link>
+	      <reportUrl><![CDATA[http://livep.l.qq.com/livemsg?o=2448185&cid=1241725&adtype=WL&mt=15000&soid=B466759700BD5691F6BC09624300&aver=0&ev=298&refluence=4003&requestl=4003&offline=0&tagid=&si=723164170&l=4003&isfloatindex=0&chid=0&acpm=2&imagelog=1&imagemd5=619c510d0fbb9af92ea2510a24a60cfc&iptype=0&cip=180.102.117.151&isthirdip=0&fl=1&gf=1&ip_filter=0&ufc_filter=0&ping_data=dXNlcl9pbmZvPXZ4WDhtRHM0RUJTNEFQK0JQVGtKRUxvZCtaUT0=&vid=h0019yewns6&live=0&aid_tpid=10&aid_tpid2=1001&aid_tpid3=10001&aid_dura=252&aid_vid_drm=0&aid_cid_drm=0&aid_copyright=90&aid_cover=8n1h8qr3rlffxb7&aid_subtype=4351&aid_column=311]]></reportUrl>
+	      <reportUrlOther>
+	        <reportitem>
+	          <url><![CDATA[http://sd.cn.miaozhen.com/m.gif?pid=2&tid=5311&m0=9fb2bec94fbb3b9abb3f779b76adcb35&m0a=[DUID]&m1=[ANDROIDID1]&m1a=0D95D6D076780451E3CFBCC3B0FEB4C4&m2=A4FAE801EE96BDE6738486EEC81E6B7D&m4=__AAID__&m5=&m6=[MAC1]&m6a=625399867E576CA617FD88678075D11D&cid=160102013&o=]]></url>
+	          <reporttime>0</reporttime>
+	        </reportitem>
+	        <reportitem>
+	          <url><![CDATA[http://p.tencentmind.com/p?oid=PUB_2448185&soid=B466759700BD5691F6BC096243&soidip=180.102.117.151&loc=LV_1001_YDLDVi_LD&lkey=4003&OpenUDID=9fb2bec94fbb3b9abb3f779b76adcb35&MAC=625399867E576CA617FD88678075D11D&IDFA=&IP=180.102.117.151&IMEI=A4FAE801EE96BDE6738486EEC81E6B7D&AndroidID=0D95D6D076780451E3CFBCC3B0FEB4C4]]></url>
+	          <reporttime>0</reporttime>
+	        </reportitem>
+	        <reportitem>
+	          <url><![CDATA[http://54.65.245.210/track/track.php?proj=tencent_video&hardware=R200&toolbar_id=1&rom=1.0.0&channel=stable&device_id=3321]]></url>
+	          <reporttime>0</reporttime>
+	        </reportitem>
+	      </reportUrlOther>
+	      <reportUrlSDK>
+	        <reportitem>
+	          <url><![CDATA[http://qq.m.cn.miaozhen.com/x/k=2016524&p=6ywq6&dx=0&rt=2&ns=180.102.117.151&ni=PUB_2448185&v=__LOC__&nd=&np=__POS__&nn=__APP__&o=]]></url>
+	          <reporttime>0</reporttime>
+	        </reportitem>
+	      </reportUrlSDK>
+	    </item>
+	    <item>
+	      <order_id>1</order_id>
+	      <type>WL</type>
+	      <display_code>Empty</display_code>
+	      <url/>
+	      <duration/>
+	      <link/>
+	      <reportUrl><![CDATA[http://livep.l.qq.com/livemsg?o=295&adtype=WL&soid=B466759700BD5691F6BC09624300&r90=1&l=4003&reflunce=4003&requestl=4003&tagid=0&pf=aphone&si=723164170&ev=298&offline=0&ip_filter=0&ufc_filter=0&ping_data=dXNlcl9pbmZvPXZ4WDhtRHM0RUJTNEFQK0JQVGtKRUxvZCtaUT0=&vid=h0019yewns6&live=0&aid_tpid=10&aid_tpid2=1001&aid_tpid3=10001&aid_dura=252&aid_vid_drm=0&aid_cid_drm=0&aid_copyright=90&aid_cover=8n1h8qr3rlffxb7&aid_subtype=4351&aid_column=311]]></reportUrl>
+	      <image>
+	        <index>0</index>
+	        <url/>
+	        <width>0</width>
+	        <height>0</height>
+	        <vid/>
+	      </image>
+	      <reportUrlOther/>
+	      <clickReportUrlOther/>
+	    </item>
+	    <item>
+	      <order_id>1</order_id>
+	      <type>WK</type>
+	      <display_code>Empty</display_code>
+	      <url/>
+	      <duration/>
+	      <link/>
+	      <reportUrl><![CDATA[http://livep.l.qq.com/livemsg?o=90&adtype=WK&soid=B466759700BD5691F6BC09624300&r90=1&l=4003&reflunce=4003&requestl=4003&tagid=0&pf=aphone&si=723164170&ev=298&offline=0&ip_filter=0&ufc_filter=0&ping_data=dXNlcl9pbmZvPXZ4WDhtRHM0RUJTNEFQK0JQVGtKRUxvZCtaUT0=&vid=h0019yewns6&live=0&aid_tpid=10&aid_tpid2=1001&aid_tpid3=10001&aid_dura=252&aid_vid_drm=0&aid_cid_drm=0&aid_copyright=90&aid_cover=8n1h8qr3rlffxb7&aid_subtype=4351&aid_column=311]]></reportUrl>
+	      <image>
+	        <index>0</index>
+	        <url/>
+	        <width>0</width>
+	        <height>0</height>
+	        <vid/>
+	      </image>
+	      <reportUrlOther/>
+	      <clickReportUrlOther/>
+	    </item>
+	  </adList>
+	  <adGetv>
+	    <merged>1</merged>
+	    <oid2url>12</oid2url>
+	    <br>60</br>
+	    <id>10203</id>
+	  </adGetv>  
+	  <adLoc> 
+	    <adFlag>0</adFlag>  
+	    <add>0</add>  
+	    <aid>4003</aid>  
+	    <breakTime/>  
+	    <breaks>0.0</breaks>  
+	    <duration>252</duration>  
+	    <isvip>0</isvip>  
+	    <mult/>  
+	    <oaid>4003</oaid>  
+	    <rfid>11377047319887492714_1452406460</rfid>  
+	    <tm>1452406460</tm>  
+	    <tpid>10</tpid>  
+	    <vad/>  
+	    <vid2aid>0</vid2aid>
+	  </adLoc>
+	</root>
+
+
+广告信息包括在多个`<item />`里
+  
+* **广告地址** `.//image/url`
+```
+<url><![CDATA[http://61.155.143.158/vmind.qqvideo.tc.qq.com/c02001dbilk.p203.1.mp4?vkey=3F402DEBC7E53D16201386900F8583227C4FA279EA73B7A755BCE45CCBE51EF883AE3A9A2B34140F36893C41F50B7C9C47547E53FE531DB4C394BEE51AB3269A8F6E8E37AF324E2E2471D2CB7161C494CD82FFC718BEBE0D&platform=10303&sdtfrom=v5004&fmt=sd&level=0]]></url>  
+```
+* **落地页** `.//item/link`
+```
+<link><![CDATA[http://imc.l.qq.com/click?oid=2448185&cid=1241725&adtype=WL&soid=B4667597005D5691F6BD85810000&aver=0&ev=298&refluence=4003&requestl=4003&offline=0&tagid=&si=1494135562&target=4003&isfloatindex=0&pf=aphone&loc=LV_1001_YDLDVi_LD&click_data=dXNlcl9pbmZvPXZ4WDhtRHM0RUJTNEFQK0JQVGtKRUxvZCtaUT0=&chid=0&live=0&aid_tpid=10&aid_tpid2=1001&aid_tpid3=10001&aid_dura=252&aid_vid_drm=0&aid_cid_drm=0&aid_copyright=90&aid_cover=8n1h8qr3rlffxb7&aid_subtype=4351&aid_column=311]]></link>
+```
+* **track url** `.//reportUrlOther/reportitem/url`
+```
+ <url><![CDATA[http://sd.cn.miaozhen.com/m.gif?pid=2&tid=5311&m0=9fb2bec94fbb3b9abb3f779b76adcb35&m0a=[DUID]&m1=[ANDROIDID1]&m1a=0D95D6D076780451E3CFBCC3B0FEB4C4&m2=A4FAE801EE96BDE6738486EEC81E6B7D&m4=__AAID__&m5=&m6=[MAC1]&m6a=625399867E576CA617FD88678075D11D&cid=160102013&o=]]></url>
+```
+ * **vid** 保证不会cache每次都load cdn的广告视频
+
+###真实视频
+```
+192.168.1.7 [13/Jan/2016:23:51:28 +0800] 112.25.52.22 GET /vlive.qqvideo.tc.qq.com/j0017a566r8.p212.1.mp4?cdncode=%2F18907E7BE0798990%2F&vkey=40929C03BE966EBB8AD101DFEB2ABA9B0512C110BC7F32D7DAEB680F07AB4F6DF16C79E78D91902B068B4815F6F497A7A67086ECD9A025F0C3E6461D0D75B7F841D2BF71BFBF5C9A21DE86EE77C1F2A60FAC9A607B19A9F7&platform=10103&br=60&fmt=hd&sdtfrom=v4000&keyid=j0017a566r8.10212.1&guid=bd471fc20a851034a4d780fb9286d00a&locid=a157e89e-1a55-48e7-9a1e-cd46f64ebd02&size=19045281&ocid=351739820 HTTP/1.1 206 1.366 5046272 video/mp4"-"
+```
+
+-------------------------------------------
+
+##代码解读
+###nginx
+添加`lives.l.qq.com www.10086.cn` to qq_video.conf分别对应bidding和替换视频链接
+
+替换视频放置在/tmp  
+
+	location /videos/test {
+        access_log /var/log/nginx/video.access.log  main;
+        root /tmp;
+    }
+
+
+运行
+`/usr/local/bin/python /usr/local/bin/mitmproxy --spoof -p 8889 -s /home/hj/tencent_video/qq_video3.py` 
+
+debug 视频加载
+`tail -f /var/log/nginx/video.access.log`
+
+###mitmproxy qq_video2.py
+对原始bidding的广告位进行参数替换，也就是原有bidding回几个广告，就替换几个  
+
+1. **fake_video_url**，**fake_click_url**，**tencent_track_item** 分别对应替换广告视频，落地页，track
+
+2. order_id = 1这个并不是广告，不知道腾讯为什么会插入这个，可能只是为了report，所以不需要替换。
+
+3. ./image/vid这个可以保证广告每次都从cdn加载，不cache。
+
+4. params目前是删除掉这个字段，原有经过调查，腾讯视频有时候会在里面加入参数来做app的直接download（把apk地址放在这里），ui显示下载应用，目前为了不对这块做复杂处理，一律删掉。
+
+###mitmproxy qq_video3.py
+这个不做替换，直接删除所有原有广告，替换我们的广告
+目前代码对同一个广告replay 4 次
+
+
+
+
+
+
+

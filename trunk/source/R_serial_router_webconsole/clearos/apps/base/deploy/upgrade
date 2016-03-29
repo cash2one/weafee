@@ -1,0 +1,94 @@
+#!/bin/sh
+
+# Sudoers
+#--------
+
+/usr/sbin/addsudo /bin/cat app-base-core
+/usr/sbin/addsudo /bin/chmod app-base-core
+/usr/sbin/addsudo /bin/chown app-base-core
+/usr/sbin/addsudo /bin/cp app-base-core
+/usr/sbin/addsudo /bin/df app-base-core
+/usr/sbin/addsudo /bin/grep app-base-core
+/usr/sbin/addsudo /bin/kill app-base-core
+/usr/sbin/addsudo /bin/ls app-base-core
+/usr/sbin/addsudo /bin/mkdir app-base-core
+/usr/sbin/addsudo /bin/mv app-base-core
+/usr/sbin/addsudo /bin/rpm app-base-core
+/usr/sbin/addsudo /bin/rm app-base-core
+/usr/sbin/addsudo /bin/rmdir app-base-core
+/usr/sbin/addsudo /bin/touch app-base-core
+/usr/sbin/addsudo /sbin/chkconfig app-base-core
+/usr/sbin/addsudo /sbin/shutdown app-base-core
+/usr/sbin/addsudo /sbin/service app-base-core
+/usr/sbin/addsudo /usr/bin/api app-base-core
+/usr/sbin/addsudo /usr/bin/file app-base-core
+/usr/sbin/addsudo /usr/bin/find app-base-core
+/usr/sbin/addsudo /usr/bin/tail app-base-core
+/usr/sbin/addsudo /usr/bin/chfn app-base-core
+/usr/sbin/addsudo /usr/bin/du app-base-core
+/usr/sbin/addsudo /usr/bin/passwd app-base-core
+/usr/sbin/addsudo /usr/bin/systemctl app-base-core
+/usr/sbin/addsudo /usr/sbin/app-passwd app-base-core
+/usr/sbin/addsudo /usr/sbin/app-realpath app-base-core
+/usr/sbin/addsudo /usr/sbin/app-rename app-base-core
+/usr/sbin/addsudo /usr/sbin/userdel app-base-core
+/usr/sbin/addsudo /usr/bin/yum app-base-core
+/usr/sbin/addsudo /usr/bin/yum-config-manager app-base-core
+/usr/sbin/addsudo /usr/sbin/yum-install app-base-core
+
+# Import keys
+rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-ClearOS >/dev/null 2>&1
+rpm --import /etc/pki/rpm-gpg/CLEAROS-RPM-GPG-KEY-CentOS-6 >/dev/null 2>&1
+rpm --import /etc/pki/rpm-gpg/CLEAROS-RPM-GPG-KEY-EPEL-6 >/dev/null 2>&1
+rpm --import /etc/pki/rpm-gpg/CLEAROS-RPM-GPG-KEY-EPEL-7 >/dev/null 2>&1
+rpm --import /etc/pki/rpm-gpg/CLEAROS-RPM-GPG-KEY-atrpms >/dev/null 2>&1
+rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 >/dev/null 2>&1
+rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-Debug-7 >/dev/null 2>&1
+rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-Testing-7 >/dev/null 2>&1
+
+# TODO: move this to clearsync
+LINE=`grep "^Cmnd_Alias CLEARSYNC" /etc/sudoers 2>/dev/null`
+CHECK=`echo $LINE, | grep /usr/sbin/syncaction,`
+if [ -z "$CHECK" ]; then
+    ESCAPE=`echo /usr/sbin/syncaction | sed 's/\//\\\\\//g'`
+    sed -i -e "s/Cmnd_Alias CLEARSYNC.*=/Cmnd_Alias CLEARSYNC = $ESCAPE,/i" /etc/sudoers
+    sed -i -e "s/[[:space:]]*,[[:space:]]*$//i" /etc/sudoers
+    chmod 440 /etc/sudoers
+fi
+
+# Wah?  Selinux policy is stomped on by anaconda
+#-----------------------------------------------
+
+if ( [ -d /etc/selinux ] && [ -e /var/clearos/base/wizard ] ); then
+    CHECK=`grep ^SELINUX= /etc/selinux/config 2>/dev/null | sed 's/.*=//'`
+    if [ -z "$CHECK" ]; then
+        logger -p local6.notice -t installer "app-base-core - disabling SELinux with new configuration"
+        echo "SELINUX=disabled" >> /etc/selinux/config
+    elif [ "$CHECK" != "disabled" ]; then
+        logger -p local6.notice -t installer "app-base-core - disabling SELinux"
+        sed -i -e 's/^SELINUX=.*/SELINUX=disabled/' /etc/selinux/config
+    fi
+fi
+
+# TODO: temporary workaround for nfnetlink
+if [ -e /etc/modprobe.d/app-base.conf ]; then
+    rm -f /etc/modprobe.d/app-base.conf
+fi
+
+if [ ! -e /etc/modprobe.d/clearos.conf ]; then
+    echo "blacklist nfnetlink" > /etc/modprobe.d/clearos.conf
+    echo "blacklist nfnetlink_queue" >> /etc/modprobe.d/clearos.conf
+    echo "blacklist nfnetlink_log" >> /etc/modprobe.d/clearos.conf
+    echo "blacklist nf_conntrack_netlink" >> /etc/modprobe.d/clearos.conf
+    /sbin/rmmod nfnetlink nfnetlink_log nfnetlink_queue nf_conntrack_netlink >/dev/null 2>&1
+fi
+
+# Testing mode
+#-------------
+
+# Beta period only
+# /usr/bin/yum-config-manager --enable clearos-professional-testing >/dev/null 2>&1
+# /usr/bin/yum-config-manager --enable clearos-updates-testing >/dev/null 2>&1
+# /usr/bin/yum-config-manager --enable clearos-updates >/dev/null 2>&1
+
+exit 0

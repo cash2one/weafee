@@ -1,0 +1,5 @@
+#35 3 * * * /var/spool/withfi/clearos/sync_log.sh &> /var/spool/withfi/clearos/sync.log
+*/5 * * * * source /etc/profile && /bin/sh /var/spool/withfi/firmware/clearos/disk_monitor.sh &> /dev/null
+*/5 * * * * source /etc/profile && /usr/local/bin/python /var/spool/withfi/firmware/withfiupgrade.py &>> /var/log/withfi/upgrade.log 2>&1
+*/15 * * * * source /etc/profile && /usr/local/bin/python /var/spool/withfi/firmware/beacon.py &> /var/log/withfi/beacon.log 2>&1
+#*/1 * * * * /usr/local/bin/python /root/test.py &> /root/test.log 2>&1

@@ -1,0 +1,4 @@
+1. Copy this pwd folder to r400's HOME dir
+2. cd to the target folder
+3. Run ./managy.py makemigrations && ./manage.py migrate
+4. Run ./manage.py runserver 0.0.0.0:8000 to server

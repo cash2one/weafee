@@ -1,0 +1,26 @@
+#!/bin/sh
+
+# Add sudoers entries
+#--------------------
+
+/usr/sbin/addsudo /sbin/hwclock app-date-core
+/usr/sbin/addsudo /usr/sbin/ntpdate app-date-core
+
+# Migrate /etc/localtime.info into /etc/sysconfig/clock
+#------------------------------------------------------
+
+if [ -e /etc/localtime.info ]; then
+	THETIMEZONE=`cat /etc/localtime.info`
+	CHECK=`grep ^ZONE= /etc/sysconfig/clock 2>/dev/null`
+
+	if [ -n "$CHECK" ]; then
+		logger -p local6.notice -t installer "app-date-core - migrating time zone info to /etc/sysconfig/clock"
+		ESCAPEDZONE=`echo $THETIMEZONE | sed 's/\//\\\\\//'`
+		sed -i -e "s/^ZONE=.*/ZONE=\"$ESCAPEDZONE\"/" /etc/sysconfig/clock
+	else
+		logger -p local6.notice -t installer "app-date-core - adding time zone info to /etc/sysconfig/clock"
+		echo "ZONE=\"$THETIMEZONE\"/" >> /etc/sysconfig/clock
+	fi
+
+	rm -f /etc/localtime.info
+fi

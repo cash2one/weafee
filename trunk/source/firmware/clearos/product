@@ -1,0 +1,20 @@
+# Product details
+vendor = withfi
+software_id = 10660
+name = WithfiOS Community
+version = 6.6.0
+base_version = 6
+
+# Registration
+free_trial = 1
+#portal_url = https://secure.clearcenter.com/portal
+
+# Links
+#redirect_url = http://www.clearcenter.com/redirect
+
+# Java Web Services
+jws_nodes = 1
+jws_prefix = cos6-ws
+jws_domain = clearsdn.com
+jws_realm = ws
+jws_version = 1.1

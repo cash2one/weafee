@@ -1,0 +1,70 @@
+1）pppoe：
+    a) 根据logic_interface修改下面的文件：
+        /etc/sysconfig/network-scripts/ifcfg-$logic_interface
+        ETH=$phy_interface
+        USER=$username
+        ONBOOT=yes
+        DNS1=$dns1
+        DNS2=$dns2
+        MTU=$mtu
+    b) 修改用户名密码
+        /etc/ppp/chap-secrets
+        /etc/ppp/pap-secrets
+    c)根据phy_interface修改下面的文件：
+        /etc/sysconfig/network-scripts/ifcfg-$phy_interface
+      修改这个文件内容字段：
+        ONBOOT=no
+    d) 执行以下脚本使能该端口
+        ifdown eth0; ifdown pppo; ifup $logic_interface
+        service dhcpd restart
+        service dnsmasq restart
+    e) 执行以下脚本，修改NAT规则
+        e.1:  找到/etc/sysconfig/iptables文件中包含“MASQUERADE”的行line
+        e.2:  找到line的"-A"字段，修改为"-D"。
+        e.3:  执行 iptables -t nat $line
+        e.4:  根据logic_interface，执行iptables -t nat -D POSTROUTING -o $logic_inf -j MASQUERADE
+        e.5: service iptables save
+        
+2）dhcp：
+    a) 根据logic_interface修改下面的文件：
+        /etc/sysconfig/network-scripts/ifcfg-$logic_interface
+    根据wan_type修改这个文件内容字段：
+        BOOTPROTO=dhcp
+        DNS1=$dns1
+        DNS2=$dns2
+        MTU=$mtu
+    b) 遍历ifcfg-ppp0,ifcfg-ppp1,ifcfg-ppp2,ifcfg-ppp3，如果有这个文件，就设置：
+        ONBOOT=no
+    c) 执行以下脚本使能该端口
+        ifdown eth0; ifdown pppo; ifup $logic_interface
+        service dhcpd restart
+        service dnsmasq restart
+    d) 执行以下脚本，修改NAT规则
+        e.1:  找到/etc/sysconfig/iptables文件中包含“MASQUERADE”的行line
+        e.2:  找到line的"-A"字段，修改为"-D"。
+        e.3:  执行 iptables -t nat $line
+        e.4:  根据logic_interface，执行iptables -t nat -D POSTROUTING -o $logic_inf -j MASQUERADE
+        e.5: service iptables save
+3）static：
+    a) 根据logic_interface修改下面的文件：
+        /etc/sysconfig/network-scripts/ifcfg-$logic_interface
+    根据wan_type修改这个文件内容字段：
+        BOOTPROTO=static
+        IPADDR=static_ip
+        NETMASK=static_netmask
+        GATEWAY=static_gateway
+        DNS1=$dns1
+        DNS2=$dns2
+        MTU=$mtu
+    b) 遍历ifcfg-ppp0,ifcfg-ppp1,ifcfg-ppp2,ifcfg-ppp3，如果有这个文件，就设置：
+        ONBOOT=no
+    c) 执行以下脚本使能该端口
+        ifdown eth0; ifdown pppo; ifup $logic_interface
+        service dhcpd restart
+        service dnsmasq restart
+    d) 执行以下脚本，修改NAT规则
+        e.1:  找到/etc/sysconfig/iptables文件中包含“MASQUERADE”的行line
+        e.2:  找到line的"-A"字段，修改为"-D"。
+        e.3:  执行 iptables -t nat $line
+        e.4:  根据logic_interface，执行iptables -t nat -D POSTROUTING -o $logic_inf -j MASQUERADE
+        e.5: service iptables save

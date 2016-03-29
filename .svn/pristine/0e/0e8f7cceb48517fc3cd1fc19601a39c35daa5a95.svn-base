@@ -1,0 +1,9 @@
+export HISTFILESIZE=1000000
+export HISTTIMEFORMAT="%Y-%m-%d %H:%M: "
+alias ..='cd ..'
+alias ...='cd ../..'
+alias l='ls -l'
+alias ll='ls -l'
+alias lh='ls -lh'
+alias sshstat='echo -e "Port PID Host";netstat -nplt | grep '127.0.0.1.*ssh' | cut -b 31-34,80- | cut -d'/' -f1 | sort | join - ~/ports'
+alias sshstatall='sshstat -a1'
